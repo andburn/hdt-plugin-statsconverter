@@ -58,7 +58,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
             filtered = filtered.Where<GameStats>(g => g.StartTime >= times.Item1 && g.EndTime <= times.Item2);
 
             // finally sort by time
-            return filtered.OrderBy<GameStats, DateTime>(g => g.EndTime).ToList<GameStats>();
+            return filtered.OrderByDescending<GameStats, DateTime>(g => g.EndTime).ToList<GameStats>();
         }
 
         private Tuple<DateTime, DateTime> GetFilterTimes(TimeFrame tf)

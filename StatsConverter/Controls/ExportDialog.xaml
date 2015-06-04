@@ -1,0 +1,65 @@
+﻿<dialogs:CustomDialog x:Class="AndBurn.HDT.Plugins.StatsConverter.Controls.ExportDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             xmlns:enums="clr-namespace:Hearthstone_Deck_Tracker.Enums;assembly=HearthstoneDeckTracker"
+             xmlns:statenums="clr-namespace:AndBurn.HDT.Plugins.StatsConverter"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" Height="450" d:DesignWidth="450">
+    <dialogs:CustomDialog.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/Dialogs/BaseMetroDialog.xaml" />                
+            </ResourceDictionary.MergedDictionaries>
+            <enums:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>
+        </ResourceDictionary>                                
+    </dialogs:CustomDialog.Resources>
+    <StackPanel Width="300" Margin="0,15,0,0">
+        <DockPanel Margin="0,2,0,0">
+            <Label Content="Game Mode:" Width="90"/>
+            <ComboBox Name="ComboBoxMode" SelectedIndex="0" SelectionChanged="ComboBoxMode_SelectionChanged">
+                <enums:GameMode>All</enums:GameMode>
+                <enums:GameMode>Ranked</enums:GameMode>
+                <enums:GameMode>Casual</enums:GameMode>
+                <enums:GameMode>Arena</enums:GameMode>
+                <enums:GameMode>Friendly</enums:GameMode>
+                <enums:GameMode>Practice</enums:GameMode>
+                <enums:GameMode>Spectator</enums:GameMode>
+                <enums:GameMode>None</enums:GameMode>
+            </ComboBox>
+        </DockPanel>
+        <DockPanel Margin="0,2,0,0">
+            <Label Content="Deck:" Width="90"/>
+            <ComboBox Name="ComboBoxDeckPicker" SelectedIndex="0"></ComboBox>
+        </DockPanel>
+        <DockPanel Margin="0,2,0,0">
+            <Label Content="Region:" Width="90"/>
+            <ComboBox Name="ComboBoxRegion" SelectedIndex="0">
+                <statenums:StatsRegion>All</statenums:StatsRegion>
+                <statenums:StatsRegion>EU</statenums:StatsRegion>
+                <statenums:StatsRegion>US</statenums:StatsRegion>
+                <statenums:StatsRegion>ASIA</statenums:StatsRegion>
+            </ComboBox>
+        </DockPanel>
+        <DockPanel Margin="0,2,0,0">
+            <Label Content="Timeframe:" Width="90" />
+            <ComboBox x:Name="ComboBoxTime" SelectedIndex="0">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=., Converter={StaticResource EnumDescriptionConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </DockPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Width="210" Margin="0,30,0,0">
+            <Button Name="BtnExport"  Content="Export" Width="90" Click="BtnExport_OnClick" 
+                    Style="{StaticResource AccentedSquareButtonStyle}" />
+            <Button Name="BtnCancel" Content="Cancel" Width="90" Margin="20,0,0,0" Click="BtnCancel_OnClick" />
+        </StackPanel>
+    </StackPanel>
+</dialogs:CustomDialog>
