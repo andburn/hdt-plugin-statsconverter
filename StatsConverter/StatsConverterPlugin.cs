@@ -1,28 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using System.Windows.Controls;
 using Hearthstone_Deck_Tracker.Plugins;
+using AndBurn.HDT.Plugins.StatsConverter.Controls;
 
 namespace AndBurn.HDT.Plugins.StatsConverter
 {
     public class StatsConverterPlugin : IPlugin
     {
+        private MenuItem StatsMenuItem;
+
         public string Name
         {
-            get { return "StatsConverter"; }
+            get { return "Stats Converter"; }
         }
 
         public string Description
         {
-            get { return "Dumps all stats to the desktop in csv format."; }
+            get { return "Converts game statistics to other formats. Currently exports to CSV only."; }
         }
 
         public string ButtonText
         {
-            get { return "Export"; }
+            get { return null; }
         }
 
         public string Author
@@ -33,27 +32,29 @@ namespace AndBurn.HDT.Plugins.StatsConverter
         public Version Version
         {
             get { return new Version(0, 1, 0); }
+        }       
+        
+        public MenuItem MenuItem
+        {
+            get { return StatsMenuItem; }
         }
 
         public void OnLoad()
         {
-            // Nothing for now
+            StatsMenuItem = new PluginMenu(); 
         }
 
         public void OnUnload()
         {
-            // Nothing for now
         }
 
         public void OnUpdate()
         {
-            // Nothing for now
         }
 
         public void OnButtonPress()
         {
-            Export.AsCSV();
         }
-
+        
     }
 }

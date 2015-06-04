@@ -47,9 +47,11 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
             var region = (StatsRegion)ComboBoxRegion.SelectedItem;
             var time = (TimeFrame)ComboBoxTime.SelectedItem;
             var mode = (GameMode)ComboBoxMode.SelectedItem;
+
             // create exporting objects
             var filter = new StatsFilter(deck, region, mode, time);
             var exporter = new CSVExporter();
+
             // set up and open save dialog
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.FileName = "hdt-stats-" + DateTime.Now.ToString("yyyyMMddHHmmss");
@@ -58,6 +60,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
             Nullable<bool> result = dlg.ShowDialog();
             // close export dialog
             await Helper.MainWindow.HideMetroDialogAsync(this);
+
             // Process save file dialog box results
             if (result == true)
             {
