@@ -3,6 +3,7 @@ using Hearthstone_Deck_Tracker.Hearthstone;
 using Hearthstone_Deck_Tracker.Stats;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,6 +68,22 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Test
             list.Add(deckCStats);
 
             return new Deck[] { deckA, deckB, deckC };
+        }
+
+        public static int CountLines(string file)
+        {
+            var count = 0;
+            try
+            {
+                var lines = File.ReadLines(file);
+                count = lines.Count();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("File Not Found (" + e.Message + ")");
+                count = -1;
+            }
+            return count;
         }
     }
 }

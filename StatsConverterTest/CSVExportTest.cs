@@ -12,79 +12,23 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Test
     [TestClass]
     public class CSVExportTest
     {
-
         private List<DeckStats> stats = new List<DeckStats>();
-        private Guid deck = new Guid();
-        private Guid empty = new Guid();
 
         [TestInitialize]
         public void Setup()
         {
             stats = TestHelper.SampleStats;
-            deck = stats[1].DeckId;
-            empty = stats[0].DeckId;
-        }
-
-        [TestCleanup]
-        public void TearDown()
-        {
-            // nothing
         }
 
         [TestMethod]
-        public void TestDefaultFilterReturnsAll()
+        public void TestCsvHelper()
         {
+            var exporter = new CSVExporter();
             var filter = new StatsFilter();
-            var filtered = filter.Apply(stats);
-            Assert.AreEqual(9, filtered.Count);
-        }
-
-        [TestMethod]
-        public void TestSingleDeck()
-        {
-            var filter = new StatsFilter(deck, StatsRegion.All, GameMode.All, TimeFrame.AllTime);
-            var filtered = filter.Apply(stats);
-            Assert.AreEqual(1, filtered.Count);
-        }
-
-        [TestMethod]
-        public void TestSingleDeckNoStats()
-        {
-            var filter = new StatsFilter(empty, StatsRegion.All, GameMode.All, TimeFrame.AllTime);
-            var filtered = filter.Apply(stats);
-            Assert.AreEqual(0, filtered.Count);
-        }
-
-        [TestMethod]
-        public void TestUnknownDeckId()
-        {
-            var filter = new StatsFilter(new Guid(), StatsRegion.All, GameMode.All, TimeFrame.AllTime);
-            var filtered = filter.Apply(stats);
-            Assert.AreEqual(0, filtered.Count);
-        }
-
-        [TestMethod]
-        public void TestRegionFilter()
-        {
-            var filter = new StatsFilter(null, StatsRegion.EU, GameMode.All, TimeFrame.AllTime);
-            var filtered = filter.Apply(stats);
-            Assert.AreEqual(5, filtered.Count);
-        }
-
-        [TestMethod]
-        public void TestGameModeFilter()
-        {
-            var filter = new StatsFilter(null, StatsRegion.All, GameMode.Arena, TimeFrame.AllTime);
-            var filtered = filter.Apply(stats);
-            Assert.AreEqual(2, filtered.Count);
-        }
-
-        [TestMethod]
-        public void TestTimeFrameFilter()
-        {
-            var filter = new StatsFilter(null, StatsRegion.All, GameMode.All, TimeFrame.Last7Days);
-            var filtered = filter.Apply(stats);
-            Assert.AreEqual(7, filtered.Count);
+            var file = "sample-export.csv";
+            exporter.To(file, filter.Apply(stats));
+            var count = TestHelper.CountLines(file);
+            Assert.AreEqual(10, count);
         }
     }
 }
