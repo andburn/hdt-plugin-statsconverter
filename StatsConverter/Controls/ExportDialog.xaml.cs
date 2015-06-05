@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using StatsConverter.Properties;
 
 namespace AndBurn.HDT.Plugins.StatsConverter.Controls
 {
@@ -50,13 +51,15 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
 
             // create exporting objects
             var filter = new StatsFilter(deck, region, mode, time);
+            // TODO: needs to be selectable with further export types
             var exporter = new CSVExporter();
 
             // set up and open save dialog
             SaveFileDialog dlg = new SaveFileDialog();
-            dlg.FileName = "hdt-stats-" + DateTime.Now.ToString("yyyyMMddHHmmss");
-            dlg.DefaultExt = ".csv";
-            dlg.Filter = "CSV Files | *.csv";
+            dlg.FileName = GetDefaultFileName();
+            dlg.DefaultExt = "." + exporter.FileExtension;
+            dlg.InitialDirectory = Settings.Default.DefaultExportPath;
+            dlg.Filter = exporter.Name + " Files | *." + exporter.FileExtension;
             Nullable<bool> result = dlg.ShowDialog();
             // close export dialog
             await Helper.MainWindow.HideMetroDialogAsync(this);
@@ -69,6 +72,16 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
                 await Converter.Export(exporter, filter, filename);                
             }
             
+        }
+
+        private string GetDefaultFileName()
+        {
+            var name = Settings.Default.ExportFileName;
+            if (Settings.Default.UseExportFileTimestamp)
+            {
+                name += "-" + DateTime.Now.ToString("yyyyMMddHHmmss");
+            }
+            return name;
         }
 
         private void ComboBoxMode_SelectionChanged(object sender, SelectionChangedEventArgs e)

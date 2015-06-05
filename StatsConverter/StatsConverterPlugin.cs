@@ -2,12 +2,15 @@
 using System.Windows.Controls;
 using Hearthstone_Deck_Tracker.Plugins;
 using AndBurn.HDT.Plugins.StatsConverter.Controls;
+using Hearthstone_Deck_Tracker;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace AndBurn.HDT.Plugins.StatsConverter
 {
     public class StatsConverterPlugin : IPlugin
     {
         private MenuItem StatsMenuItem;
+        private Controls.PluginSettings SettingsDialog;
 
         public string Name
         {
@@ -21,7 +24,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
         public string ButtonText
         {
-            get { return null; }
+            get { return "Settings"; }
         }
 
         public string Author
@@ -41,11 +44,13 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
         public void OnLoad()
         {
-            StatsMenuItem = new PluginMenu(); 
+            StatsMenuItem = new PluginMenu();
+            SettingsDialog = new Controls.PluginSettings();
         }
 
         public void OnUnload()
         {
+            SettingsDialog.RequestCloseAsync();
         }
 
         public void OnUpdate()
@@ -54,6 +59,8 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
         public void OnButtonPress()
         {
+            if (SettingsDialog != null)
+                Helper.MainWindow.ShowMetroDialogAsync(SettingsDialog);
         }
         
     }
