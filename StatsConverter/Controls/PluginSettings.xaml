@@ -7,7 +7,7 @@
              xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              mc:Ignorable="d" 
-             d:DesignHeight="300" Height="450" d:DesignWidth="450">
+             d:DesignHeight="380" Height="380" d:DesignWidth="450">
     <dialogs:CustomDialog.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

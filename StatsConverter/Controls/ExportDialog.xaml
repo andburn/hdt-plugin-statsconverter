@@ -9,7 +9,7 @@
              xmlns:enums="clr-namespace:Hearthstone_Deck_Tracker.Enums;assembly=HearthstoneDeckTracker"
              xmlns:statenums="clr-namespace:AndBurn.HDT.Plugins.StatsConverter"
              mc:Ignorable="d" 
-             d:DesignHeight="300" Height="450" d:DesignWidth="450">
+             d:DesignHeight="380" Height="380" d:DesignWidth="450">
     <dialogs:CustomDialog.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -20,7 +20,10 @@
         </ResourceDictionary>                                
     </dialogs:CustomDialog.Resources>
     <StackPanel Width="300" Margin="0,15,0,0">
-        <DockPanel Margin="0,2,0,0">
+        <TextBlock TextWrapping="Wrap" Text="Export Stats to CSV" 
+                   FontSize="18"/>
+        <Separator Margin="0,2,0,16" />
+        <DockPanel Margin="0,4,0,4">
             <Label Content="Game Mode:" Width="90"/>
             <ComboBox Name="ComboBoxMode" SelectedIndex="0" SelectionChanged="ComboBoxMode_SelectionChanged">
                 <enums:GameMode>All</enums:GameMode>

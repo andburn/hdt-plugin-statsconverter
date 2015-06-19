@@ -24,7 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\deck-tracker\development\Plugins\</OutputPath>
+    <OutputPath>..\..\deck-tracker\build\development\Plugins\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -33,13 +33,13 @@
     <Reference Include="CsvHelper">
       <HintPath>packages\CsvHelper.2.13.0.0\lib\net40-client\CsvHelper.dll</HintPath>
     </Reference>
-    <Reference Include="HearthstoneDeckTracker, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\deck-tracker\development\HearthstoneDeckTracker.exe</HintPath>
+    <Reference Include="HearthstoneDeckTracker">
+      <HintPath>..\..\deck-tracker\build\development\HearthstoneDeckTracker.exe</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=1.1.2.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\deck-tracker\development\MahApps.Metro.dll</HintPath>
+    <Reference Include="MahApps.Metro">
+      <HintPath>..\..\deck-tracker\build\development\MahApps.Metro.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -66,7 +66,6 @@
     <Compile Include="Converter.cs" />
     <Compile Include="GameStatsMap.cs" />
     <Compile Include="IStatsExporter.cs" />
-    <Compile Include="IStatsImporter.cs" />
     <Compile Include="Controls\ExportDialog.xaml.cs">
       <DependentUpon>ExportDialog.xaml</DependentUpon>
     </Compile>
