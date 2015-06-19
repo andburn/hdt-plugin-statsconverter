@@ -50,6 +50,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
         public void OnUnload()
         {
+			// TODO: causes error in log, null object on close async
             SettingsDialog.RequestCloseAsync();
         }
 

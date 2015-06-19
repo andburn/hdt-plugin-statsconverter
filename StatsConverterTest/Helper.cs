@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace AndBurn.HDT.Plugins.StatsConverter.Test
 {
-    public class TestHelper
+    public class Helper
     {
         public static List<DeckStats> SampleStats;
 
-        static TestHelper()
+        static Helper()
         {
             SampleStats = new List<DeckStats>();
             CreateStats(SampleStats);

@@ -12,6 +12,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
     {
         string Name { get; }
         string FileExtension { get; }
+        string DefaultLocation { get; }
 
         void To(string file, List<GameStats> stats);
     }

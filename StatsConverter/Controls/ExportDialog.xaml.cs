@@ -9,6 +9,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using StatsConverter.Properties;
+using AndBurn.HDT.Plugins.StatsConverter.CSV;
 
 namespace AndBurn.HDT.Plugins.StatsConverter.Controls
 {

@@ -9,7 +9,7 @@ using Hearthstone_Deck_Tracker.Stats;
 using CsvHelper;
 using Hearthstone_Deck_Tracker;
 
-namespace AndBurn.HDT.Plugins.StatsConverter
+namespace AndBurn.HDT.Plugins.StatsConverter.CSV
 {
     public class CSVExporter : IStatsExporter
     {
@@ -21,6 +21,11 @@ namespace AndBurn.HDT.Plugins.StatsConverter
         public string FileExtension
         {
             get { return "csv"; }
+        }
+
+        public string DefaultLocation
+        {
+            get { return String.Empty; }
         }
 
         public void To(string file, List<GameStats> stats)

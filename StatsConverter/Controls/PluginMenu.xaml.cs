@@ -18,5 +18,11 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
             Helper.MainWindow.ShowMetroDialogAsync(new ExportDialog());
         }
 
+		private void MenuItem_Import_Click(object sender, RoutedEventArgs e)
+		{
+			// TODO: can probably do this better, creating new object ...
+			Helper.MainWindow.ShowMetroDialogAsync(new ImportDialog());
+		}
+
     }
 }

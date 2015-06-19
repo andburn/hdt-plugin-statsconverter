@@ -20,15 +20,9 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Test
         [TestInitialize]
         public void Setup()
         {
-            stats = TestHelper.SampleStats;
+            stats = Helper.SampleStats;
             deck = stats[1].DeckId;
             empty = stats[0].DeckId;
-        }
-
-        [TestCleanup]
-        public void TearDown()
-        {
-            // nothing
         }
 
         [TestMethod]
