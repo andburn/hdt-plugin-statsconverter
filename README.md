@@ -1,4 +1,5 @@
 # HDT Stats Converter Plugin
+
 A plugin to export statistics from [Hearthstone Deck Tracker](https://github.com/Epix37/Hearthstone-Deck-Tracker) to CSV format.
 
 - Delete any previous releases
@@ -10,3 +11,10 @@ A plugin to export statistics from [Hearthstone Deck Tracker](https://github.com
 ![Menu](http://i.imgur.com/05c4FaQ.png)
 
 - There are some configuration options accessible from the ``Settings`` button in the ``Options/Plugins`` menu.
+
+## Importing
+
+	- Log file:
+		- won't save game unless mode enabled in options (e.g. None)
+		- time/duration will be wrong, whenever imported & how long it takes
+		- deck will that which is active or default if none

@@ -30,11 +30,17 @@ namespace  AndBurn.HDT.Plugins.StatsConverter
             await controller.CloseAsync();
         }
 
+		public static void Import(IStatsImporter import, string filename)
+		{			
+			var games = import.From(filename);			
+			// for current import options, do nothing with result		
+		}
+
         private static List<DeckStats> GetStats()
         {
             // use HDT to load the stats
             DeckStatsList.Load();
             return DeckStatsList.Instance.DeckStats;
         }
-    }
+	}
 }

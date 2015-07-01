@@ -1,0 +1,38 @@
+﻿<dialogs:CustomDialog x:Class="AndBurn.HDT.Plugins.StatsConverter.Controls.ImportDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             xmlns:enums="clr-namespace:Hearthstone_Deck_Tracker.Enums;assembly=HearthstoneDeckTracker"
+             xmlns:statenums="clr-namespace:AndBurn.HDT.Plugins.StatsConverter"
+             mc:Ignorable="d" 
+             d:DesignHeight="380" Height="300" d:DesignWidth="450">
+    <dialogs:CustomDialog.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/Dialogs/BaseMetroDialog.xaml" />                
+            </ResourceDictionary.MergedDictionaries>
+            <enums:EnumDescriptionConverter x:Key="EnumDescriptionConverter"/>
+        </ResourceDictionary>                                
+    </dialogs:CustomDialog.Resources>
+    <StackPanel Width="300" Margin="0,15,0,0">
+        <TextBlock TextWrapping="Wrap" Text="Import Stats from a Log File" 
+                   FontSize="18"/>
+        <Separator Margin="0,2,0,16" />
+        <TextBlock TextWrapping="Wrap" Margin="10,0,10,5">
+            NOTE: Hearthstone must be running in order to import a log file.             
+            During the import process the overlay will react as if a game is being played.
+            This may take some time depending on the size of the log file. It is 
+            best to not to do anything in the tracker or the game until the import is finished.
+        </TextBlock>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Width="210" Margin="0,30,0,0">
+            <Button Name="BtnImport"  Content="Import" Width="90" Click="BtnImport_OnClick" 
+                    Style="{StaticResource AccentedSquareButtonStyle}" />
+            <Button Name="BtnCancel" Content="Cancel" Width="90" Margin="20,0,0,0" Click="BtnCancel_OnClick" />
+        </StackPanel>
+    </StackPanel>
+</dialogs:CustomDialog>

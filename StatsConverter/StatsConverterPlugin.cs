@@ -34,7 +34,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
         public Version Version
         {
-            get { return new Version(0, 1, 1); }
+            get { return new Version(0, 0, 1); }
         }       
         
         public MenuItem MenuItem
@@ -50,7 +50,8 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
         public void OnUnload()
         {
-            SettingsDialog.RequestCloseAsync();
+			if (SettingsDialog != null && SettingsDialog.IsVisible)
+				Helper.MainWindow.HideMetroDialogAsync(SettingsDialog);
         }
 
         public void OnUpdate()
@@ -62,6 +63,6 @@ namespace AndBurn.HDT.Plugins.StatsConverter
             if (SettingsDialog != null)
                 Helper.MainWindow.ShowMetroDialogAsync(SettingsDialog);
         }
-        
+
     }
 }

@@ -13,6 +13,6 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 		string Name { get; }
 		string FileExtension { get; }
 
-		void From(string file);
+		List<GameStats> From(string file);
 	}
 }

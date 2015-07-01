@@ -1,11 +1,13 @@
-﻿using Hearthstone_Deck_Tracker;
-using Hearthstone_Deck_Tracker.Hearthstone;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+
+using Hearthstone_Deck_Tracker;
+using Hearthstone_Deck_Tracker.Hearthstone;
+using Hearthstone_Deck_Tracker.Stats;
+using MahApps.Metro.Controls.Dialogs;
+
 
 namespace AndBurn.HDT.Plugins.StatsConverter
 {
@@ -13,7 +15,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 	{
 		public string Name
 		{
-			get { return "HsLogImporter"; }
+			get { return "Hearthstone Log"; }
 		}
 
 		public string FileExtension
@@ -21,20 +23,16 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 			get { return "txt"; }
 		}
 
-		public void From(string file)
-		{
+		public List<GameStats> From(string file)
+		{			
 			ReadStaticLogFile(file);			
+			// importing is done via log reading,
+			// do not need to add stats manualy			
+			return new List<GameStats>();
 		}
 
 		private async void ReadStaticLogFile(string file)
-		{
-			// TODO: Unload: HideMetroDialogAsync null ref error
-			// TODO: test on current stable
-
-			// NOTE: won't save game unless mode enabled in options (e.g. None)
-			// NOTE: time/duration will be wrong, whenever imported & how long it takes
-			// NOTE: deck will that which is active or default if none
-
+		{			
 			if (!Game.IsRunning)
 			{
 				// TODO: popup - start hearthstone
@@ -42,7 +40,9 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 				return;
 			}
 
-			Logger.WriteLine("Reading Log");
+			var controller = await Helper.MainWindow.ShowProgressAsync("Importing Games", "Please Wait...");
+
+			// TODO: test hero vs selected deck difference
 
 			// values
 			string hsdata = "Hearthstone_Data"; // NOTE: this is added in the HsLogReader!
@@ -52,7 +52,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 			var currentLogReader = HsLogReader.Instance;
 			if (currentLogReader != null)
 			{
-				Logger.WriteLine("Stopping current reader");
+				Logger.WriteLine("Stopping current HsLogReader", "StatsConverter");
 				currentLogReader.Stop();
 			}
 
@@ -68,44 +68,42 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 			var fakeDataPath = Directory.CreateDirectory(Path.Combine(dirpath, hsdata)).FullName;
 			var fakeLogPath = Path.Combine(fakeDataPath, hslog);
 
-			Logger.WriteLine("File setup complete:");
-			Logger.WriteLine("filename: " + filename);
-			Logger.WriteLine("dirpath: " + dirpath);
-			Logger.WriteLine("fakedatapath: " + fakeDataPath);
-			Logger.WriteLine("fakepath: " + fakeLogPath);
+			Logger.WriteLine("Setting fake log file to " + fakeLogPath, "StatsConverter");
 
 			// open stream to fake log file for writing
-			FileStream fakeLog = new FileStream(fakeLogPath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
+			FileStream fakeLog = new FileStream(fakeLogPath, 
+				FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
 
 			// create new reader
+			Logger.WriteLine("Creating new HsLogReader", "StatsConverter");
 			HsLogReader.Create(dirpath, 100);
-			var newLogReader = HsLogReader.Instance;
-			newLogReader.Start();
+			var fakeLogReader = HsLogReader.Instance;
+			fakeLogReader.Start();
 
 			string line = "";
-			int linesAtATime = 10; // is buffer better?
+			int linesAtATime = 20;
+			// TODO: skip blank lines and/or "File..."
 			using (StreamReader fileIn = new StreamReader(filepath)) 
 			{
 				try
 				{
-					Logger.WriteLine("fs write = " + fakeLog.CanWrite);
-					Logger.WriteLine("fs read = " + fakeLog.CanRead);
-					StreamWriter fileOut = new StreamWriter(fakeLog);
-					Logger.WriteLine("begin writing log");
-
-					int lineCount = 0;
-					while ((line = fileIn.ReadLine()) != null)
+					using (StreamWriter fileOut = new StreamWriter(fakeLog))
 					{
-						lineCount++;
-						fileOut.WriteLine(line);
-						if (lineCount >= linesAtATime)
+						Logger.WriteLine("Starting to write to fake log file", "StatsConverter");
+						int lineCount = 0;
+						while ((line = fileIn.ReadLine()) != null)
 						{
-							lineCount = 0;
-							await fileOut.FlushAsync();
-							//await task.delay(10);
+							lineCount++;
+							fileOut.WriteLine(line);
+							// evey linesAtATime, flush the buffer
+							// so it can be read by reader
+							if (lineCount >= linesAtATime)
+							{
+								lineCount = 0;
+								await fileOut.FlushAsync();
+							}
 						}
-					}
-					fileOut.Close(); // also disables stream writing				
+					}				
 				}
 				catch (Exception e)
 				{
@@ -113,12 +111,17 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 				}
 			}
 
+			Logger.WriteLine("Finished writing to log file", "StatsConverter");
+			// stop the reader reading
+			fakeLogReader.Stop();
+			// ensure stream is closed
 			fakeLog.Close();
-			newLogReader.Stop();
 
-			var stats = Game.CurrentGameStats;
-			if (stats != null)
-				Logger.WriteLine("stats: turns={0}", stats.Turns);
+			Logger.WriteLine("Resetting HsLogReader to default", "StatsConverter");
+			HsLogReader.Create();
+			HsLogReader.Instance.Start();
+
+			await controller.CloseAsync();
 		}
 	}
 }

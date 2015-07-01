@@ -12,16 +12,16 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
             InitializeComponent();
         }
 
+		// TODO: can probably do this better, instead of creating new objects each time
+
         private void MenuItem_Export_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: can probably do this better, creating new object ...
             Helper.MainWindow.ShowMetroDialogAsync(new ExportDialog());
         }
 
 		private void MenuItem_Import_Click(object sender, RoutedEventArgs e)
-		{
-			//var imp = new HsLogImporter();
-			//imp.From(@"E:\Dump\logs\output_log_single-naxx.txt");
+		{			
+			Helper.MainWindow.ShowMetroDialogAsync(new ImportDialog());
 		}
 
     }

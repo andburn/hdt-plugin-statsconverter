@@ -41,6 +41,10 @@
       <HintPath>..\..\deck-tracker\build\development\MahApps.Metro.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\deck-tracker\build\development\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -56,6 +60,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ImportDialog.xaml.cs">
+      <DependentUpon>ImportDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PluginMenu.xaml.cs">
       <DependentUpon>PluginMenu.xaml</DependentUpon>
     </Compile>
@@ -65,6 +72,7 @@
     <Compile Include="CSVExporter.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="GameStatsMap.cs" />
+    <Compile Include="Github.cs" />
     <Compile Include="HsLogImporter.cs" />
     <Compile Include="IStatsExporter.cs" />
     <Compile Include="Controls\ExportDialog.xaml.cs">
@@ -91,6 +99,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\ImportDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\ExportDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
