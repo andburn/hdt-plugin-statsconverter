@@ -19,7 +19,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
         public string Description
         {
-            get { return "Converts game statistics to other formats. Currently exports to CSV only."; }
+            get { return "Import and export game statistics in different formats."; }
         }
 
         public string ButtonText

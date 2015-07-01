@@ -18,5 +18,11 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
             Helper.MainWindow.ShowMetroDialogAsync(new ExportDialog());
         }
 
+		private void MenuItem_Import_Click(object sender, RoutedEventArgs e)
+		{
+			//var imp = new HsLogImporter();
+			//imp.From(@"E:\Dump\logs\output_log_single-naxx.txt");
+		}
+
     }
 }

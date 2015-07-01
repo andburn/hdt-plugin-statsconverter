@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\deck-tracker\build\development\Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -65,10 +65,12 @@
     <Compile Include="CSVExporter.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="GameStatsMap.cs" />
+    <Compile Include="HsLogImporter.cs" />
     <Compile Include="IStatsExporter.cs" />
     <Compile Include="Controls\ExportDialog.xaml.cs">
       <DependentUpon>ExportDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IStatsImporter.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
