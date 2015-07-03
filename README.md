@@ -1,20 +1,24 @@
-# HDT Stats Converter Plugin
+# Stats Converter (HDT Plugin)
 
-A plugin to export statistics from [Hearthstone Deck Tracker](https://github.com/Epix37/Hearthstone-Deck-Tracker) to CSV format.
+A plugin to import and export game statistics from [Hearthstone Deck Tracker](https://github.com/Epix37/Hearthstone-Deck-Tracker) in different format.
 
-- Delete any previous releases
-- Then unzip the latest release into the HDT Plugins directory
+## Installation
+1. Delete any previous releases
+- Then unzip the latest release into the HDT Plugins directory (this directory can be opened with `options > plugins > plugins folder` button)
 - The directory should look like ``Plugins/StatsConverter/[some files]``
-- Enable the plugin from the HDT ``Options/Plugins`` menu
-- Export by using the option in the plugin menu
+- Enable the plugin from ``Options/Plugins`` menu
+- Use to the *export*, *import* and *settings* options from the plugins menu as shown below:
+![Menu](http://i.imgur.com/HIrkY6T.png)
 
-![Menu](http://i.imgur.com/05c4FaQ.png)
+## Supported Formats
+There are limited amount of available formats at the moment:
 
-- There are some configuration options accessible from the ``Settings`` button in the ``Options/Plugins`` menu.
+### Exporting
+- CSV (Column Seperated Values) format
 
-## Importing
+### Importing
+- Hearthstone log files
 
-	- Log file:
-		- won't save game unless mode enabled in options (e.g. None)
-		- time/duration will be wrong, whenever imported & how long it takes
-		- deck will that which is active or default if none
+## Known Issues
+- Importing of log files essentially replays the games within the file as far as HDT is concerned. This can take a long time for large log files.
+- The date and time are not stored in the log files, so any imported games will have the time of import associated with them.
