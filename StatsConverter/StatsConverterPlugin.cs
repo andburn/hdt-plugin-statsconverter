@@ -70,9 +70,14 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
         public void OnButtonPress()
         {
-            if (_settings != null)
-				_settings.IsOpen = true;
+			OpenSettingsFlyout();
         }
+
+		public static void OpenSettingsFlyout()
+		{
+			if (_settings != null)
+				_settings.IsOpen = true;
+		}
 
 		private static void SetSettingsFlyout()
 		{
@@ -83,7 +88,6 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 			Flyout settings = new Flyout();
 			settings.Name = "PluginSettingsFlyout";
 			settings.Position = Position.Left;			
-			//settings.Width = 250;
 			settings.Header = "Stats Converter Settings";
 			settings.Content = new Controls.PluginSettings();
 			flyouts.Add(settings);

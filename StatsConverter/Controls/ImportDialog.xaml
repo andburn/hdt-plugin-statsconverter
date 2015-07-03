@@ -24,8 +24,7 @@
                    FontSize="18"/>
         <Separator Margin="0,2,0,16" />
         <TextBlock TextWrapping="Wrap" Margin="10,0,10,5">
-            NOTE: Hearthstone must be running in order to import a log file.             
-            During the import process the overlay will react as if a game is being played.
+            NOTE: During the import process the overlay will react as if a game is being played.
             This may take some time depending on the size of the log file. It is 
             best to not to do anything in the tracker or the game until the import is finished.
         </TextBlock>

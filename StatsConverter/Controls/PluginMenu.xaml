@@ -24,4 +24,5 @@
     <!-- SubMenus -->
     <MenuItem Header="Export..." Click="MenuItem_Export_Click"/>
     <MenuItem Header="Import..." Click="MenuItem_Import_Click"/>
+    <MenuItem Header="Settings" Click="MenuItem_Settings_Click"/>
 </MenuItem>

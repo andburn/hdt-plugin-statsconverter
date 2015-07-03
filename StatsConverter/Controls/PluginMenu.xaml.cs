@@ -24,5 +24,10 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
 			Helper.MainWindow.ShowMetroDialogAsync(new ImportDialog());
 		}
 
+		private void MenuItem_Settings_Click(object sender, RoutedEventArgs e)
+		{
+			StatsConverterPlugin.OpenSettingsFlyout();
+		}
+
     }
 }

@@ -7,6 +7,7 @@ using Hearthstone_Deck_Tracker;
 using Hearthstone_Deck_Tracker.Hearthstone;
 using Hearthstone_Deck_Tracker.Stats;
 using MahApps.Metro.Controls.Dialogs;
+using StatsConverter.Properties;
 
 
 namespace AndBurn.HDT.Plugins.StatsConverter
@@ -35,17 +36,17 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 		{			
 			if (!Game.IsRunning)
 			{
-				// TODO: popup - start hearthstone
+				await Helper.MainWindow.ShowMessageAsync("Warning", 
+					"Hearthstone needs to be running to import from log files", 
+					MessageDialogStyle.Affirmative, null);
 				Logger.WriteLine("Hearthstone needs to be running");
 				return;
 			}
 
 			var controller = await Helper.MainWindow.ShowProgressAsync("Importing Games", "Please Wait...");
 
-			// TODO: test hero vs selected deck difference
-
 			// values
-			string hsdata = "Hearthstone_Data"; // NOTE: this is added in the HsLogReader!
+			string hsdata = "Hearthstone_Data";
 			string hslog = "output_log.txt";
 
 			// stop current log reading
@@ -76,12 +77,12 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
 			// create new reader
 			Logger.WriteLine("Creating new HsLogReader", "StatsConverter");
-			HsLogReader.Create(dirpath, 100);
+			HsLogReader.Create(dirpath, Settings.Default.ReadFreq);
 			var fakeLogReader = HsLogReader.Instance;
 			fakeLogReader.Start();
 
 			string line = "";
-			int linesAtATime = 20;
+			int linesAtATime = Settings.Default.FlushLines;
 			// TODO: skip blank lines and/or "File..."
 			using (StreamReader fileIn = new StreamReader(filepath)) 
 			{
