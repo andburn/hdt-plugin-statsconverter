@@ -6,13 +6,14 @@ using Hearthstone_Deck_Tracker;
 using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using MahApps.Metro.Controls;
 
 namespace AndBurn.HDT.Plugins.StatsConverter
 {
     public class StatsConverterPlugin : IPlugin
     {
         private MenuItem _statsMenuItem;
-        private Controls.PluginSettings _settingsDialog;
+        private static Flyout _settings;
 
         public string Name
         {
@@ -47,7 +48,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
         public async void OnLoad()
         {
             _statsMenuItem = new PluginMenu();
-            _settingsDialog = new Controls.PluginSettings();
+			SetSettingsFlyout();
 
 			var latest = await Github.CheckForUpdate("andburn", "hdt-plugin-statsconverter", Version);
 			if (latest != null)
@@ -59,8 +60,8 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
         public void OnUnload()
         {
-			if (_settingsDialog != null && _settingsDialog.IsVisible)
-				Helper.MainWindow.HideMetroDialogAsync(_settingsDialog);
+			if (_settings != null)
+				_settings.IsOpen = false;
         }
 
         public void OnUpdate()
@@ -69,9 +70,26 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
         public void OnButtonPress()
         {
-            if (_settingsDialog != null)
-                Helper.MainWindow.ShowMetroDialogAsync(_settingsDialog);
+            if (_settings != null)
+				_settings.IsOpen = true;
         }
+
+		private static void SetSettingsFlyout()
+		{
+			var window = Hearthstone_Deck_Tracker.Helper.MainWindow;
+			var flyouts = window.Flyouts.Items;
+
+			// TODO: how to set Panel.ZIndex
+			Flyout settings = new Flyout();
+			settings.Name = "PluginSettingsFlyout";
+			settings.Position = Position.Left;			
+			//settings.Width = 250;
+			settings.Header = "Stats Converter Settings";
+			settings.Content = new Controls.PluginSettings();
+			flyouts.Add(settings);
+
+			_settings = settings;
+		}
 
 		private async Task ShowUpdateMessage(Github.GithubRelease release)
 		{

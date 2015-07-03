@@ -1,29 +1,14 @@
 ﻿using Hearthstone_Deck_Tracker;
-using MahApps.Metro.Controls.Dialogs;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 using StatsConverter.Properties;
-using Microsoft.Win32;
 using System.Windows.Forms;
 
 namespace AndBurn.HDT.Plugins.StatsConverter.Controls
 {
-    public partial class PluginSettings : CustomDialog
+	public partial class PluginSettings : System.Windows.Controls.UserControl
     {
-        private string defaultPath;
 
         public PluginSettings()
         {
@@ -33,44 +18,43 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
 
         private void LoadSettings()
         {
-            bool timestamp = Settings.Default.UseExportFileTimestamp;
-            CheckBox_Timestamp.IsChecked = timestamp;
-
-            string filename = Settings.Default.ExportFileName;
-            TextBox_Prefix.Text = filename;
-
-            defaultPath = Settings.Default.DefaultExportPath;
-        }
-
-        private void SaveSettings()
-        {
-            Settings.Default.UseExportFileTimestamp = CheckBox_Timestamp.IsChecked == true ? true : false;
-            Settings.Default.ExportFileName = TextBox_Prefix.Text;
-            Settings.Default.DefaultExportPath = defaultPath;
-            Settings.Default.Save();
+            CheckBox_Timestamp.IsChecked = Settings.Default.UseExportFileTimestamp;
+            TextBox_Prefix.Text = Settings.Default.ExportFileName;
         }
 
         private void BtnDefaultDirectory_Click(object sender, RoutedEventArgs e)
         {
+			// display the folder chooser dialog
             FolderBrowserDialog fdlg = new FolderBrowserDialog();
+			fdlg.ShowNewFolderButton = true;
             fdlg.RootFolder = Environment.SpecialFolder.MyComputer;
             DialogResult result = fdlg.ShowDialog();
+
+			// if a selection was made save settings
             if (result == DialogResult.OK)
             {
-                defaultPath = fdlg.SelectedPath;
+				Settings.Default.DefaultExportPath = fdlg.SelectedPath;
+				Settings.Default.Save();
             }
         }
 
-        private void BtnSave_OnClick(object sender, RoutedEventArgs e)
-        {
-            SaveSettings();
-            Helper.MainWindow.HideMetroDialogAsync(this);
-        }
+		private void CheckBox_Timestamp_Checked(object sender, RoutedEventArgs e)
+		{
+			Settings.Default.UseExportFileTimestamp = true;
+			Settings.Default.Save();
+		}
 
-        private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
-        {
-            Helper.MainWindow.HideMetroDialogAsync(this);
-        }
+		private void CheckBox_Timestamp_Unchecked(object sender, RoutedEventArgs e)
+		{
+			Settings.Default.UseExportFileTimestamp = false;
+			Settings.Default.Save();
+		}
+
+		private void TextBox_Prefix_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+		{
+			Settings.Default.ExportFileName = TextBox_Prefix.Text;
+			Settings.Default.Save();
+		}
 
     }
 }

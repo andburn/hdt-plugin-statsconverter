@@ -1,47 +1,31 @@
-﻿<dialogs:CustomDialog x:Class="AndBurn.HDT.Plugins.StatsConverter.Controls.PluginSettings"
+﻿<UserControl x:Class="AndBurn.HDT.Plugins.StatsConverter.Controls.PluginSettings"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
-             xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-             xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              mc:Ignorable="d" 
-             d:DesignHeight="380" Height="380" d:DesignWidth="450">
-    <dialogs:CustomDialog.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/Dialogs/BaseMetroDialog.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </dialogs:CustomDialog.Resources>
-    <StackPanel Width="300" Margin="0,15,0,0">
-        <TextBlock TextWrapping="Wrap" Text="Stats Converter Settings" 
-                   FontSize="18"/>
-        <Separator Margin="0,2,0,16" />
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel Margin="10,15,10,15">
         <DockPanel Margin="0,4,0,4">
             <Label Content="Filename prefix" Width="100"/>
-            <TextBox x:Name="TextBox_Prefix" Text="hdt-stats" />
+            <TextBox x:Name="TextBox_Prefix" Text="hdt-stats" 
+                     TextChanged="TextBox_Prefix_TextChanged"
+                     ToolTip="Text to add to the start of exported file names"/>
         </DockPanel>
         <DockPanel Margin="0,4,0,4">
             <Label Content="Add timestamp" Width="100"/>
-            <CheckBox x:Name="CheckBox_Timestamp" />
+            <CheckBox x:Name="CheckBox_Timestamp" 
+                      Checked="CheckBox_Timestamp_Checked" 
+                      Unchecked="CheckBox_Timestamp_Unchecked"
+                      ToolTip="Add a timestamp to the exported file name" />
         </DockPanel>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,6,0,0">
-            <StackPanel.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
-                    </ResourceDictionary.MergedDictionaries>
-                </ResourceDictionary>
-            </StackPanel.Resources>
-            <Button Margin="0,4,0,4" Content="Set Default Export Directory" Click="BtnDefaultDirectory_Click"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Width="210" Margin="0,30,0,0">
-            <Button x:Name="BtnSave"  Content="Save" Width="90" Click="BtnSave_OnClick" 
-                    Style="{StaticResource AccentedSquareButtonStyle}" />
-            <Button x:Name="BtnCancel" Content="Cancel" Width="90" Margin="20,0,0,0" Click="BtnCancel_OnClick" />
+        <StackPanel>
+            <Button x:Name="BtnDefaultDirectory" 
+                    Content="Set Output Directory"
+                    Margin="0,10,0,4" 
+                    Click="BtnDefaultDirectory_Click"
+                    ToolTip="Set the default ouput directory for exported stats"/>
         </StackPanel>
     </StackPanel>
-</dialogs:CustomDialog>
+</UserControl>
