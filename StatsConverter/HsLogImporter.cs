@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-
 using Hearthstone_Deck_Tracker;
 using Hearthstone_Deck_Tracker.Hearthstone;
+using Hearthstone_Deck_Tracker.LogReader;
 using Hearthstone_Deck_Tracker.Stats;
 using MahApps.Metro.Controls.Dialogs;
 using StatsConverter.Properties;
@@ -14,6 +14,13 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 {
 	public class HsLogImporter : IStatsImporter
 	{
+		private GameV2 _game;
+
+		public HsLogImporter()
+		{
+			_game = Hearthstone_Deck_Tracker.API.Core.Game;
+		}
+
 		public string Name
 		{
 			get { return "Hearthstone Log"; }
@@ -33,11 +40,11 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 		}
 
 		private async void ReadStaticLogFile(string file)
-		{			
-			if (!Game.IsRunning)
+		{
+			if(!_game.IsRunning)
 			{
-				await Helper.MainWindow.ShowMessageAsync("Warning", 
-					"Hearthstone needs to be running to import from log files", 
+				await Helper.MainWindow.ShowMessageAsync("Warning",
+					"Hearthstone needs to be running to import from log files",
 					MessageDialogStyle.Affirmative, null);
 				Logger.WriteLine("Hearthstone needs to be running");
 				return;
@@ -50,7 +57,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 			string hslog = "output_log.txt";
 
 			// stop current log reading
-			var currentLogReader = HsLogReader.Instance;
+			var currentLogReader = HsLogReaderV2.Instance;
 			if (currentLogReader != null)
 			{
 				Logger.WriteLine("Stopping current HsLogReader", "StatsConverter");
@@ -77,9 +84,11 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
 			// create new reader
 			Logger.WriteLine("Creating new HsLogReader", "StatsConverter");
-			HsLogReader.Create(dirpath, Settings.Default.ReadFreq);
-			var fakeLogReader = HsLogReader.Instance;
-			fakeLogReader.Start();
+			Logger.WriteLine("HsLogReaderV2.Instance" + " = " + HsLogReaderV2.Instance, "StatsConverter");
+
+			HsLogReaderV2.Create(dirpath, Settings.Default.ReadFreq, true, true);
+			var fakeLogReader = HsLogReaderV2.Instance;
+			fakeLogReader.Start(_game);
 
 			string line = "";
 			int linesAtATime = Settings.Default.FlushLines;
@@ -119,8 +128,8 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 			fakeLog.Close();
 
 			Logger.WriteLine("Resetting HsLogReader to default", "StatsConverter");
-			HsLogReader.Create();
-			HsLogReader.Instance.Start();
+			HsLogReaderV2.Create();
+			HsLogReaderV2.Instance.Start(_game);
 
 			await controller.CloseAsync();
 		}
