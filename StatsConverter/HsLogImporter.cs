@@ -52,85 +52,54 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
 			var controller = await Helper.MainWindow.ShowProgressAsync("Importing Games", "Please Wait...");
 
-			// values
-			string hsdata = "Hearthstone_Data";
-			string hslog = "output_log.txt";
-
-			// stop current log reading
-			var currentLogReader = HsLogReaderV2.Instance;
-			if (currentLogReader != null)
+			// get log path
+			var hslog = Path.Combine(Config.Instance.HearthstoneDirectory, "Hearthstone_Data", "output_log.txt");
+			if(!File.Exists(hslog))
 			{
-				Logger.WriteLine("Stopping current HsLogReader", "StatsConverter");
-				currentLogReader.Stop();
+				throw new FileNotFoundException("Hearthstone log not found", hslog);
 			}
 
-			// create fake hs log and dir
+			// get log to import
 			var filepath = Path.GetFullPath(file);
-			if (!File.Exists(filepath))
+			if(!File.Exists(filepath))
 			{
 				throw new FileNotFoundException("File does not exist", filepath);
 			}
 			var filename = Path.GetFileName(filepath);
 			var dirpath = Path.GetDirectoryName(filepath);
-			// create temp "HS data folder" in file dir
-			var fakeDataPath = Directory.CreateDirectory(Path.Combine(dirpath, hsdata)).FullName;
-			var fakeLogPath = Path.Combine(fakeDataPath, hslog);
-
-			Logger.WriteLine("Setting fake log file to " + fakeLogPath, "StatsConverter");
-
-			// open stream to fake log file for writing
-			FileStream fakeLog = new FileStream(fakeLogPath, 
-				FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
-
-			// create new reader
-			Logger.WriteLine("Creating new HsLogReader", "StatsConverter");
-			Logger.WriteLine("HsLogReaderV2.Instance" + " = " + HsLogReaderV2.Instance, "StatsConverter");
-
-			HsLogReaderV2.Create(dirpath, Settings.Default.ReadFreq, true, true);
-			var fakeLogReader = HsLogReaderV2.Instance;
-			fakeLogReader.Start(_game);
 
 			string line = "";
 			int linesAtATime = Settings.Default.FlushLines;
 			// TODO: skip blank lines and/or "File..."
-			using (StreamReader fileIn = new StreamReader(filepath)) 
+			using(StreamReader fileIn = new StreamReader(filepath))
 			{
 				try
 				{
-					using (StreamWriter fileOut = new StreamWriter(fakeLog))
+					using(FileStream fs = new FileStream(hslog, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
+					using(StreamWriter sw = new StreamWriter(fs))
 					{
-						Logger.WriteLine("Starting to write to fake log file", "StatsConverter");
+						Logger.WriteLine("Starting to write HS log file", "StatsConverter");
 						int lineCount = 0;
-						while ((line = fileIn.ReadLine()) != null)
+						while((line = fileIn.ReadLine()) != null)
 						{
 							lineCount++;
-							fileOut.WriteLine(line);
-							// evey linesAtATime, flush the buffer
+							sw.WriteLine(line);
+							// every linesAtATime, flush the buffer
 							// so it can be read by reader
-							if (lineCount >= linesAtATime)
+							if(lineCount >= linesAtATime)
 							{
 								lineCount = 0;
-								await fileOut.FlushAsync();
+								await sw.FlushAsync();
 							}
 						}
-					}				
+					}
 				}
-				catch (Exception e)
+				catch(Exception e)
 				{
 					Logger.WriteLine(e.Message, "Error");
 				}
 			}
-
 			Logger.WriteLine("Finished writing to log file", "StatsConverter");
-			// stop the reader reading
-			fakeLogReader.Stop();
-			// ensure stream is closed
-			fakeLog.Close();
-
-			Logger.WriteLine("Resetting HsLogReader to default", "StatsConverter");
-			HsLogReaderV2.Create();
-			HsLogReaderV2.Instance.Start(_game);
-
 			await controller.CloseAsync();
 		}
 	}
