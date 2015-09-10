@@ -17,7 +17,7 @@ There are limited amount of available formats at the moment:
 - CSV (Column Seperated Values) format
 
 ### Importing
-- Hearthstone log files
+- Hearthstone log files (**not currently working with tracker v0.11.0 or greater**)
 
 ## Known Issues
 - Importing of log files essentially replays the games within the file as far as HDT is concerned. This can take a long time for large log files.
