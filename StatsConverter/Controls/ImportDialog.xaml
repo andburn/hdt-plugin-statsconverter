@@ -24,9 +24,7 @@
                    FontSize="18"/>
         <Separator Margin="0,2,0,16" />
         <TextBlock TextWrapping="Wrap" Margin="10,0,10,5">
-            NOTE: During the import process the overlay will react as if a game is being played.
-            This may take some time depending on the size of the log file. It is 
-            best to not to do anything in the tracker or the game until the import is finished.
+            NOTE: It is recommened not to do anything in the tracker or the game until the import has finished.
         </TextBlock>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Width="210" Margin="0,30,0,0">
             <Button Name="BtnImport"  Content="Import" Width="90" Click="BtnImport_OnClick" 

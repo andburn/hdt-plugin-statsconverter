@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Hearthstone_Deck_Tracker;
 using Hearthstone_Deck_Tracker.Hearthstone;
@@ -32,8 +33,8 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 		}
 
 		public List<GameStats> From(string file)
-		{			
-			ReadStaticLogFile(file);			
+		{
+			ReadStaticLogFile(file);
 			// importing is done via log reading,
 			// do not need to add stats manualy			
 			return new List<GameStats>();
@@ -53,10 +54,11 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 			var controller = await Helper.MainWindow.ShowProgressAsync("Importing Games", "Please Wait...");
 
 			// get log path
-			var hslog = Path.Combine(Config.Instance.HearthstoneDirectory, "Hearthstone_Data", "output_log.txt");
+			var hslog = Path.Combine(Config.Instance.HearthstoneDirectory, "Logs", "Power.log");
 			if(!File.Exists(hslog))
 			{
-				throw new FileNotFoundException("Hearthstone log not found", hslog);
+				//throw new FileNotFoundException("Hearthstone log not found", hslog);
+				Logger.WriteLine("Log not found, it will be created", "StatsConverter");
 			}
 
 			// get log to import
@@ -70,7 +72,9 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
 			string line = "";
 			int linesAtATime = Settings.Default.FlushLines;
-			// TODO: skip blank lines and/or "File..."
+
+			var heroes = new HeroState(_game);
+
 			using(StreamReader fileIn = new StreamReader(filepath))
 			{
 				try
@@ -83,6 +87,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 						while((line = fileIn.ReadLine()) != null)
 						{
 							lineCount++;
+							heroes.Read(line);
 							sw.WriteLine(line);
 							// every linesAtATime, flush the buffer
 							// so it can be read by reader
@@ -90,6 +95,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 							{
 								lineCount = 0;
 								await sw.FlushAsync();
+								await Task.Delay(Settings.Default.ReadFreq);
 							}
 						}
 					}
@@ -100,7 +106,117 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 				}
 			}
 			Logger.WriteLine("Finished writing to log file", "StatsConverter");
+			// attempt to save stats
 			await controller.CloseAsync();
+		}
+
+		private class HeroState
+		{
+			private readonly Regex playerRegex =
+				new Regex(@"Player EntityID=\d+ PlayerID=(\d+)");
+			private readonly Regex playerHandRegex =
+				new Regex(@"TAG_CHANGE Entity=\[name=.+ id=\d+ zone=HAND zonePos=\d+ cardId=\w+ player=(\d+)\]");
+			private readonly Regex heroZoneRegex =
+				new Regex(@"TAG_CHANGE Entity=\[name=.+ id=\d+ zone=PLAY zonePos=\d+ cardId=(HERO\w+) player=(\d+)\]");
+
+			private GameV2 game;
+			private bool hasPlayerLine;
+			private bool idsAreKnown;
+
+			public PlayerEntity Player { get; set; }
+			public PlayerEntity Opponent { get; set; }
+			public bool HeroesAreKnown 
+			{
+				get
+				{
+					if(idsAreKnown && !string.IsNullOrWhiteSpace(Player.Hero) && !string.IsNullOrWhiteSpace(Opponent.Hero))
+					{
+						return true;
+					}
+					return false;
+				}
+			}
+
+			public HeroState(GameV2 game)
+			{
+				this.game = game;
+				hasPlayerLine = false;
+				idsAreKnown = false;
+			}
+
+			public void Read(string line)
+			{
+				if(HeroesAreKnown)
+				{
+					return;
+				}
+				
+				var playerMatch = playerRegex.Match(line);
+				var playerHand = playerHandRegex.Match(line);
+				var heroZone = heroZoneRegex.Match(line);
+				
+				if(playerMatch.Success)
+				{
+					// possible new game, reset PlayerEntities
+					Player = new PlayerEntity();
+					Opponent = new PlayerEntity();
+					idsAreKnown = false;
+					hasPlayerLine = true;
+				}
+				else if(playerHand.Success && hasPlayerLine)
+				{
+					hasPlayerLine = false;
+					// if id already assigned skip rest
+					if(Player.Id != 0)
+						return;
+					Player.Id = int.Parse(playerHand.Groups[1].Value);
+					Player.IsPlayer = true; // TODO: this is a bit pointless
+					// assuming ids are either 1 or 2!
+					Opponent.Id = Player.Id == 1 ? 2 : 1;
+					idsAreKnown = true;							
+				}
+				else if(heroZone.Success && idsAreKnown)
+				{
+					var hid = int.Parse(heroZone.Groups[2].Value);
+					if(hid == Player.Id)
+					{
+						Player.Hero = heroZone.Groups[1].Value;
+					}
+					else if(hid == Opponent.Id)
+					{
+						Opponent.Hero = heroZone.Groups[1].Value;
+					}
+					if(HeroesAreKnown)
+					{
+						SetPlayers();
+					}
+				}
+			}
+
+			private void SetPlayers()
+			{
+				game.Player.Class = Database.GetHeroNameFromId(Player.Hero, false);
+				game.Opponent.Class = Database.GetHeroNameFromId(Opponent.Hero, false);
+			}
+		}
+
+		private class PlayerEntity
+		{
+			public int Id { get; set; }
+			public string Hero { get; set; }
+			public bool IsPlayer { get; set; }
+
+			public PlayerEntity()
+			{
+				Id = 0;
+				Hero = null;
+				IsPlayer = false;
+			}
+
+			public override string ToString()
+			{
+				return string.Format("{0}: {1} {2}", Id, Hero, IsPlayer);
+			}
 		}
 	}
 }
