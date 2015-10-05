@@ -44,14 +44,14 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 		{
 			if(!_game.IsRunning)
 			{
-				await Helper.MainWindow.ShowMessageAsync("Warning",
+				await Hearthstone_Deck_Tracker.API.Core.MainWindow.ShowMessageAsync("Warning",
 					"Hearthstone needs to be running to import from log files",
 					MessageDialogStyle.Affirmative, null);
 				Logger.WriteLine("Hearthstone needs to be running");
 				return;
 			}
 
-			var controller = await Helper.MainWindow.ShowProgressAsync("Importing Games", "Please Wait...");
+			var controller = await Hearthstone_Deck_Tracker.API.Core.MainWindow.ShowProgressAsync("Importing Games", "Please Wait...");
 
 			// get log path
 			var hslog = Path.Combine(Config.Instance.HearthstoneDirectory, "Logs", "Power.log");

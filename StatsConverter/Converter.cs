@@ -11,7 +11,7 @@ namespace  AndBurn.HDT.Plugins.StatsConverter
     {
         public static async Task Export(IStatsExporter export, StatsFilter filter, string filepath)
         {
-            var controller = await Helper.MainWindow.ShowProgressAsync("Exporting stats", "Please Wait...");
+			var controller = await Hearthstone_Deck_Tracker.API.Core.MainWindow.ShowProgressAsync("Exporting stats", "Please Wait...");
             // load stats
             List<DeckStats> stats = GetStats();
             // filter stats

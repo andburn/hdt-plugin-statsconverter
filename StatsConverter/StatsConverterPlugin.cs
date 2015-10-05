@@ -81,7 +81,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
 		private static void SetSettingsFlyout()
 		{
-			var window = Hearthstone_Deck_Tracker.Helper.MainWindow;
+			var window = Hearthstone_Deck_Tracker.API.Core.MainWindow;
 			var flyouts = window.Flyouts.Items;
 
 			// TODO: how to set Panel.ZIndex
@@ -99,7 +99,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 		{
 			var settings = new MetroDialogSettings { AffirmativeButtonText = "Get Update", NegativeButtonText = "Close" };
 
-			var result = await Helper.MainWindow.ShowMessageAsync("Uptate Available", 
+			var result = await Hearthstone_Deck_Tracker.API.Core.MainWindow.ShowMessageAsync("Uptate Available", 
 				"For Plugin: \"" + this.Name + "\"", MessageDialogStyle.AffirmativeAndNegative, settings);
 			if (result == MessageDialogResult.Affirmative)
 				Process.Start(release.html_url);

@@ -37,7 +37,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
 
         private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
         {
-            Helper.MainWindow.HideMetroDialogAsync(this);
+			Hearthstone_Deck_Tracker.API.Core.MainWindow.HideMetroDialogAsync(this);
         }
 
         private async void BtnExport_OnClick(object sender, RoutedEventArgs e)
@@ -62,7 +62,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
             dlg.Filter = exporter.Name + " Files | *." + exporter.FileExtension;
             Nullable<bool> result = dlg.ShowDialog();
             // close export dialog
-            await Helper.MainWindow.HideMetroDialogAsync(this);
+			await Hearthstone_Deck_Tracker.API.Core.MainWindow.HideMetroDialogAsync(this);
 
             // Process save file dialog box results
             if (result == true)

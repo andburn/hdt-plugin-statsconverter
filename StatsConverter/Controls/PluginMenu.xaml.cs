@@ -16,12 +16,12 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
 
         private void MenuItem_Export_Click(object sender, RoutedEventArgs e)
         {
-            Helper.MainWindow.ShowMetroDialogAsync(new ExportDialog());
+			Hearthstone_Deck_Tracker.API.Core.MainWindow.ShowMetroDialogAsync(new ExportDialog());
         }
 
 		private void MenuItem_Import_Click(object sender, RoutedEventArgs e)
-		{			
-			Helper.MainWindow.ShowMetroDialogAsync(new ImportDialog());
+		{
+			Hearthstone_Deck_Tracker.API.Core.MainWindow.ShowMetroDialogAsync(new ImportDialog());
 		}
 
 		private void MenuItem_Settings_Click(object sender, RoutedEventArgs e)
