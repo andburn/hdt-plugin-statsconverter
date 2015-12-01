@@ -4,7 +4,7 @@ A plugin to import and export game statistics from [Hearthstone Deck Tracker](ht
 
 ## Installation
 1. Delete any previous releases
-- Then unzip the latest release into the HDT Plugins directory (this directory can be opened with `options > plugins > plugins folder` button)
+- Then unzip the [latest release](https://github.com/andburn/hdt-plugin-statsconverter/releases/latest) into the HDT Plugins directory (this directory can be opened with `options > plugins > plugins folder` button)
 - The directory should look like ``Plugins/StatsConverter/[some files]``
 - Enable the plugin from ``Options/Plugins`` menu
 - Use to the *export*, *import* and *settings* options from the plugins menu as shown below:
