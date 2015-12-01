@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatsConverter", "StatsConverter.csproj", "{39F85DE1-B107-4D4D-BAC4-F4CE94549637}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatsConverter", "StatsConverter\StatsConverter.csproj", "{39F85DE1-B107-4D4D-BAC4-F4CE94549637}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatsConverterTest", "..\StatsConverterTest\StatsConverterTest.csproj", "{CA51C1DE-BB68-4527-9069-228072B5D3E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatsConverterTest", "StatsConverterTest\StatsConverterTest.csproj", "{CA51C1DE-BB68-4527-9069-228072B5D3E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -22,3 +22,7 @@ There are limited amount of available formats at the moment:
 ## Known Issues
 - Importing of log files essentially replays the games within the file as far as HDT is concerned. This can take a long time for large log files.
 - The new way the tracker treats log files means that log importing is only partially working and may need manual updating after the import.
+
+## Development
+- Like all HDT plugins, when building from source you first need to add a reference to the `HearthstoneDeckTracker.exe` on your system. For both the plugin and test projects.
+- The other external dependencies should be restored by [NuGet](https://docs.nuget.org/Consume/Package-Restore) automatically when you build the project.

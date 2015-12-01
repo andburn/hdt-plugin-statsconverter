@@ -35,9 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HearthstoneDeckTracker, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\deck-tracker\development\HearthstoneDeckTracker.exe</HintPath>
+    <Reference Include="HearthstoneDeckTracker">
+      <HintPath>..\..\source\Hearthstone Deck Tracker\bin\Debug\HearthstoneDeckTracker.exe</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
