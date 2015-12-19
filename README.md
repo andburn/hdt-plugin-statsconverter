@@ -24,5 +24,5 @@ There are limited amount of available formats at the moment:
 - The new way the tracker treats log files means that log importing is only partially working and may need manual updating after the import.
 
 ## Development
-- Like all HDT plugins, when building from source you first need to add a reference to the `HearthstoneDeckTracker.exe` on your system. For both the plugin and test projects.
+- Like all HDT plugins, when building from source you first need to add a reference to the `HearthstoneDeckTracker.exe` on your system. For both the plugin and test projects. It is also a good idea to set the *Copy Local* property of this reference to *False*.
 - The other external dependencies should be restored by [NuGet](https://docs.nuget.org/Consume/Package-Restore) automatically when you build the project.
