@@ -1,53 +1,51 @@
 ﻿using System;
-using System.Windows.Controls;
-using Hearthstone_Deck_Tracker.Plugins;
-using AndBurn.HDT.Plugins.StatsConverter.Controls;
-using Hearthstone_Deck_Tracker;
-using MahApps.Metro.Controls.Dialogs;
-using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Windows.Controls;
+using AndBurn.HDT.Plugins.StatsConverter.Controls;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace AndBurn.HDT.Plugins.StatsConverter
 {
-    public class StatsConverterPlugin : IPlugin
-    {
-        private MenuItem _statsMenuItem;
-        private static Flyout _settings;
+	public class StatsConverterPlugin : IPlugin
+	{
+		private MenuItem _statsMenuItem;
+		private static Flyout _settings;
 
-        public string Name
-        {
-            get { return "Stats Converter"; }
-        }
+		public string Name
+		{
+			get { return "Stats Converter"; }
+		}
 
-        public string Description
-        {
-            get { return "Import and export game statistics in different formats."; }
-        }
+		public string Description
+		{
+			get { return "Import and export game statistics in different formats."; }
+		}
 
-        public string ButtonText
-        {
-            get { return "Settings"; }
-        }
+		public string ButtonText
+		{
+			get { return "Settings"; }
+		}
 
-        public string Author
-        {
-            get { return "andburn"; }
-        }
+		public string Author
+		{
+			get { return "andburn"; }
+		}
 
-        public Version Version
-        {
-            get { return new Version(0, 2, 3); }
-        }       
-        
-        public MenuItem MenuItem
-        {
-            get { return _statsMenuItem; }
-        }
+		public Version Version
+		{
+			get { return new Version(0, 2, 3); }
+		}
 
-        public async void OnLoad()
-        {
-            _statsMenuItem = new PluginMenu();
+		public MenuItem MenuItem
+		{
+			get { return _statsMenuItem; }
+		}
+
+		public async void OnLoad()
+		{
+			_statsMenuItem = new PluginMenu();
 			SetSettingsFlyout();
 
 			var latest = await Github.CheckForUpdate("andburn", "hdt-plugin-statsconverter", Version);
@@ -56,22 +54,22 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 				await ShowUpdateMessage(latest);
 				Logger.WriteLine("Update available: " + latest.tag_name, "StatsConverter");
 			}
-        }
+		}
 
-        public void OnUnload()
-        {
+		public void OnUnload()
+		{
 			if (_settings != null)
 				_settings.IsOpen = false;
-        }
+		}
 
-        public void OnUpdate()
-        {
-        }
+		public void OnUpdate()
+		{
+		}
 
-        public void OnButtonPress()
-        {
+		public void OnButtonPress()
+		{
 			OpenSettingsFlyout();
-        }
+		}
 
 		public static void OpenSettingsFlyout()
 		{
@@ -87,7 +85,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 			// TODO: how to set Panel.ZIndex
 			Flyout settings = new Flyout();
 			settings.Name = "PluginSettingsFlyout";
-			settings.Position = Position.Left;			
+			settings.Position = Position.Left;
 			settings.Header = "Stats Converter Settings";
 			settings.Content = new Controls.PluginSettings();
 			flyouts.Add(settings);
@@ -99,10 +97,10 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 		{
 			var settings = new MetroDialogSettings { AffirmativeButtonText = "Get Update", NegativeButtonText = "Close" };
 
-			var result = await Hearthstone_Deck_Tracker.API.Core.MainWindow.ShowMessageAsync("Uptate Available", 
+			var result = await Hearthstone_Deck_Tracker.API.Core.MainWindow.ShowMessageAsync("Uptate Available",
 				"For Plugin: \"" + this.Name + "\"", MessageDialogStyle.AffirmativeAndNegative, settings);
 			if (result == MessageDialogResult.Affirmative)
 				Process.Start(release.html_url);
 		}
-    }
+	}
 }

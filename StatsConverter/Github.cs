@@ -1,11 +1,9 @@
-﻿using Hearthstone_Deck_Tracker;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace AndBurn.HDT.Plugins.StatsConverter
 {
@@ -29,9 +27,9 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 			}
 			catch (Exception ex)
 			{
-				Logger.WriteLine("Update check failed: " + ex.Message, "Github");				
+				Logger.WriteLine("Update check failed: " + ex.Message, "Github");
 			}
-			return null;	
+			return null;
 		}
 
 		// Use the Github API to get the latest release for a repo
@@ -55,7 +53,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 			{
 				throw ex;
 			}
-		}		
+		}
 
 		// Basic release info for JSON deserialization
 		public class GithubRelease
@@ -65,6 +63,5 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 			public string prerelease { get; set; }
 			public string published_at { get; set; }
 		}
-
 	}
 }

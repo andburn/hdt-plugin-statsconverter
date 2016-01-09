@@ -3,13 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Hearthstone_Deck_Tracker;
-using Hearthstone_Deck_Tracker.Hearthstone;
-using Hearthstone_Deck_Tracker.LogReader;
-using Hearthstone_Deck_Tracker.Stats;
 using MahApps.Metro.Controls.Dialogs;
 using StatsConverter.Properties;
-
 
 namespace AndBurn.HDT.Plugins.StatsConverter
 {
@@ -36,13 +31,13 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 		{
 			ReadStaticLogFile(file);
 			// importing is done via log reading,
-			// do not need to add stats manualy			
+			// do not need to add stats manualy
 			return new List<GameStats>();
 		}
 
 		private async void ReadStaticLogFile(string file)
 		{
-			if(!_game.IsRunning)
+			if (!_game.IsRunning)
 			{
 				await Hearthstone_Deck_Tracker.API.Core.MainWindow.ShowMessageAsync("Warning",
 					"Hearthstone needs to be running to import from log files",
@@ -55,7 +50,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
 			// get log path
 			var hslog = Path.Combine(Config.Instance.HearthstoneDirectory, "Logs", "Power.log");
-			if(!File.Exists(hslog))
+			if (!File.Exists(hslog))
 			{
 				//throw new FileNotFoundException("Hearthstone log not found", hslog);
 				Logger.WriteLine("Log not found, it will be created", "StatsConverter");
@@ -63,7 +58,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
 			// get log to import
 			var filepath = Path.GetFullPath(file);
-			if(!File.Exists(filepath))
+			if (!File.Exists(filepath))
 			{
 				throw new FileNotFoundException("File does not exist", filepath);
 			}
@@ -75,23 +70,23 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
 			var heroes = new HeroState(_game);
 
-			using(StreamReader fileIn = new StreamReader(filepath))
+			using (StreamReader fileIn = new StreamReader(filepath))
 			{
 				try
 				{
-					using(FileStream fs = new FileStream(hslog, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
-					using(StreamWriter sw = new StreamWriter(fs))
+					using (FileStream fs = new FileStream(hslog, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
+					using (StreamWriter sw = new StreamWriter(fs))
 					{
 						Logger.WriteLine("Starting to write HS log file", "StatsConverter");
 						int lineCount = 0;
-						while((line = fileIn.ReadLine()) != null)
+						while ((line = fileIn.ReadLine()) != null)
 						{
 							lineCount++;
 							heroes.Read(line);
 							sw.WriteLine(line);
 							// every linesAtATime, flush the buffer
 							// so it can be read by reader
-							if(lineCount >= linesAtATime)
+							if (lineCount >= linesAtATime)
 							{
 								lineCount = 0;
 								await sw.FlushAsync();
@@ -100,7 +95,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 						}
 					}
 				}
-				catch(Exception e)
+				catch (Exception e)
 				{
 					Logger.WriteLine(e.Message, "Error");
 				}
@@ -114,8 +109,10 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 		{
 			private readonly Regex playerRegex =
 				new Regex(@"Player EntityID=\d+ PlayerID=(\d+)");
+
 			private readonly Regex playerHandRegex =
 				new Regex(@"TAG_CHANGE Entity=\[name=.+ id=\d+ zone=HAND zonePos=\d+ cardId=\w+ player=(\d+)\]");
+
 			private readonly Regex heroZoneRegex =
 				new Regex(@"TAG_CHANGE Entity=\[name=.+ id=\d+ zone=PLAY zonePos=\d+ cardId=(HERO\w+) player=(\d+)\]");
 
@@ -125,11 +122,12 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
 			public PlayerEntity Player { get; set; }
 			public PlayerEntity Opponent { get; set; }
-			public bool HeroesAreKnown 
+
+			public bool HeroesAreKnown
 			{
 				get
 				{
-					if(idsAreKnown && !string.IsNullOrWhiteSpace(Player.Hero) && !string.IsNullOrWhiteSpace(Opponent.Hero))
+					if (idsAreKnown && !string.IsNullOrWhiteSpace(Player.Hero) && !string.IsNullOrWhiteSpace(Opponent.Hero))
 					{
 						return true;
 					}
@@ -146,16 +144,16 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
 			public void Read(string line)
 			{
-				if(HeroesAreKnown)
+				if (HeroesAreKnown)
 				{
 					return;
 				}
-				
+
 				var playerMatch = playerRegex.Match(line);
 				var playerHand = playerHandRegex.Match(line);
 				var heroZone = heroZoneRegex.Match(line);
-				
-				if(playerMatch.Success)
+
+				if (playerMatch.Success)
 				{
 					// possible new game, reset PlayerEntities
 					Player = new PlayerEntity();
@@ -163,30 +161,30 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 					idsAreKnown = false;
 					hasPlayerLine = true;
 				}
-				else if(playerHand.Success && hasPlayerLine)
+				else if (playerHand.Success && hasPlayerLine)
 				{
 					hasPlayerLine = false;
 					// if id already assigned skip rest
-					if(Player.Id != 0)
+					if (Player.Id != 0)
 						return;
 					Player.Id = int.Parse(playerHand.Groups[1].Value);
 					Player.IsPlayer = true; // TODO: this is a bit pointless
-					// assuming ids are either 1 or 2!
+											// assuming ids are either 1 or 2!
 					Opponent.Id = Player.Id == 1 ? 2 : 1;
-					idsAreKnown = true;							
+					idsAreKnown = true;
 				}
-				else if(heroZone.Success && idsAreKnown)
+				else if (heroZone.Success && idsAreKnown)
 				{
 					var hid = int.Parse(heroZone.Groups[2].Value);
-					if(hid == Player.Id)
+					if (hid == Player.Id)
 					{
 						Player.Hero = heroZone.Groups[1].Value;
 					}
-					else if(hid == Opponent.Id)
+					else if (hid == Opponent.Id)
 					{
 						Opponent.Hero = heroZone.Groups[1].Value;
 					}
-					if(HeroesAreKnown)
+					if (HeroesAreKnown)
 					{
 						SetPlayers();
 					}
