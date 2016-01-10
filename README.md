@@ -1,6 +1,6 @@
 # Stats Converter (HDT Plugin)
 
-A plugin to import and export game statistics from [Hearthstone Deck Tracker](https://github.com/Epix37/Hearthstone-Deck-Tracker) in different format.
+A plugin to import and export game statistics from [Hearthstone Deck Tracker](https://github.com/HearthSim/Hearthstone-Deck-Tracker) in different format.
 
 ## Installation
 1. Delete any previous releases
@@ -13,16 +13,16 @@ A plugin to import and export game statistics from [Hearthstone Deck Tracker](ht
 ## Supported Formats
 There are limited amount of available formats at the moment:
 
-### Exporting
+### Export
 - CSV (Column Seperated Values) format
 
-### Importing
-- Hearthstone log files (**only works with the log files generated from tracker v0.11.0 or greater**)
-
-## Known Issues
-- Importing of log files essentially replays the games within the file as far as HDT is concerned. This can take a long time for large log files.
-- The new way the tracker treats log files means that log importing is only partially working and may need manual updating after the import.
+### Import
+- N/A
 
 ## Development
-- Like all HDT plugins, when building from source you first need to add a reference to the `HearthstoneDeckTracker.exe` on your system. For both the plugin and test projects. It is also a good idea to set the *Copy Local* property of this reference to *False*.
-- The other external dependencies should be restored by [NuGet](https://docs.nuget.org/Consume/Package-Restore) automatically when you build the project.
+- To build the plugin the project dependencies need to be added manually.
+- Add references (see [plugin-example](https://github.com/andburn/hdt-plugin-example/blob/master/README.md) for details) to the following files in your HDT installation:
+ - `HearthstoneDeckTracker.exe`
+ - `MahApps.Metro.dll`
+ - `Newtonsoft.Json.dll`
+- It is also a good idea to set the *Copy Local* property of this references to *False*.
