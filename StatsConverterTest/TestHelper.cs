@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Hearthstone_Deck_Tracker.Enums;
+using Hearthstone_Deck_Tracker.Hearthstone;
+using Hearthstone_Deck_Tracker.Stats;
 
 namespace AndBurn.HDT.Plugins.StatsConverter.Test
 {
@@ -52,7 +55,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Test
 				CreateGame(deckC.DeckId, Region.EU, GameMode.Arena, 4),
 				CreateGame(deckC.DeckId, Region.US, GameMode.Ranked, 7),
 				CreateGame(deckC.DeckId, Region.ASIA, GameMode.Ranked, 30),
-				CreateGame(deckC.DeckId, Region.US, GameMode.Casual, 1),
+				CreateGame(deckC.DeckId, Region.US, GameMode.Casual, 0),
 				CreateGame(deckC.DeckId, Region.UNKNOWN, GameMode.Casual, 1),
 				CreateGame(deckC.DeckId, Region.EU, GameMode.Ranked, 2),
 				CreateGame(deckC.DeckId, Region.EU, GameMode.Ranked, 80),

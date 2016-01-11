@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using Hearthstone_Deck_Tracker.Enums;
+using Hearthstone_Deck_Tracker.Stats;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AndBurn.HDT.Plugins.StatsConverter.Test
@@ -80,6 +81,14 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Test
 			var filter = new StatsFilter(null, StatsRegion.All, GameMode.All, TimeFrame.Last7Days);
 			var filtered = filter.Apply(stats);
 			Assert.AreEqual(7, filtered.Count);
+		}
+
+		[TestMethod]
+		public void TestTimeFrameTodayFilter()
+		{
+			var filter = new StatsFilter(null, StatsRegion.All, GameMode.All, TimeFrame.Today);
+			var filtered = filter.Apply(stats);
+			Assert.AreEqual(1, filtered.Count);
 		}
 	}
 }
