@@ -1,5 +1,6 @@
 ﻿using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
+using Hearthstone_Deck_Tracker.Stats;
 
 namespace AndBurn.HDT.Plugins.StatsConverter
 {

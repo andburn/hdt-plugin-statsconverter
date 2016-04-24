@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Hearthstone_Deck_Tracker.Stats;
+using Hearthstone_Deck_Tracker.Utility.Logging;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace AndBurn.HDT.Plugins.StatsConverter
@@ -23,7 +25,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 			catch (Exception e)
 			{
 				// TODO: show dialog?
-				Logger.WriteLine("Export Failed: " + e.Message, "StatsConverter");
+				Log.Error("Export Failed: " + e.Message, "StatsConverter");
 			}
 			await controller.CloseAsync();
 		}
@@ -37,7 +39,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 		private static List<DeckStats> GetStats()
 		{
 			// use HDT to load the stats
-			DeckStatsList.Load();
+			Facade.LoadDeckStatsList();
 			return DeckStatsList.Instance.DeckStats;
 		}
 	}

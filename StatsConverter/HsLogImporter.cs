@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Hearthstone_Deck_Tracker;
+using Hearthstone_Deck_Tracker.Hearthstone;
+using Hearthstone_Deck_Tracker.Stats;
+using Hearthstone_Deck_Tracker.Utility.Logging;
 using MahApps.Metro.Controls.Dialogs;
 using StatsConverter.Properties;
 
@@ -42,7 +46,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 				await Hearthstone_Deck_Tracker.API.Core.MainWindow.ShowMessageAsync("Warning",
 					"Hearthstone needs to be running to import from log files",
 					MessageDialogStyle.Affirmative, null);
-				Logger.WriteLine("Hearthstone needs to be running");
+				Log.Error("Hearthstone needs to be running");
 				return;
 			}
 
@@ -53,7 +57,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 			if (!File.Exists(hslog))
 			{
 				//throw new FileNotFoundException("Hearthstone log not found", hslog);
-				Logger.WriteLine("Log not found, it will be created", "StatsConverter");
+				Log.Info("Log not found, it will be created", "StatsConverter");
 			}
 
 			// get log to import
@@ -77,7 +81,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 					using (FileStream fs = new FileStream(hslog, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
 					using (StreamWriter sw = new StreamWriter(fs))
 					{
-						Logger.WriteLine("Starting to write HS log file", "StatsConverter");
+						Log.Info("Starting to write HS log file", "StatsConverter");
 						int lineCount = 0;
 						while ((line = fileIn.ReadLine()) != null)
 						{
@@ -97,10 +101,10 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 				}
 				catch (Exception e)
 				{
-					Logger.WriteLine(e.Message, "Error");
+					Log.Error(e, "StatsConverter");
 				}
 			}
-			Logger.WriteLine("Finished writing to log file", "StatsConverter");
+			Log.Info("Finished writing to log file", "StatsConverter");
 			// attempt to save stats
 			await controller.CloseAsync();
 		}

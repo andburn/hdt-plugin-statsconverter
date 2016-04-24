@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Hearthstone_Deck_Tracker.Stats;
 
 namespace AndBurn.HDT.Plugins.StatsConverter
 {

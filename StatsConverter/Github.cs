@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Hearthstone_Deck_Tracker.Utility.Logging;
 using Newtonsoft.Json;
 
 namespace AndBurn.HDT.Plugins.StatsConverter
@@ -27,7 +28,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 			}
 			catch (Exception ex)
 			{
-				Logger.WriteLine("Update check failed: " + ex.Message, "Github");
+				Log.Warn("Update check failed: " + ex.Message, "Github");
 			}
 			return null;
 		}

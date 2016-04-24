@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using Hearthstone_Deck_Tracker;
+using Hearthstone_Deck_Tracker.Enums;
+using Hearthstone_Deck_Tracker.Hearthstone;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using StatsConverter.Properties;
@@ -26,7 +29,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
 
 		private void LoadDecks()
 		{
-			DeckList.Load();
+			Facade.LoadDeckList();
 			decks = DeckList.Instance.Decks.ToList<Deck>();
 			deckNames = decks.Select<Deck, String>(d => d.Name).ToList<String>();
 			deckNames.Insert(0, "All");
