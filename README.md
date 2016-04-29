@@ -17,7 +17,7 @@ There are limited amount of available formats at the moment:
 - CSV (Column Seperated Values) format
 
 ### Import
-- N/A
+- (Not Available)
 
 ## Development
 - To build the plugin the project dependencies need to be added manually.

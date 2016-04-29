@@ -34,18 +34,6 @@
       <HintPath>..\packages\CsvHelper.2.14.2\lib\net45\CsvHelper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HearthstoneDeckTracker">
-      <HintPath>..\..\source\Hearthstone Deck Tracker\bin\Debug\HearthstoneDeckTracker.exe</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MahApps.Metro">
-      <HintPath>..\..\source\Hearthstone Deck Tracker\bin\Debug\MahApps.Metro.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\source\Hearthstone Deck Tracker\bin\Debug\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -61,9 +49,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\ImportDialog.xaml.cs">
-      <DependentUpon>ImportDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\PluginMenu.xaml.cs">
       <DependentUpon>PluginMenu.xaml</DependentUpon>
     </Compile>
@@ -75,7 +60,6 @@
     <Compile Include="GameStatsMap.cs" />
     <Compile Include="Github.cs" />
     <Compile Include="Facade.cs" />
-    <Compile Include="HsLogImporter.cs" />
     <Compile Include="IStatsExporter.cs" />
     <Compile Include="Controls\ExportDialog.xaml.cs">
       <DependentUpon>ExportDialog.xaml</DependentUpon>
@@ -101,10 +85,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\ImportDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Controls\ExportDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
