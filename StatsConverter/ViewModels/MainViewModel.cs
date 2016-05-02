@@ -13,6 +13,8 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			{ Strings.NavExport, new ExportViewModel() }
 		};
 
+		private string _defaultViewModel = Strings.NavExport;
+
 		private string _contentTitle;
 
 		public string ContentTitle
@@ -33,8 +35,8 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 
 		public MainViewModel()
 		{
-			ContentViewModel = _viewModels[Strings.NavExport];
 			NavigateCommand = new RelayCommand<string>(x => OnNavigation(x));
+			OnNavigation(_defaultViewModel);
 		}
 
 		private void OnNavigation(string location)
