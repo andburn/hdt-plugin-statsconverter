@@ -1,6 +1,6 @@
 ﻿using System;
 using HDT.Plugins.StatsConverter.Utils;
-using Microsoft.Win32;
+using Ookii.Dialogs.Wpf;
 
 namespace HDT.Plugins.StatsConverter.ViewModels
 {
@@ -16,27 +16,37 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			return name;
 		}
 
-		public static string SelectFile(string name, string ext, string path, bool save = false)
+		public static string SaveFileDialog(string name, string ext, string path)
 		{
-			FileDialog dlg;
-			if (save)
-			{
-				dlg = new SaveFileDialog();
-				dlg.FileName = GetDefaultFileName();
-			}
-			else
-			{
-				dlg = new OpenFileDialog();
-			}
-
+			var dlg = new VistaSaveFileDialog();
+			dlg.FileName = GetDefaultFileName();
 			dlg.DefaultExt = "." + ext;
 			dlg.InitialDirectory = path;
 			dlg.Filter = name + " Files | *." + ext;
 			bool? result = dlg.ShowDialog();
 
-			// TODO add error message
 			if (result != true)
+			{
+				StatsConverter.Logger.Debug("SaveFileDialog returned false");
 				return string.Empty;
+			}
+
+			return dlg.FileName;
+		}
+
+		public static string OpenFileDialog(string name, string ext, string path)
+		{
+			var dlg = new VistaOpenFileDialog();
+			dlg.DefaultExt = "." + ext;
+			dlg.InitialDirectory = path;
+			dlg.Filter = name + " Files | *." + ext;
+			bool? result = dlg.ShowDialog();
+
+			if (result != true)
+			{
+				StatsConverter.Logger.Debug("OpenFileDialog dialog returned false");
+				return string.Empty;
+			}
 
 			return dlg.FileName;
 		}

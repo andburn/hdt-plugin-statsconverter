@@ -39,7 +39,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 
 		private void ImportGames()
 		{
-			var filename = ViewModelHelper.SelectFile(
+			var filename = ViewModelHelper.OpenFileDialog(
 				SelectedImporter.Name,
 				SelectedImporter.FileExtension,
 				StatsConverter.Settings.Get(Strings.DefaultExportPath));

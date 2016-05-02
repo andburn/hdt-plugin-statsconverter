@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using HDT.Plugins.Common.Models;
 using HDT.Plugins.Common.Enums;
+using HDT.Plugins.Common.Models;
 using HDT.Plugins.StatsConverter.Converters;
 using HDT.Plugins.StatsConverter.Converters.CSV;
 using HDT.Plugins.StatsConverter.Utils;
@@ -83,7 +84,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			get { return _selectedGameMode; }
 			set
 			{
-				Set(() => SelectedGameMode, ref _selectedGameMode, value);				
+				Set(() => SelectedGameMode, ref _selectedGameMode, value);
 				FilterDecks(value, SelectedGameFormat);
 				UpdateArenaStatus();
 				UpdateGameCount();
@@ -260,11 +261,20 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		{
 			var deck = SelectedDeck == ALL_DECK ? null : SelectedDeck;
 			var filter = new GameFilter(deck?.Id, SelectedRegion, SelectedGameMode, SelectedTimeFrame, SelectedGameFormat);
-			var filename = ViewModelHelper.SelectFile(
-				SelectedExporter.Name,
-				SelectedExporter.FileExtension,
-				StatsConverter.Settings.Get(Strings.DefaultExportPath),
-				true);
+			var filename = string.Empty;
+			if (StatsConverter.Settings.Get(Strings.ExportWithoutDialog).Bool)
+			{
+				filename = Path.Combine(
+					StatsConverter.Settings.Get(Strings.DefaultExportPath),
+					ViewModelHelper.GetDefaultFileName() + "." + SelectedExporter.FileExtension);
+			}
+			else
+			{
+				filename = ViewModelHelper.SaveFileDialog(
+					SelectedExporter.Name,
+					SelectedExporter.FileExtension,
+					StatsConverter.Settings.Get(Strings.DefaultExportPath));
+			}
 			Converter.Export(StatsConverter.Data, SelectedExporter, filter, filename);
 		}
 

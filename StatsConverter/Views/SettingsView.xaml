@@ -8,21 +8,21 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel HorizontalAlignment="Center">
         <DockPanel Margin="0,4">
-            <Label Content="Filename prefix" Width="100" />
-            <TextBox Width="200"
+            <Label Content="Filename prefix" Width="120" />
+            <TextBox Width="180"
                      Text="{Binding ExportFileName}"
                      ToolTip="Text to add to the start of exported file names" />
         </DockPanel>
         <DockPanel Margin="0,4">
-            <Label Content="Add timestamp" Width="100" />
+            <Label Content="Add timestamp" Width="120" />
             <CheckBox IsChecked="{Binding UseExportFileTimestamp}"
                       ToolTip="Add a timestamp to the exported file name" />
         </DockPanel>
         <DockPanel Margin="0,4">
-            <Label DockPanel.Dock="Left" Content="Export to" Width="100"
+            <Label DockPanel.Dock="Left" Content="Export to" Width="120"
                    ToolTip="Set the default ouput directory for exported stats" />
             <Border BorderBrush="LightGray" BorderThickness="1.0" Background="White" CornerRadius="1"
-                    Margin="0,0,4,0" Width="130">
+                    Margin="0,0,4,0" Width="100">
                 <TextBlock TextTrimming="CharacterEllipsis"
                            Margin="2,0"
                            VerticalAlignment="Center"
@@ -32,6 +32,11 @@
             <Button DockPanel.Dock="Right" Content="Browse"
                     ToolTip="Set the default ouput directory for exported stats"
                     Command="{Binding SelectDirectoryCommand}" />
+        </DockPanel>
+        <DockPanel Margin="0,4">
+            <Label Content="No Export Dialog" Width="120" />
+            <CheckBox IsChecked="{Binding ExportWithoutDialog}"
+                      ToolTip="Use the default filename and location when exporting" />
         </DockPanel>
     </StackPanel>
 </UserControl>

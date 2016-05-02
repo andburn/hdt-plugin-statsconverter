@@ -17,7 +17,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			set
 			{
 				StatsConverter.Settings.Set(Strings.ExportFileName, value);
-				RaisePropertyChanged(Strings.ExportFileName);
+				RaisePropertyChanged("ExportFileName");
 			}
 		}
 
@@ -30,7 +30,20 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			set
 			{
 				StatsConverter.Settings.Set(Strings.DefaultExportPath, value);
-				RaisePropertyChanged(Strings.DefaultExportPath);
+				RaisePropertyChanged("DefaultExportPath");
+			}
+		}
+
+		public bool ExportWithoutDialog
+		{
+			get
+			{
+				return StatsConverter.Settings.Get(Strings.ExportWithoutDialog).Bool;
+			}
+			set
+			{
+				StatsConverter.Settings.Set(Strings.ExportWithoutDialog, value);
+				RaisePropertyChanged("ExportWithoutDialog");
 			}
 		}
 
@@ -43,7 +56,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			set
 			{
 				StatsConverter.Settings.Set(Strings.UseExportFileTimestamp, value);
-				RaisePropertyChanged(Strings.UseExportFileTimestamp);
+				RaisePropertyChanged("UseExportFileTimestamp");
 			}
 		}
 
