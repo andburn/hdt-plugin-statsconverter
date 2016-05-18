@@ -1,41 +1,41 @@
 ﻿<UserControl x:Class="AndBurn.HDT.Plugins.StatsConverter.Controls.PluginSettings"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel Margin="10,15,10,15">
         <DockPanel Margin="0,4,0,4">
-            <Label Content="Filename prefix" Width="100"/>
-            <TextBox x:Name="TextBox_Prefix" Text="hdt-stats" 
+            <Label Content="Filename prefix" Width="100" />
+            <TextBox x:Name="TextBox_Prefix" Text="hdt-stats"
                      TextChanged="TextBox_Prefix_TextChanged"
-                     ToolTip="Text to add to the start of exported file names"/>
+                     ToolTip="Text to add to the start of exported file names" />
         </DockPanel>
         <DockPanel Margin="0,4,0,4">
-            <Label Content="Add timestamp" Width="100"/>
-            <CheckBox x:Name="CheckBox_Timestamp" 
-                      Checked="CheckBox_Timestamp_Checked" 
+            <Label Content="Add timestamp" Width="100" />
+            <CheckBox x:Name="CheckBox_Timestamp"
+                      Checked="CheckBox_Timestamp_Checked"
                       Unchecked="CheckBox_Timestamp_Unchecked"
                       ToolTip="Add a timestamp to the exported file name" />
         </DockPanel>
         <StackPanel>
-            <Button x:Name="BtnDefaultDirectory" 
+            <Button x:Name="BtnDefaultDirectory"
                     Content="Set Output Directory"
-                    Margin="0,10,0,4" 
+                    Margin="0,10,0,4"
                     Click="BtnDefaultDirectory_Click"
-                    ToolTip="Set the default ouput directory for exported stats"/>
-        </StackPanel>        
+                    ToolTip="Set the default ouput directory for exported stats" />
+        </StackPanel>
         <StackPanel x:Name="DevPanel" Visibility="Hidden">
             <Separator Margin="0,4" />
             <DockPanel Margin="0,4,0,4">
-                <Label Content="Lines to flush" Width="200"/>
+                <Label Content="Lines to flush" Width="200" />
                 <TextBox x:Name="Dev_FlushLines"
                      TextChanged="Dev_FlushLines_TextChanged" />
             </DockPanel>
             <DockPanel Margin="0,4,0,4">
-                <Label Content="Log reader frequency" Width="200"/>
+                <Label Content="Log reader frequency" Width="200" />
                 <TextBox x:Name="Dev_LogReadFreq"
                      TextChanged="Dev_LogReadFreq_TextChanged" />
             </DockPanel>
