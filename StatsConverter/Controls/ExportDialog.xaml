@@ -25,16 +25,7 @@
         <Separator Margin="0,2,0,16" />
         <DockPanel Margin="0,4,0,4">
             <Label Content="Game Mode:" Width="90" />
-            <ComboBox Name="ComboBoxMode" SelectedIndex="0" SelectionChanged="ComboBoxMode_SelectionChanged">
-                <enums:GameMode>All</enums:GameMode>
-                <enums:GameMode>Ranked</enums:GameMode>
-                <enums:GameMode>Casual</enums:GameMode>
-                <enums:GameMode>Arena</enums:GameMode>
-                <enums:GameMode>Friendly</enums:GameMode>
-                <enums:GameMode>Practice</enums:GameMode>
-                <enums:GameMode>Spectator</enums:GameMode>
-                <enums:GameMode>None</enums:GameMode>
-            </ComboBox>
+            <ComboBox Name="ComboBoxMode" SelectedIndex="0" SelectionChanged="ComboBoxMode_SelectionChanged" />
         </DockPanel>
         <DockPanel Margin="0,2,0,0">
             <Label Content="Deck:" Width="90" />
@@ -42,12 +33,7 @@
         </DockPanel>
         <DockPanel Margin="0,2,0,0">
             <Label Content="Region:" Width="90" />
-            <ComboBox Name="ComboBoxRegion" SelectedIndex="0">
-                <statenums:StatsRegion>All</statenums:StatsRegion>
-                <statenums:StatsRegion>EU</statenums:StatsRegion>
-                <statenums:StatsRegion>US</statenums:StatsRegion>
-                <statenums:StatsRegion>ASIA</statenums:StatsRegion>
-            </ComboBox>
+            <ComboBox Name="ComboBoxRegion" SelectedIndex="0" />
         </DockPanel>
         <DockPanel Margin="0,2,0,0">
             <Label Content="Timeframe:" Width="90" />

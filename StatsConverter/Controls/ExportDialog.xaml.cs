@@ -23,6 +23,8 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
 			InitializeComponent();
 			LoadDecks();
 			ComboBoxDeckPicker.ItemsSource = deckNames;
+			ComboBoxMode.ItemsSource = Enum.GetValues(typeof(GameMode));
+			ComboBoxRegion.ItemsSource = Enum.GetValues(typeof(StatsRegion));
 			ComboBoxTime.ItemsSource = Enum.GetValues(typeof(TimeFrame));
 			_initialized = true;
 		}

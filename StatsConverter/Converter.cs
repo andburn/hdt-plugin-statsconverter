@@ -12,22 +12,22 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 		public static async Task Export(IStatsExporter export, StatsFilter filter, string filepath)
 		{
 			var controller = await Hearthstone_Deck_Tracker.API.Core.MainWindow.ShowProgressAsync("Exporting stats", "Please Wait...");
-			// load stats
-			List<DeckStats> stats = GetStats();
 			// filter stats
-			List<GameStats> filtered = filter.Apply(stats);
+			List<GameStats> filtered = filter.Apply(GetStats());
 			try
 			{
-				// export stats
-				// TODO: shouldn't really be exporting decks with no stats?
+				if (filtered.Count <= 0)
+					throw new Exception("No stats found after applying the filter");
 				export.To(filepath, filtered);
 			}
 			catch (Exception e)
 			{
-				// TODO: show dialog?
 				Log.Error("Export Failed: " + e.Message, "StatsConverter");
 			}
-			await controller.CloseAsync();
+			finally
+			{
+				await controller.CloseAsync();
+			}
 		}
 
 		public static void Import(IStatsImporter import, string filename)
@@ -40,7 +40,10 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 		{
 			// use HDT to load the stats
 			Facade.LoadDeckStatsList();
-			return DeckStatsList.Instance.DeckStats;
+			Facade.LoadDefaultDeckStats();
+			var ds = new List<DeckStats>(DeckStatsList.Instance.DeckStats);
+			ds.AddRange(DefaultDeckStats.Instance.DeckStats);
+			return ds;
 		}
 	}
 }
