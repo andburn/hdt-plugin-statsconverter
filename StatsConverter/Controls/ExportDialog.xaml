@@ -45,6 +45,10 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </DockPanel>
+        <DockPanel x:Name="ArenaExtras" Visibility="Collapsed" ToolTip="Include arena decks and rewards">
+            <Label Content="Arena Extras:" Width="90" />
+            <CheckBox x:Name="CheckBoxArenaExtras" IsChecked="False" HorizontalAlignment="Left"></CheckBox>
+        </DockPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Width="210" Margin="0,30,0,0">
             <Button Name="BtnExport"  Content="Export" Width="90" Click="BtnExport_OnClick"
                     Style="{StaticResource AccentedSquareButtonStyle}" />

@@ -5,20 +5,25 @@ using Hearthstone_Deck_Tracker.Stats;
 using Hearthstone_Deck_Tracker.Utility.Logging;
 using MahApps.Metro.Controls.Dialogs;
 
+using APICore = Hearthstone_Deck_Tracker.API.Core;
+
 namespace AndBurn.HDT.Plugins.StatsConverter
 {
 	public class Converter
 	{
-		public static async Task Export(IStatsExporter export, StatsFilter filter, string filepath)
+		public static List<GameStats> Filter(StatsFilter filter)
 		{
-			var controller = await Hearthstone_Deck_Tracker.API.Core.MainWindow.ShowProgressAsync("Exporting stats", "Please Wait...");
-			// filter stats
-			List<GameStats> filtered = filter.Apply(GetStats());
+			return filter.Apply(GetStats());
+		}
+
+		public static async Task Export(IStatsExporter export, string filepath, List<GameStats> stats)
+		{
+			var controller = await APICore.MainWindow.ShowProgressAsync("Exporting stats", "Please Wait...");
 			try
 			{
-				if (filtered.Count <= 0)
-					throw new Exception("No stats found after applying the filter");
-				export.To(filepath, filtered);
+				if (stats.Count <= 0)
+					throw new Exception("No stats found");
+				export.To(filepath, stats);
 			}
 			catch (Exception e)
 			{

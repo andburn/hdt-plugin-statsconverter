@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using Hearthstone_Deck_Tracker;
 using Hearthstone_Deck_Tracker.Enums;
 using Hearthstone_Deck_Tracker.Hearthstone;
+using Hearthstone_Deck_Tracker.Utility.Logging;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using StatsConverter.Properties;
@@ -16,24 +17,31 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
 	{
 		private bool _initialized;
 		private List<Deck> decks;
-		private List<String> deckNames;
+		private List<string> deckNames;
 
 		public ExportDialog()
 		{
 			InitializeComponent();
 			LoadDecks();
+
 			ComboBoxDeckPicker.ItemsSource = deckNames;
 			ComboBoxMode.ItemsSource = Enum.GetValues(typeof(GameMode));
 			ComboBoxRegion.ItemsSource = Enum.GetValues(typeof(StatsRegion));
 			ComboBoxTime.ItemsSource = Enum.GetValues(typeof(TimeFrame));
+
+			ComboBoxDeckPicker.SelectedIndex = 0;
+			ComboBoxMode.SelectedItem = GameMode.All;
+			ComboBoxRegion.SelectedItem = StatsRegion.All;
+			ComboBoxTime.SelectedItem = TimeFrame.Today;
+
 			_initialized = true;
 		}
 
 		private void LoadDecks()
 		{
 			Facade.LoadDeckList();
-			decks = DeckList.Instance.Decks.ToList<Deck>();
-			deckNames = decks.Select<Deck, String>(d => d.Name).ToList<String>();
+			decks = DeckList.Instance.Decks.ToList();
+			deckNames = decks.Select(d => d.Name).ToList();
 			deckNames.Insert(0, "All");
 		}
 
@@ -53,8 +61,17 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
 
 			// create exporting objects
 			var filter = new StatsFilter(deck, region, mode, time);
-			// TODO: needs to be selectable with further export types
 			var exporter = new CSVExporter();
+			// filter stats first
+			var stats = Converter.Filter(filter);
+
+			// exit on empty stats list
+			if (stats.Count <= 0)
+			{
+				Log.Info("No stats found to export");
+				await Hearthstone_Deck_Tracker.API.Core.MainWindow.HideMetroDialogAsync(this);
+				return;
+			}
 
 			// set up and open save dialog
 			SaveFileDialog dlg = new SaveFileDialog();
@@ -66,12 +83,11 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
 			// close export dialog
 			await Hearthstone_Deck_Tracker.API.Core.MainWindow.HideMetroDialogAsync(this);
 
-			// Process save file dialog box results
+			// process save file dialog box results
 			if (result == true)
 			{
-				// Save document
-				string filename = dlg.FileName;
-				await Converter.Export(exporter, filter, filename);
+				// export and save document
+				await Converter.Export(exporter, dlg.FileName, stats);
 			}
 		}
 
@@ -93,6 +109,8 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
 			// disable deck picker, while it is repopulated
 			ComboBoxDeckPicker.IsHitTestVisible = false;
 			ComboBoxDeckPicker.Focusable = false;
+			// hide arena extras box
+			ArenaExtras.Visibility = Visibility.Collapsed;
 
 			var mode = (GameMode)ComboBoxMode.SelectedValue;
 			var deckList = new List<Deck>();
@@ -101,14 +119,17 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
 			{
 				case GameMode.All:
 					UpdateDeckList(false);
+					CheckBoxArenaExtras.IsChecked = false;
 					break;
 
 				case GameMode.Arena:
 					UpdateDeckList(true, true);
+					ArenaExtras.Visibility = Visibility.Visible;
 					break;
 
 				default: // Otherwise Constructed
 					UpdateDeckList(true, false);
+					CheckBoxArenaExtras.IsChecked = false;
 					break;
 			}
 
