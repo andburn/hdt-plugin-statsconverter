@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Hearthstone_Deck_Tracker;
@@ -41,7 +42,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
 		{
 			Facade.LoadDeckList();
 			decks = DeckList.Instance.Decks.ToList();
-			deckNames = decks.Select(d => d.Name).ToList();
+			deckNames = decks.Select(d => d.Name).OrderBy(x => x).ToList();
 			deckNames.Insert(0, "All");
 		}
 
@@ -86,8 +87,14 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
 			// process save file dialog box results
 			if (result == true)
 			{
+				var filename = dlg.FileName;
 				// export and save document
-				await Converter.Export(exporter, dlg.FileName, stats);
+				await Converter.Export(exporter, filename, stats);
+				// export arena extras
+				if (mode == GameMode.Arena && CheckBoxArenaExtras.IsChecked == true)
+				{
+					await Task.Run(() => Converter.ArenaExtras(filename, stats, deck, decks));
+				}
 			}
 		}
 
@@ -143,8 +150,8 @@ namespace AndBurn.HDT.Plugins.StatsConverter.Controls
 			LoadDecks();
 			if (filter)
 			{
-				decks = decks.Where<Deck>(d => d.IsArenaDeck == arena).ToList<Deck>();
-				deckNames = decks.Select<Deck, String>(d => d.Name).ToList<String>();
+				decks = decks.Where(d => d.IsArenaDeck == arena).ToList();
+				deckNames = decks.Select(d => d.Name).OrderBy(x => x).ToList();
 				deckNames.Insert(0, "All");
 			}
 			ComboBoxDeckPicker.ItemsSource = deckNames;

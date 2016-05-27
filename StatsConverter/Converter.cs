@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using CsvHelper;
+using Hearthstone_Deck_Tracker.Hearthstone;
 using Hearthstone_Deck_Tracker.Stats;
 using Hearthstone_Deck_Tracker.Utility.Logging;
 using MahApps.Metro.Controls.Dialogs;
@@ -49,6 +53,30 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 			var ds = new List<DeckStats>(DeckStatsList.Instance.DeckStats);
 			ds.AddRange(DefaultDeckStats.Instance.DeckStats);
 			return ds;
+		}
+
+		public static void ArenaExtras(string filename, List<GameStats> stats, Guid? deck, List<Deck> decks)
+		{
+			List<ArenaExtra> arenaRuns = null;
+			if (deck == null)
+				arenaRuns = decks
+					.Where(x => x.IsArenaDeck && stats.Any(s => s.DeckId == x.DeckId))
+					.Select(x => new ArenaExtra(x, stats))
+					.OrderByDescending(x => x.LastPlayed).ToList();
+			else
+				arenaRuns = decks
+					.Where(x => x.DeckId == deck && x.IsArenaDeck)
+					.Select(x => new ArenaExtra(x, stats))
+					.OrderByDescending(x => x.LastPlayed).ToList();
+
+			var fn = filename.Replace(".csv", "-extra.csv");
+			using (var writer = new StreamWriter(fn))
+			using (var csv = new CsvWriter(writer))
+			{
+				csv.Configuration.RegisterClassMap<ArenaExtraMap>();
+				csv.WriteHeader<ArenaExtra>();
+				csv.WriteRecords(arenaRuns);
+			}
 		}
 	}
 }

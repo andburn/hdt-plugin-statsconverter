@@ -65,6 +65,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArenaExtra.cs" />
+    <Compile Include="ArenaExtraMap.cs" />
     <Compile Include="Controls\PluginMenu.xaml.cs">
       <DependentUpon>PluginMenu.xaml</DependentUpon>
     </Compile>
