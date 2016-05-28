@@ -37,7 +37,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
 		public Version Version
 		{
-			get { return new Version(0, 2, 4); }
+			get { return new Version(0, 3, 0); }
 		}
 
 		public MenuItem MenuItem
