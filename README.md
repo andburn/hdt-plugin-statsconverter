@@ -1,6 +1,6 @@
-# Stats Converter (HDT Plugin)
+# Stats Converter  [![Github Releases](https://img.shields.io/badge/plugin-HDT-e6af2b.svg)](https://github.com/HearthSim/Hearthstone-Deck-Tracker) [![Github Releases](https://img.shields.io/github/downloads/andburn/hdt-plugin-statsconverter/latest/total.svg?maxAge=2592000)](https://github.com/andburn/hdt-plugin-statsconverter/releases/latest) [![GitHub release](https://img.shields.io/github/release/andburn/hdt-plugin-statsconverter.svg?maxAge=2592000)](https://github.com/andburn/hdt-plugin-statsconverter/releases/latest)
 
-A plugin to import and export game statistics from [Hearthstone Deck Tracker](https://github.com/HearthSim/Hearthstone-Deck-Tracker) in different format.
+A plugin to import and export game statistics from [Hearthstone Deck Tracker](https://github.com/HearthSim/Hearthstone-Deck-Tracker).
 
 ## Installation
 1. Delete any previous releases
@@ -15,6 +15,9 @@ There are limited amount of available formats at the moment:
 
 ### Export
 - CSV (Column Seperated Values) format
+ - When *Arena* mode is selected, mark the *Arena Extras* check box to export an additional file containing arena deck and reward data.
+
+   ![Imgur](http://i.imgur.com/VeREf1l.png)
 
 ### Import
 - (Not Available)
