@@ -50,7 +50,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 			// use HDT to load the stats
 			Facade.LoadDeckStatsList();
 			Facade.LoadDefaultDeckStats();
-			var ds = new List<DeckStats>(DeckStatsList.Instance.DeckStats);
+			var ds = new List<DeckStats>(DeckStatsList.Instance.DeckStats.Values);
 			ds.AddRange(DefaultDeckStats.Instance.DeckStats);
 			return ds;
 		}
