@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using MahApps.Metro.Controls.Dialogs;
 
-namespace AndBurn.HDT.Plugins.StatsConverter.Controls
+namespace HDT.Plugins.StatsConverter.Controls
 {
 	public partial class PluginMenu : MenuItem
 	{

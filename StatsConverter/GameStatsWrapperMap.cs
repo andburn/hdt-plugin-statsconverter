@@ -1,7 +1,7 @@
 ﻿using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
 
-namespace AndBurn.HDT.Plugins.StatsConverter
+namespace HDT.Plugins.StatsConverter
 {
 	public sealed class GameStatsWrapperMap : CsvClassMap<GameStatsWrapper>
 	{

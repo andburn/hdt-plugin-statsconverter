@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace AndBurn.HDT.Plugins.StatsConverter
+namespace HDT.Plugins.StatsConverter
 {
 	internal static class Facade
 	{

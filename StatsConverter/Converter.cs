@@ -11,7 +11,7 @@ using MahApps.Metro.Controls.Dialogs;
 
 using APICore = Hearthstone_Deck_Tracker.API.Core;
 
-namespace AndBurn.HDT.Plugins.StatsConverter
+namespace HDT.Plugins.StatsConverter
 {
 	public class Converter
 	{

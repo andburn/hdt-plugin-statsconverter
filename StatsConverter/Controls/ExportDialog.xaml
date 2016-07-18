@@ -1,4 +1,4 @@
-﻿<dialogs:CustomDialog x:Class="AndBurn.HDT.Plugins.StatsConverter.Controls.ExportDialog"
+﻿<dialogs:CustomDialog x:Class="HDT.Plugins.StatsConverter.Controls.ExportDialog"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,7 +6,7 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
-             xmlns:local="clr-namespace:AndBurn.HDT.Plugins.StatsConverter"
+             xmlns:local="clr-namespace:HDT.Plugins.StatsConverter"
              mc:Ignorable="d"
              d:DesignHeight="380" Height="380" d:DesignWidth="450">
     <dialogs:CustomDialog.Resources>

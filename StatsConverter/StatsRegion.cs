@@ -1,4 +1,4 @@
-﻿namespace AndBurn.HDT.Plugins.StatsConverter
+﻿namespace HDT.Plugins.StatsConverter
 {
 	public enum StatsRegion
 	{

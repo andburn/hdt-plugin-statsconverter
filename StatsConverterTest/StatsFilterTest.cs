@@ -4,7 +4,7 @@ using Hearthstone_Deck_Tracker.Enums;
 using Hearthstone_Deck_Tracker.Stats;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AndBurn.HDT.Plugins.StatsConverter.Test
+namespace HDT.Plugins.StatsConverter.Test
 {
 	[TestClass]
 	public class StatsFilterTest

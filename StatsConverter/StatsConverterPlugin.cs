@@ -2,13 +2,13 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using AndBurn.HDT.Plugins.StatsConverter.Controls;
+using HDT.Plugins.StatsConverter.Controls;
 using Hearthstone_Deck_Tracker.Plugins;
 using Hearthstone_Deck_Tracker.Utility.Logging;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 
-namespace AndBurn.HDT.Plugins.StatsConverter
+namespace HDT.Plugins.StatsConverter
 {
 	public class StatsConverterPlugin : IPlugin
 	{

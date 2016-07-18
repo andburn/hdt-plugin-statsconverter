@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Forms;
 using StatsConverter.Properties;
 
-namespace AndBurn.HDT.Plugins.StatsConverter.Controls
+namespace HDT.Plugins.StatsConverter.Controls
 {
 	public partial class PluginSettings : System.Windows.Controls.UserControl
 	{

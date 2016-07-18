@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Hearthstone_Deck_Tracker.Stats;
 
-namespace AndBurn.HDT.Plugins.StatsConverter
+namespace HDT.Plugins.StatsConverter
 {
 	public interface IStatsExporter
 	{

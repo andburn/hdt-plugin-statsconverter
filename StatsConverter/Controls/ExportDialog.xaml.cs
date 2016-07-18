@@ -12,7 +12,7 @@ using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using StatsConverter.Properties;
 
-namespace AndBurn.HDT.Plugins.StatsConverter.Controls
+namespace HDT.Plugins.StatsConverter.Controls
 {
 	public partial class ExportDialog : CustomDialog
 	{

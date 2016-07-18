@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Hearthstone_Deck_Tracker.Utility.Logging;
 using Newtonsoft.Json;
 
-namespace AndBurn.HDT.Plugins.StatsConverter
+namespace HDT.Plugins.StatsConverter
 {
 	public class Github
 	{
