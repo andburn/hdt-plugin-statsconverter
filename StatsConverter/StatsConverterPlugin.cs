@@ -37,7 +37,7 @@ namespace HDT.Plugins.StatsConverter
 
 		public Version Version
 		{
-			get { return new Version(0, 3, 0); }
+			get { return new Version(0, 3, 1); }
 		}
 
 		public MenuItem MenuItem
