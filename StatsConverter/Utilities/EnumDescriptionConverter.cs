@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace HDT.Plugins.StatsConverter
+namespace HDT.Plugins.StatsConverter.Utilities
 {
 	public class EnumDescriptionConverter : IValueConverter
 	{

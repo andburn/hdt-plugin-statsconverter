@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace HDT.Plugins.StatsConverter
+namespace HDT.Plugins.StatsConverter.Utilities
 {
 	internal static class Facade
 	{

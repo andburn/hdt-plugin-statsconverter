@@ -4,7 +4,7 @@ using System.Linq;
 using Hearthstone_Deck_Tracker.Enums;
 using Hearthstone_Deck_Tracker.Stats;
 
-namespace HDT.Plugins.StatsConverter
+namespace HDT.Plugins.StatsConverter.Utilities
 {
 	public class StatsFilter
 	{

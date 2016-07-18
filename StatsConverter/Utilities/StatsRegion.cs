@@ -1,4 +1,4 @@
-﻿namespace HDT.Plugins.StatsConverter
+﻿namespace HDT.Plugins.StatsConverter.Utilities
 {
 	public enum StatsRegion
 	{

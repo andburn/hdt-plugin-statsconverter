@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HDT.Plugins.StatsConverter.Utilities;
 using Hearthstone_Deck_Tracker.Enums;
 using Hearthstone_Deck_Tracker.Stats;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

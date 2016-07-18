@@ -3,7 +3,7 @@ using System.Linq;
 using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
 
-namespace HDT.Plugins.StatsConverter
+namespace HDT.Plugins.StatsConverter.Models
 {
 	public sealed class ArenaExtraMap : CsvClassMap<ArenaExtra>
 	{

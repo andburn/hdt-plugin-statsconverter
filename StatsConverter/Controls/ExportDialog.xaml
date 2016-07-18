@@ -7,6 +7,7 @@
              xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              xmlns:local="clr-namespace:HDT.Plugins.StatsConverter"
+             xmlns:utils="clr-namespace:HDT.Plugins.StatsConverter.Utilities"
              mc:Ignorable="d"
              d:DesignHeight="380" Height="380" d:DesignWidth="450">
     <dialogs:CustomDialog.Resources>
@@ -15,7 +16,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/Dialogs/BaseMetroDialog.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <local:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+            <utils:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
         </ResourceDictionary>
     </dialogs:CustomDialog.Resources>
     <StackPanel Width="300" Margin="0,15,0,0">

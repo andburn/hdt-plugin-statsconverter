@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using Hearthstone_Deck_Tracker.Enums;
 using Hearthstone_Deck_Tracker.Stats;
 
-namespace HDT.Plugins.StatsConverter
+namespace HDT.Plugins.StatsConverter.Models
 {
 	public class GameStatsWrapper
 	{
