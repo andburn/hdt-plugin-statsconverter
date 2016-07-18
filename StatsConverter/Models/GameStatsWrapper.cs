@@ -64,6 +64,8 @@ namespace HDT.Plugins.StatsConverter.Models
 
 		private void ParseNote()
 		{
+			if (_stats.Note == null)
+				return;
 			var match = _noteRegex.Match(_stats.Note);
 			if (match.Success)
 			{

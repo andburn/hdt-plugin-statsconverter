@@ -1,6 +1,8 @@
-# Stats Converter  [![Github Releases](https://img.shields.io/badge/plugin-HDT-e6af2b.svg)](https://github.com/HearthSim/Hearthstone-Deck-Tracker?maxAge=2592000) [![Github Releases](https://img.shields.io/github/downloads/andburn/hdt-plugin-statsconverter/latest/total.svg?maxAge=604800)](https://github.com/andburn/hdt-plugin-statsconverter/releases/latest) [![GitHub release](https://img.shields.io/github/release/andburn/hdt-plugin-statsconverter.svg?maxAge=604800)](https://github.com/andburn/hdt-plugin-statsconverter/releases/latest)
+# Stats Converter
+[![GitHub release](https://img.shields.io/github/release/andburn/hdt-plugin-statsconverter.svg?maxAge=604800)](https://github.com/andburn/hdt-plugin-statsconverter/releases/latest)
+[![Github Releases](https://img.shields.io/github/downloads/andburn/hdt-plugin-statsconverter/latest/total.svg?maxAge=604800)](https://github.com/andburn/hdt-plugin-statsconverter/releases/latest)
 
-A plugin to import and export game statistics from [Hearthstone Deck Tracker](https://github.com/HearthSim/Hearthstone-Deck-Tracker).
+A plugin to ~~import and~~ export game statistics from [Hearthstone Deck Tracker](https://github.com/HearthSim/Hearthstone-Deck-Tracker).
 
 ## Installation
 1. Delete any previous releases
