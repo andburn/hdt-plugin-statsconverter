@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using CsvHelper;
 using Hearthstone_Deck_Tracker.Stats;
 
@@ -19,12 +20,13 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 
 		public void To(string file, List<GameStats> stats)
 		{
+			var wrapped = stats.Select(x => new GameStatsWrapper(x));
 			using (var writer = new StreamWriter(file))
 			using (var csv = new CsvWriter(writer))
 			{
-				csv.Configuration.RegisterClassMap<GameStatsMap>();
-				csv.WriteHeader<GameStats>();
-				csv.WriteRecords(stats);
+				csv.Configuration.RegisterClassMap<GameStatsWrapperMap>();
+				csv.WriteHeader<GameStatsWrapper>();
+				csv.WriteRecords(wrapped);
 			}
 		}
 	}

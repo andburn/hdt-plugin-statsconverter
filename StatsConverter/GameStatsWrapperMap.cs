@@ -1,12 +1,11 @@
 ﻿using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
-using Hearthstone_Deck_Tracker.Stats;
 
 namespace AndBurn.HDT.Plugins.StatsConverter
 {
-	public sealed class GameStatsMap : CsvClassMap<GameStats>
+	public sealed class GameStatsWrapperMap : CsvClassMap<GameStatsWrapper>
 	{
-		public GameStatsMap()
+		public GameStatsWrapperMap()
 		{
 			Map(m => m.DeckName).Name("Deck");
 			Map(m => m.PlayerDeckVersionString).Name("Version");
@@ -22,7 +21,9 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 			Map(m => m.SortableDuration).Name("Duration");
 			Map(m => m.Result);
 			Map(m => m.WasConceded).TypeConverter<BooleanConverter>().Name("Conceded");
-			Map(m => m.Note);
+			Map(m => m.GameNote);
+			Map(m => m.Archetype);
+			Map(m => m.GameId);
 		}
 	}
 

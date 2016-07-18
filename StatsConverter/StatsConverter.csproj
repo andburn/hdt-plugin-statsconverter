@@ -34,8 +34,8 @@
       <HintPath>..\packages\CsvHelper.2.14.2\lib\net45\CsvHelper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="HearthstoneDeckTracker">
-      <HintPath>..\..\build\HearthstoneDeckTracker.exe</HintPath>
+    <Reference Include="Hearthstone Deck Tracker">
+      <HintPath>..\..\build\Hearthstone Deck Tracker.exe</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>..\..\build\MahApps.Metro.dll</HintPath>
@@ -69,7 +69,9 @@
     </Compile>
     <Compile Include="CSVExporter.cs" />
     <Compile Include="Converter.cs" />
-    <Compile Include="GameStatsMap.cs" />
+    <Compile Include="EnumDescriptionConverter.cs" />
+    <Compile Include="GameStatsWrapperMap.cs" />
+    <Compile Include="GameStatsWrapper.cs" />
     <Compile Include="Github.cs" />
     <Compile Include="Facade.cs" />
     <Compile Include="IStatsExporter.cs" />

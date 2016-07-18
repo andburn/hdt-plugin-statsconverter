@@ -31,7 +31,7 @@ namespace AndBurn.HDT.Plugins.StatsConverter
 			}
 			catch (Exception e)
 			{
-				Log.Error("Export Failed: " + e.Message, "StatsConverter");
+				Log.Error(e);
 			}
 			finally
 			{
