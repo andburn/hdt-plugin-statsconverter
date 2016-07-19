@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using HDT.Plugins.StatsConverter.Export;
+using HDT.Plugins.StatsConverter.Services;
 using HDT.Plugins.StatsConverter.Utilities;
 using Hearthstone_Deck_Tracker;
 using Hearthstone_Deck_Tracker.Enums;
@@ -19,15 +20,15 @@ namespace HDT.Plugins.StatsConverter.Controls
 	public partial class ExportDialog : CustomDialog
 	{
 		private bool _initialized;
-		private List<Deck> decks;
-		private List<string> deckNames;
+		private List<Deck> _decks;
+		private List<string> _deckNames;
 
 		public ExportDialog()
 		{
 			InitializeComponent();
 			LoadDecks();
 
-			ComboBoxDeckPicker.ItemsSource = deckNames;
+			ComboBoxDeckPicker.ItemsSource = _deckNames;
 			ComboBoxMode.ItemsSource = Enum.GetValues(typeof(GameMode));
 			ComboBoxRegion.ItemsSource = Enum.GetValues(typeof(StatsRegion));
 			ComboBoxTime.ItemsSource = Enum.GetValues(typeof(TimeFrame));
@@ -42,10 +43,9 @@ namespace HDT.Plugins.StatsConverter.Controls
 
 		private void LoadDecks()
 		{
-			Facade.LoadDeckList();
-			decks = DeckList.Instance.Decks.ToList();
-			deckNames = decks.Select(d => d.Name).OrderBy(x => x).ToList();
-			deckNames.Insert(0, "All");
+			_decks = new HDTStatsRepository().GetAllDecks();
+			_deckNames = _decks.Select(d => d.Name).OrderBy(x => x).ToList();
+			_deckNames.Insert(0, "All");
 		}
 
 		private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
@@ -57,7 +57,7 @@ namespace HDT.Plugins.StatsConverter.Controls
 		{
 			// Get input field values
 			var deckIndex = ComboBoxDeckPicker.SelectedIndex;
-			var deck = deckIndex <= 0 ? (Guid?)null : decks.ElementAt(deckIndex - 1).DeckId;
+			var deck = deckIndex <= 0 ? (Guid?)null : _decks.ElementAt(deckIndex - 1).DeckId;
 			var region = (StatsRegion)ComboBoxRegion.SelectedItem;
 			var time = (TimeFrame)ComboBoxTime.SelectedItem;
 			var mode = (GameMode)ComboBoxMode.SelectedItem;
@@ -66,7 +66,7 @@ namespace HDT.Plugins.StatsConverter.Controls
 			var filter = new StatsFilter(deck, region, mode, time);
 			var exporter = new CSVExporter();
 			// filter stats first
-			var stats = Converter.Filter(filter);
+			var stats = StatsConverter.Filter(filter);
 
 			// exit on empty stats list
 			if (stats.Count <= 0)
@@ -91,11 +91,11 @@ namespace HDT.Plugins.StatsConverter.Controls
 			{
 				var filename = dlg.FileName;
 				// export and save document
-				await Converter.Export(exporter, filename, stats);
+				await StatsConverter.Export(exporter, filename, stats);
 				// export arena extras
 				if (mode == GameMode.Arena && CheckBoxArenaExtras.IsChecked == true)
 				{
-					await Task.Run(() => Converter.ArenaExtras(filename, stats, deck, decks));
+					await Task.Run(() => StatsConverter.ArenaExtras(filename, stats, deck, _decks));
 				}
 			}
 		}
@@ -152,11 +152,11 @@ namespace HDT.Plugins.StatsConverter.Controls
 			LoadDecks();
 			if (filter)
 			{
-				decks = decks.Where(d => d.IsArenaDeck == arena).ToList();
-				deckNames = decks.Select(d => d.Name).OrderBy(x => x).ToList();
-				deckNames.Insert(0, "All");
+				_decks = _decks.Where(d => d.IsArenaDeck == arena).ToList();
+				_deckNames = _decks.Select(d => d.Name).OrderBy(x => x).ToList();
+				_deckNames.Insert(0, "All");
 			}
-			ComboBoxDeckPicker.ItemsSource = deckNames;
+			ComboBoxDeckPicker.ItemsSource = _deckNames;
 			ComboBoxDeckPicker.SelectedIndex = 0;
 		}
 	}

@@ -7,6 +7,7 @@ using CsvHelper;
 using HDT.Plugins.StatsConverter.Export;
 using HDT.Plugins.StatsConverter.Import;
 using HDT.Plugins.StatsConverter.Models;
+using HDT.Plugins.StatsConverter.Services;
 using HDT.Plugins.StatsConverter.Utilities;
 using Hearthstone_Deck_Tracker.Hearthstone;
 using Hearthstone_Deck_Tracker.Stats;
@@ -17,8 +18,10 @@ using APICore = Hearthstone_Deck_Tracker.API.Core;
 
 namespace HDT.Plugins.StatsConverter
 {
-	public class Converter
+	public class StatsConverter
 	{
+		private static readonly IStatsRepository _repo = new HDTStatsRepository();
+
 		public static List<GameStats> Filter(StatsFilter filter)
 		{
 			return filter.Apply(GetStats());
@@ -51,12 +54,7 @@ namespace HDT.Plugins.StatsConverter
 
 		private static List<DeckStats> GetStats()
 		{
-			// use HDT to load the stats
-			Facade.LoadDeckStatsList();
-			Facade.LoadDefaultDeckStats();
-			var ds = new List<DeckStats>(DeckStatsList.Instance.DeckStats.Values);
-			ds.AddRange(DefaultDeckStats.Instance.DeckStats);
-			return ds;
+			return _repo.GetAllStats();
 		}
 
 		public static void ArenaExtras(string filename, List<GameStats> stats, Guid? deck, List<Deck> decks)
