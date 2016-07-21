@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using Hearthstone_Deck_Tracker.Utility.Logging;
 
 namespace HDT.Plugins.StatsConverter.ViewModels
 {
@@ -33,18 +32,21 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 
 		public MainViewModel()
 		{
-			ContentTitle = "Settings";
 			NavigateCommand = new RelayCommand<string>(x => OnNavigation(x));
 		}
 
 		private void OnNavigation(string location)
 		{
-			Log.Debug($"onNav({location})");
-			// TODO do nothing if the same as current?
-			if (_viewModels.ContainsKey(location.ToLower()))
+			var key = location.ToLower();
+			if (_viewModels.ContainsKey(key))
 			{
-				Log.Debug("Found key");
-				ContentViewModel = _viewModels[location.ToLower()];
+				// change if different to current
+				if (ContentViewModel != _viewModels[key])
+				{
+					ContentViewModel = _viewModels[key];
+					if (key.Length > 2)
+						ContentTitle = key.Substring(0, 1).ToUpper() + key.Substring(1);
+				}
 			}
 		}
 	}

@@ -5,15 +5,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using HDT.Plugins.StatsConverter.Export;
+using HDT.Plugins.StatsConverter.Properties;
 using HDT.Plugins.StatsConverter.Services;
 using HDT.Plugins.StatsConverter.Utilities;
-using Hearthstone_Deck_Tracker;
 using Hearthstone_Deck_Tracker.Enums;
 using Hearthstone_Deck_Tracker.Hearthstone;
 using Hearthstone_Deck_Tracker.Utility.Logging;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
-using StatsConverter.Properties;
 
 namespace HDT.Plugins.StatsConverter.Controls
 {

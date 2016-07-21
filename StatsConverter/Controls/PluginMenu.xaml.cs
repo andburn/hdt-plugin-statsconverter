@@ -20,7 +20,6 @@ namespace HDT.Plugins.StatsConverter.Controls
 
 		private void MenuItem_Settings_Click(object sender, RoutedEventArgs e)
 		{
-			StatsConverterPlugin.OpenSettingsFlyout();
 		}
 	}
 }

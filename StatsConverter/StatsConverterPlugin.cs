@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using HDT.Plugins.StatsConverter.Controls;
 using Hearthstone_Deck_Tracker.Plugins;
 using Hearthstone_Deck_Tracker.Utility.Logging;
-using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace HDT.Plugins.StatsConverter
@@ -13,7 +12,6 @@ namespace HDT.Plugins.StatsConverter
 	public class StatsConverterPlugin : IPlugin
 	{
 		private MenuItem _statsMenuItem;
-		private static Flyout _settings;
 
 		public string Name
 		{
@@ -48,7 +46,6 @@ namespace HDT.Plugins.StatsConverter
 		public async void OnLoad()
 		{
 			_statsMenuItem = new PluginMenu();
-			SetSettingsFlyout();
 
 			var latest = await Github.CheckForUpdate("andburn", "hdt-plugin-statsconverter", Version);
 			if (latest != null)
@@ -60,8 +57,6 @@ namespace HDT.Plugins.StatsConverter
 
 		public void OnUnload()
 		{
-			if (_settings != null)
-				_settings.IsOpen = false;
 		}
 
 		public void OnUpdate()
@@ -70,29 +65,8 @@ namespace HDT.Plugins.StatsConverter
 
 		public void OnButtonPress()
 		{
-			OpenSettingsFlyout();
-		}
-
-		public static void OpenSettingsFlyout()
-		{
-			if (_settings != null)
-				_settings.IsOpen = true;
-		}
-
-		private static void SetSettingsFlyout()
-		{
-			var window = Hearthstone_Deck_Tracker.API.Core.MainWindow;
-			var flyouts = window.Flyouts.Items;
-
-			// TODO: how to set Panel.ZIndex
-			Flyout settings = new Flyout();
-			settings.Name = "PluginSettingsFlyout";
-			settings.Position = Position.Left;
-			settings.Header = "Stats Converter Settings";
-			settings.Content = new Controls.PluginSettings();
-			flyouts.Add(settings);
-
-			_settings = settings;
+			//OpenSettingsFlyout();
+			new Views.MainView().Show();
 		}
 
 		private async Task ShowUpdateMessage(Github.GithubRelease release)

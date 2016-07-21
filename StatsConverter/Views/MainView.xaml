@@ -9,7 +9,7 @@
              xmlns:views="clr-namespace:HDT.Plugins.StatsConverter.Views"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
-             Width="500" Height="300"
+             Width="540" Height="320"
              Title="Hearthstone Deck Tracker">
     <Window.DataContext>
         <viewmodels:MainViewModel />
@@ -37,6 +37,9 @@
                                      Text="EXPORT" Icon="&#xe9c8;"
                                      Command="{Binding NavigateCommand}" Param="export" />
             <TextBlock Foreground="White" FontSize="28" VerticalAlignment="Center" Margin="8">Stats Converter</TextBlock>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Top" Background="CadetBlue">
+            <TextBlock Text="{Binding ContentTitle}" Foreground="White" FontSize="16" Margin="8,4,4,4" />
         </DockPanel>
         <ContentControl Content="{Binding ContentViewModel}" />
     </DockPanel>
