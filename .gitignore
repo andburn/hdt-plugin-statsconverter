@@ -1,5 +1,5 @@
-# hdt sym link
-/lib
+# paket
+.paket/paket.exe
 
 # power shell scripts
 /*.ps1

@@ -1,0 +1,6 @@
+framework: net45
+source https://nuget.org/api/v2
+
+nuget WindowsAPICodePack-Shell >= 1.1
+nuget CsvHelper >= 2.0
+nuget MvvmLightLibs >= 5.3
