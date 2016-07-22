@@ -1,6 +1,11 @@
-framework: net45
+framework: >=net45
+
 source https://nuget.org/api/v2
+
+git https://github.com/andburn/hdt-plugin-common.git master Packages: /Common.NuPkg/
 
 nuget WindowsAPICodePack-Shell >= 1.1
 nuget CsvHelper >= 2.0
 nuget MvvmLightLibs >= 5.3
+
+nuget HDT.Plugins.Common

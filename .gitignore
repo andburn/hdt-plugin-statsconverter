@@ -1,5 +1,7 @@
 # paket
 .paket/paket.exe
+paket.local
+/paket-files
 
 # power shell scripts
 /*.ps1
