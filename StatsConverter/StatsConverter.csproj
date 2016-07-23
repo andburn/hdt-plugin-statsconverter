@@ -83,9 +83,6 @@
     <Compile Include="Utilities\Github.cs" />
     <Compile Include="Services\HDTStatsRepository.cs" />
     <Compile Include="Export\IStatsExporter.cs" />
-    <Compile Include="Controls\ExportDialog.xaml.cs">
-      <DependentUpon>ExportDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Import\IStatsImporter.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -116,10 +113,6 @@
     <Resource Include="Resources\icomoon-min.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\ExportDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\MoonTextButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

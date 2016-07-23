@@ -16,7 +16,7 @@ namespace HDT.Plugins.StatsConverter.Export
 
 		public string FileExtension
 		{
-			get { return "csv"; }
+			get { return ".csv"; }
 		}
 
 		public void To(string file, List<GameStats> stats)

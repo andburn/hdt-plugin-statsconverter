@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:HDT.Plugins.StatsConverter.Views"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel HorizontalAlignment="Center" Margin="4,20,4,10">
+    <StackPanel HorizontalAlignment="Center">
         <DockPanel Margin="0,4">
             <Label Content="Filename prefix" Width="100" />
             <TextBox Width="200"

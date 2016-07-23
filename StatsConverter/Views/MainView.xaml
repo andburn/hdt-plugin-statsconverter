@@ -41,6 +41,6 @@
         <DockPanel DockPanel.Dock="Top" Background="CadetBlue">
             <TextBlock Text="{Binding ContentTitle}" Foreground="White" FontSize="16" Margin="8,4,4,4" />
         </DockPanel>
-        <ContentControl Content="{Binding ContentViewModel}" />
+        <ContentControl Content="{Binding ContentViewModel}" Margin="5,20,5,10" />
     </DockPanel>
 </Window>
