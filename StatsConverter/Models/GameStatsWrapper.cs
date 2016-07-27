@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Hearthstone_Deck_Tracker.Enums;
-using Hearthstone_Deck_Tracker.Stats;
+using HDT.Plugins.Common.Models;
+using HDT.Plugins.Common.Util;
 
 namespace HDT.Plugins.StatsConverter.Models
 {

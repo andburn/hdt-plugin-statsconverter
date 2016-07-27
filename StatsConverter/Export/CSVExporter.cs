@@ -2,8 +2,8 @@
 using System.IO;
 using System.Linq;
 using CsvHelper;
+using HDT.Plugins.Common.Models;
 using HDT.Plugins.StatsConverter.Models;
-using Hearthstone_Deck_Tracker.Stats;
 
 namespace HDT.Plugins.StatsConverter.Export
 {

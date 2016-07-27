@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Hearthstone_Deck_Tracker.Stats;
+using HDT.Plugins.Common.Models;
 
 namespace HDT.Plugins.StatsConverter.Export
 {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using HDT.Plugins.Common.Models;
+using HDT.Plugins.Common.Util;
 using HDT.Plugins.StatsConverter.Utilities;
-using Hearthstone_Deck_Tracker.Enums;
-using Hearthstone_Deck_Tracker.Stats;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HDT.Plugins.StatsConverter.Test
@@ -39,7 +39,7 @@ namespace HDT.Plugins.StatsConverter.Test
 		[TestMethod]
 		public void TestSingleDeck()
 		{
-			var filter = new StatsFilter(deck, StatsRegion.All, GameMode.All, TimeFrame.AllTime);
+			var filter = new StatsFilter(deck, Region.ALL, GameMode.ALL, TimeFrame.ALL);
 			var filtered = filter.Apply(stats);
 			Assert.AreEqual(1, filtered.Count);
 		}
@@ -47,7 +47,7 @@ namespace HDT.Plugins.StatsConverter.Test
 		[TestMethod]
 		public void TestSingleDeckNoStats()
 		{
-			var filter = new StatsFilter(empty, StatsRegion.All, GameMode.All, TimeFrame.AllTime);
+			var filter = new StatsFilter(empty, Region.ALL, GameMode.ALL, TimeFrame.ALL);
 			var filtered = filter.Apply(stats);
 			Assert.AreEqual(0, filtered.Count);
 		}
@@ -55,7 +55,7 @@ namespace HDT.Plugins.StatsConverter.Test
 		[TestMethod]
 		public void TestUnknownDeckId()
 		{
-			var filter = new StatsFilter(new Guid(), StatsRegion.All, GameMode.All, TimeFrame.AllTime);
+			var filter = new StatsFilter(new Guid(), Region.ALL, GameMode.ALL, TimeFrame.ALL);
 			var filtered = filter.Apply(stats);
 			Assert.AreEqual(0, filtered.Count);
 		}
@@ -63,7 +63,7 @@ namespace HDT.Plugins.StatsConverter.Test
 		[TestMethod]
 		public void TestRegionFilter()
 		{
-			var filter = new StatsFilter(null, StatsRegion.EU, GameMode.All, TimeFrame.AllTime);
+			var filter = new StatsFilter(null, Region.EU, GameMode.ALL, TimeFrame.ALL);
 			var filtered = filter.Apply(stats);
 			Assert.AreEqual(5, filtered.Count);
 		}
@@ -71,7 +71,7 @@ namespace HDT.Plugins.StatsConverter.Test
 		[TestMethod]
 		public void TestGameModeFilter()
 		{
-			var filter = new StatsFilter(null, StatsRegion.All, GameMode.Arena, TimeFrame.AllTime);
+			var filter = new StatsFilter(null, Region.ALL, GameMode.ARENA, TimeFrame.ALL);
 			var filtered = filter.Apply(stats);
 			Assert.AreEqual(2, filtered.Count);
 		}
@@ -79,7 +79,7 @@ namespace HDT.Plugins.StatsConverter.Test
 		[TestMethod]
 		public void TestTimeFrameFilter()
 		{
-			var filter = new StatsFilter(null, StatsRegion.All, GameMode.All, TimeFrame.Last7Days);
+			var filter = new StatsFilter(null, Region.ALL, GameMode.ALL, TimeFrame.LAST_7_DAYS);
 			var filtered = filter.Apply(stats);
 			Assert.AreEqual(7, filtered.Count);
 		}
@@ -87,7 +87,7 @@ namespace HDT.Plugins.StatsConverter.Test
 		[TestMethod]
 		public void TestTimeFrameTodayFilter()
 		{
-			var filter = new StatsFilter(null, StatsRegion.All, GameMode.All, TimeFrame.Today);
+			var filter = new StatsFilter(null, Region.ALL, GameMode.ALL, TimeFrame.TODAY);
 			var filtered = filter.Apply(stats);
 			Assert.AreEqual(1, filtered.Count);
 		}

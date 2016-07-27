@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Hearthstone_Deck_Tracker.Enums;
-using Hearthstone_Deck_Tracker.Hearthstone;
-using Hearthstone_Deck_Tracker.Stats;
+using HDT.Plugins.Common.Models;
+using HDT.Plugins.Common.Util;
 
 namespace HDT.Plugins.StatsConverter.Test
 {
@@ -20,7 +19,7 @@ namespace HDT.Plugins.StatsConverter.Test
 
 		public static GameStats CreateGame(Guid deck, Region region, GameMode mode, int days)
 		{
-			var game = new GameStats(GameResult.Win, "Mage", "Mage");
+			var game = new GameStats(GameResult.WIN, "Mage", "Mage");
 			game.DeckId = deck;
 			game.Region = region;
 			game.GameMode = mode;
@@ -42,7 +41,7 @@ namespace HDT.Plugins.StatsConverter.Test
 			var deckBStats = new DeckStats(deckB);
 			deckBStats.Games = new List<GameStats>()
 			{
-				CreateGame(deckB.DeckId, Region.EU, GameMode.Ranked, 2)
+				CreateGame(deckB.DeckId, Region.EU, GameMode.RANKED, 2)
 			};
 
 			// Deck C - multiple games
@@ -51,14 +50,14 @@ namespace HDT.Plugins.StatsConverter.Test
 			var deckCStats = new DeckStats(deckC);
 			deckCStats.Games = new List<GameStats>()
 			{
-				CreateGame(deckC.DeckId, Region.EU, GameMode.Arena, 2),
-				CreateGame(deckC.DeckId, Region.EU, GameMode.Arena, 4),
-				CreateGame(deckC.DeckId, Region.US, GameMode.Ranked, 7),
-				CreateGame(deckC.DeckId, Region.ASIA, GameMode.Ranked, 30),
-				CreateGame(deckC.DeckId, Region.US, GameMode.Casual, 0),
-				CreateGame(deckC.DeckId, Region.UNKNOWN, GameMode.Casual, 1),
-				CreateGame(deckC.DeckId, Region.EU, GameMode.Ranked, 2),
-				CreateGame(deckC.DeckId, Region.EU, GameMode.Ranked, 80),
+				CreateGame(deckC.DeckId, Region.EU, GameMode.ARENA, 2),
+				CreateGame(deckC.DeckId, Region.EU, GameMode.ARENA, 4),
+				CreateGame(deckC.DeckId, Region.US, GameMode.RANKED, 7),
+				CreateGame(deckC.DeckId, Region.ASIA, GameMode.RANKED, 30),
+				CreateGame(deckC.DeckId, Region.US, GameMode.CASUAL, 0),
+				CreateGame(deckC.DeckId, Region.UNKNOWN, GameMode.CASUAL, 1),
+				CreateGame(deckC.DeckId, Region.EU, GameMode.RANKED, 2),
+				CreateGame(deckC.DeckId, Region.EU, GameMode.RANKED, 80),
 			};
 
 			list.Add(deckAStats);

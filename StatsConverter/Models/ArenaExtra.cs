@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Hearthstone_Deck_Tracker.Enums;
-using Hearthstone_Deck_Tracker.Hearthstone;
-using Hearthstone_Deck_Tracker.Stats;
+using HDT.Plugins.Common.Models;
+using HDT.Plugins.Common.Util;
 
 namespace HDT.Plugins.StatsConverter.Models
 {
@@ -38,7 +37,7 @@ namespace HDT.Plugins.StatsConverter.Models
 				Gold = deck.ArenaReward.Gold;
 				Dust = deck.ArenaReward.Dust;
 				CardReward = deck.ArenaReward.Cards.Where(x => x != null).Count();
-				Packs = deck.ArenaReward.Packs.Where(x => x != ArenaRewardPacks.None).Count();
+				Packs = deck.ArenaReward.Packs.Where(x => !string.IsNullOrWhiteSpace(x)).Count();
 				Payment = deck.ArenaReward.PaymentMethod.ToString();
 			}
 		}
@@ -51,8 +50,8 @@ namespace HDT.Plugins.StatsConverter.Models
 				relevant = relevant.Intersect(filtered).ToList();
 			}
 			return new Tuple<int, int>(
-				relevant.Count(g => g.Result == GameResult.Win),
-				relevant.Count(g => g.Result == GameResult.Loss));
+				relevant.Count(g => g.Result == GameResult.WIN),
+				relevant.Count(g => g.Result == GameResult.LOSS));
 		}
 	}
 }

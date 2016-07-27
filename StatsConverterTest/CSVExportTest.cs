@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using HDT.Plugins.Common.Models;
 using HDT.Plugins.StatsConverter.Export;
 using HDT.Plugins.StatsConverter.Utilities;
-using Hearthstone_Deck_Tracker.Stats;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HDT.Plugins.StatsConverter.Test
