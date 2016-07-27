@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HDT.Plugins.StatsConverter.Views"
-             xmlns:controls="clr-namespace:HDT.Plugins.StatsConverter.Controls"
+             xmlns:controls="clr-namespace:HDT.Plugins.Common.Controls;assembly=HDT.Plugins.Common"
              xmlns:viewmodels="clr-namespace:HDT.Plugins.StatsConverter.ViewModels"
              xmlns:views="clr-namespace:HDT.Plugins.StatsConverter.Views"
              mc:Ignorable="d"

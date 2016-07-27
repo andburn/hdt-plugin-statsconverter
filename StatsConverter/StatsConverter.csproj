@@ -31,14 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hearthstone Deck Tracker">
-      <HintPath>..\..\build\Hearthstone Deck Tracker.exe</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MahApps.Metro">
-      <HintPath>..\..\build\MahApps.Metro.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\build\Newtonsoft.Json.dll</HintPath>
@@ -59,9 +51,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\MoonTextButton.xaml.cs">
-      <DependentUpon>MoonTextButton.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\ExportViewModel.cs" />
     <Compile Include="ViewModels\ImportViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -71,16 +60,12 @@
     </Compile>
     <Compile Include="Models\ArenaExtra.cs" />
     <Compile Include="Models\ArenaExtraMap.cs" />
-    <Compile Include="Controls\PluginMenu.xaml.cs">
-      <DependentUpon>PluginMenu.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Export\CSVExporter.cs" />
     <Compile Include="StatsConverter.cs" />
     <Compile Include="Services\IStatsRepository.cs" />
     <Compile Include="Utilities\EnumDescriptionConverter.cs" />
     <Compile Include="Models\GameStatsWrapperMap.cs" />
     <Compile Include="Models\GameStatsWrapper.cs" />
-    <Compile Include="Utilities\Github.cs" />
     <Compile Include="Services\HDTStatsRepository.cs" />
     <Compile Include="Export\IStatsExporter.cs" />
     <Compile Include="Import\IStatsImporter.cs" />
@@ -110,17 +95,8 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Resource Include="Resources\icomoon-min.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\MoonTextButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\PluginMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
