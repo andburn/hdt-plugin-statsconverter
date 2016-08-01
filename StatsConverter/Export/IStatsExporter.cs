@@ -7,7 +7,8 @@ namespace HDT.Plugins.StatsConverter.Export
 	{
 		string Name { get; }
 		string FileExtension { get; }
+		string Description { get; }
 
-		void To(string file, List<GameStats> stats);
+		void Export(List<Game> stats, string file);
 	}
 }

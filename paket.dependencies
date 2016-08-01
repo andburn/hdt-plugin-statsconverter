@@ -4,8 +4,12 @@ source https://nuget.org/api/v2
 
 git https://github.com/andburn/hdt-plugin-common.git master Packages: /Common.NuPkg/
 
+nuget HDT.Plugins.Common
+
 nuget WindowsAPICodePack-Shell >= 1.1
 nuget CsvHelper >= 2.0
 nuget MvvmLightLibs >= 5.3
 
-nuget HDT.Plugins.Common
+nuget NUnit
+nuget NUnit.Runners
+nuget Moq

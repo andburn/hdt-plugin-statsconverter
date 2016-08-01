@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using CsvHelper;
 using GalaSoft.MvvmLight.Command;
@@ -15,7 +14,6 @@ using HDT.Plugins.Common.Services;
 using HDT.Plugins.StatsConverter.Export;
 using HDT.Plugins.StatsConverter.Import;
 using HDT.Plugins.StatsConverter.Models;
-using HDT.Plugins.StatsConverter.Utilities;
 
 namespace HDT.Plugins.StatsConverter
 {
@@ -85,19 +83,19 @@ namespace HDT.Plugins.StatsConverter
 
 		// Converter stuff (put here for now) ---------------
 
-		public static List<GameStats> Filter(StatsFilter filter)
+		public static List<Game> Filter(GameFilter filter)
 		{
-			return filter.Apply(_data.GetAllStats());
+			return filter.Apply(_data.GetAllGames());
 		}
 
-		public static async Task Export(IStatsExporter export, string filepath, List<GameStats> stats)
+		public static void Export(IStatsExporter export, string filepath, List<Game> stats)
 		{
 			// TODO have loading spinner on view
 			try
 			{
 				if (stats.Count <= 0)
 					throw new Exception("No stats found");
-				export.To(filepath, stats);
+				export.Export(stats, filepath);
 			}
 			catch (Exception e)
 			{
@@ -111,17 +109,17 @@ namespace HDT.Plugins.StatsConverter
 			// for current import options, do nothing with result
 		}
 
-		public static void ArenaExtras(string filename, List<GameStats> stats, Guid? deck, List<Deck> decks)
+		public static void ArenaExtras(string filename, List<Game> stats, Guid? deck, List<Deck> decks)
 		{
 			List<ArenaExtra> arenaRuns = null;
 			if (deck == null)
 				arenaRuns = decks
-					.Where(x => x.IsArena && stats.Any(s => s.DeckId == x.DeckId))
+					.Where(x => x.IsArena && stats.Any(s => s.Deck.Id == x.Id))
 					.Select(x => new ArenaExtra(x, stats))
 					.OrderByDescending(x => x.LastPlayed).ToList();
 			else
 				arenaRuns = decks
-					.Where(x => x.DeckId == deck && x.IsArena)
+					.Where(x => x.Id == deck && x.IsArena)
 					.Select(x => new ArenaExtra(x, stats))
 					.OrderByDescending(x => x.LastPlayed).ToList();
 

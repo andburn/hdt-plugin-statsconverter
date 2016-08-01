@@ -19,7 +19,12 @@ namespace HDT.Plugins.StatsConverter.Export
 			get { return ".csv"; }
 		}
 
-		public void To(string file, List<GameStats> stats)
+		public string Description
+		{
+			get { return "CSV files"; }
+		}
+
+		public void Export(List<Game> stats, string file)
 		{
 			var wrapped = stats.Select(x => new GameStatsWrapper(x));
 			using (var writer = new StreamWriter(file))
