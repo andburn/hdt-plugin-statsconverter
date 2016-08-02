@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using HDT.Plugins.Common.Models;
 using HDT.Plugins.Common.Util;
-using HDT.Plugins.StatsConverter.Export;
+using HDT.Plugins.StatsConverter.Converters;
 using NUnit.Framework;
 
-namespace StatsConverterTest.Export
+namespace StatsConverterTest.Converters
 {
 	[TestFixture]
 	public class GameFilterTest

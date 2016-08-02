@@ -11,7 +11,7 @@ namespace HDT.Plugins.StatsConverter.Models
 			new Regex(@"^\s*\[(?<tag>([A-Za-z0-9\s_\-',]+))\]\s*(?<note>(.*))$",
 				RegexOptions.Compiled);
 
-		private GameStats _stats;
+		private Game _stats;
 
 		public string DeckName { get; private set; }
 		public string PlayerDeckVersionString { get; private set; }
@@ -36,25 +36,26 @@ namespace HDT.Plugins.StatsConverter.Models
 			_stats = null;
 		}
 
-		public GameStatsWrapper(GameStats stats)
+		public GameStatsWrapper(Game stats)
 		{
 			_stats = stats;
-			DeckName = _stats.DeckName;
-			PlayerDeckVersionString = _stats.PlayerDeckVersionString;
-			PlayerHero = _stats.PlayerHero;
-			GameMode = _stats.GameMode;
-			RegionString = _stats.RegionString;
-			RankString = _stats.RankString;
-			StartTime = _stats.StartTime;
-			GotCoin = _stats.GotCoin;
-			OpponentHero = _stats.OpponentHero;
-			OpponentName = _stats.OpponentName;
-			Turns = _stats.Turns;
-			SortableDuration = _stats.SortableDuration;
-			Result = _stats.Result;
-			WasConceded = _stats.WasConceded;
-			GameId = _stats.GameId;
-			ParseNote();
+			// FIX
+			//DeckName = _stats.DeckName;
+			//PlayerDeckVersionString = _stats.PlayerDeckVersionString;
+			//PlayerHero = _stats.PlayerHero;
+			//GameMode = _stats.GameMode;
+			//RegionString = _stats.RegionString;
+			//RankString = _stats.RankString;
+			//StartTime = _stats.StartTime;
+			//GotCoin = _stats.GotCoin;
+			//OpponentHero = _stats.OpponentHero;
+			//OpponentName = _stats.OpponentName;
+			//Turns = _stats.Turns;
+			//SortableDuration = _stats.SortableDuration;
+			//Result = _stats.Result;
+			//WasConceded = _stats.WasConceded;
+			//GameId = _stats.GameId;
+			//ParseNote();
 		}
 
 		public bool HasNoteArchetype()
@@ -62,11 +63,11 @@ namespace HDT.Plugins.StatsConverter.Models
 			return string.IsNullOrEmpty(Archetype);
 		}
 
-		private void ParseNote()
+		private void ParseNote(string note)
 		{
 			if (_stats.Note == null)
 				return;
-			var match = _noteRegex.Match(_stats.Note);
+			var match = _noteRegex.Match(note);
 			if (match.Success)
 			{
 				Archetype = match.Groups["tag"].Value;
@@ -74,7 +75,7 @@ namespace HDT.Plugins.StatsConverter.Models
 			}
 			else
 			{
-				GameNote = _stats.Note;
+				GameNote = note;
 			}
 		}
 	}

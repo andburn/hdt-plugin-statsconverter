@@ -11,8 +11,7 @@ using HDT.Plugins.Common.Models;
 using HDT.Plugins.Common.Plugin;
 using HDT.Plugins.Common.Providers;
 using HDT.Plugins.Common.Services;
-using HDT.Plugins.StatsConverter.Export;
-using HDT.Plugins.StatsConverter.Import;
+using HDT.Plugins.StatsConverter.Converters;
 using HDT.Plugins.StatsConverter.Models;
 
 namespace HDT.Plugins.StatsConverter
@@ -88,25 +87,20 @@ namespace HDT.Plugins.StatsConverter
 			return filter.Apply(_data.GetAllGames());
 		}
 
-		public static void Export(IStatsExporter export, string filepath, List<Game> stats)
+		public static void Export(IStatsConverter conveter, string filepath, List<Game> stats)
 		{
 			// TODO have loading spinner on view
 			try
 			{
 				if (stats.Count <= 0)
 					throw new Exception("No stats found");
-				export.Export(stats, filepath);
+				var stream = conveter.To(stats);
+				// TODO write stream to file
 			}
 			catch (Exception e)
 			{
 				_logger.Error(e);
 			}
-		}
-
-		public static void Import(IStatsImporter import, string filename)
-		{
-			var games = import.From(filename);
-			// for current import options, do nothing with result
 		}
 
 		public static void ArenaExtras(string filename, List<Game> stats, Guid? deck, List<Deck> decks)

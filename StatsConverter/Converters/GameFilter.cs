@@ -4,7 +4,7 @@ using System.Linq;
 using HDT.Plugins.Common.Models;
 using HDT.Plugins.Common.Util;
 
-namespace HDT.Plugins.StatsConverter.Export
+namespace HDT.Plugins.StatsConverter.Converters
 {
 	public class GameFilter
 	{

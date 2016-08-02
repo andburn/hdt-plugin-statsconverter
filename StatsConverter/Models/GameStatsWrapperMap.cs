@@ -26,20 +26,4 @@ namespace HDT.Plugins.StatsConverter.Models
 			Map(m => m.GameId);
 		}
 	}
-
-	// "Trouble with CSV-Helper not converting bool values" http://stackoverflow.com/a/22998705
-	public class BooleanConverter : DefaultTypeConverter
-	{
-		public override string ConvertToString(TypeConverterOptions options, object value)
-		{
-			if (value == null)
-			{
-				return "No";
-			}
-
-			var boolValue = (bool)value;
-
-			return boolValue ? "Yes" : "No";
-		}
-	}
 }

@@ -8,7 +8,8 @@ using HDT.Plugins.Common.Models;
 using HDT.Plugins.Common.Providers;
 using HDT.Plugins.Common.Services;
 using HDT.Plugins.Common.Util;
-using HDT.Plugins.StatsConverter.Export;
+using HDT.Plugins.StatsConverter.Converters;
+using HDT.Plugins.StatsConverter.Converters.CSV;
 using HDT.Plugins.StatsConverter.Properties;
 
 namespace HDT.Plugins.StatsConverter.ViewModels
@@ -53,9 +54,9 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			set { Set(() => Regions, ref _regions, value); }
 		}
 
-		private IEnumerable<IStatsExporter> _exporters;
+		private IEnumerable<IStatsConverter> _exporters;
 
-		public IEnumerable<IStatsExporter> Exporters
+		public IEnumerable<IStatsConverter> Exporters
 		{
 			get { return _exporters; }
 			set { Set(() => Exporters, ref _exporters, value); }
@@ -93,9 +94,9 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			set { Set(() => SelectedDeck, ref _selectedDeck, value); }
 		}
 
-		private IStatsExporter _selectedExporter;
+		private IStatsConverter _selectedExporter;
 
-		public IStatsExporter SelectedExporter
+		public IStatsConverter SelectedExporter
 		{
 			get { return _selectedExporter; }
 			set { Set(() => SelectedExporter, ref _selectedExporter, value); }
@@ -129,7 +130,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			Regions = Enum.GetValues(typeof(Region)).OfType<Region>().Where(x => x != Region.UNKNOWN);
 			Decks = new ObservableCollection<Deck>();
 			// TODO store/generate this somehow
-			Exporters = new List<IStatsExporter>() { new CSVExporter() };
+			Exporters = new List<IStatsConverter>() { new CSVConverter() };
 
 			SelectedGameMode = GameMode.ALL;
 			SelectedRegion = Region.US;

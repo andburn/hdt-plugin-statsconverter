@@ -20,7 +20,7 @@ namespace HDT.Plugins.StatsConverter.Models
 		public int Win { get; private set; }
 		public int Loss { get; private set; }
 
-		public ArenaExtra(Deck deck, List<GameStats> stats = null)
+		public ArenaExtra(Deck deck, List<Game> stats = null)
 		{
 			Name = deck.Name;
 			PlayerClass = deck.Class;
@@ -42,9 +42,9 @@ namespace HDT.Plugins.StatsConverter.Models
 			}
 		}
 
-		private Tuple<int, int> RunRecord(Deck d, List<GameStats> filtered)
+		private Tuple<int, int> RunRecord(Deck d, List<Game> filtered)
 		{
-			var relevant = new List<GameStats>(d.DeckStats.Games);
+			var relevant = new List<Game>(); // TODO d.DeckStats.Games);
 			if (filtered != null)
 			{
 				relevant = relevant.Intersect(filtered).ToList();
