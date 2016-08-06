@@ -55,7 +55,6 @@
   <ItemGroup>
     <Compile Include="Converters\CSVConvertTest.cs" />
     <Compile Include="Converters\GameFilterTest.cs" />
-    <Compile Include="DebugShit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
