@@ -1,8 +1,7 @@
-﻿using System.IO;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using HDT.Plugins.StatsConverter.Properties;
-using Microsoft.WindowsAPICodePack.Dialogs;
+using Ookii.Dialogs.Wpf;
 
 namespace HDT.Plugins.StatsConverter.ViewModels
 {
@@ -26,14 +25,12 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 
 		private void ChooseOuputDir()
 		{
-			var dialog = new CommonOpenFileDialog();
-			dialog.IsFolderPicker = true;
-			if (Directory.Exists(Settings.DefaultExportPath))
-				dialog.DefaultDirectory = Settings.DefaultExportPath;
+			VistaFolderBrowserDialog dialog = new VistaFolderBrowserDialog();
+			dialog.Description = "Select a folder";
+			dialog.UseDescriptionForTitle = true;
 
-			CommonFileDialogResult result = dialog.ShowDialog();
-			if (result == CommonFileDialogResult.Ok)
-				Settings.DefaultExportPath = dialog.FileName;
+			if ((bool)dialog.ShowDialog())
+				Settings.DefaultExportPath = dialog.SelectedPath;
 		}
 	}
 }

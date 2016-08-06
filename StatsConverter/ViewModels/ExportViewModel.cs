@@ -10,7 +10,6 @@ using HDT.Plugins.Common.Services;
 using HDT.Plugins.Common.Util;
 using HDT.Plugins.StatsConverter.Converters;
 using HDT.Plugins.StatsConverter.Converters.CSV;
-using HDT.Plugins.StatsConverter.Properties;
 
 namespace HDT.Plugins.StatsConverter.ViewModels
 {
@@ -20,7 +19,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 
 		private List<Deck> _allDecks;
 
-		private static readonly Deck ALL_DECK = new Deck("All", false);
+		private static readonly Deck ALL_DECK = new Deck(Guid.Empty, "All", false);
 
 		private ObservableCollection<Deck> _decks;
 
@@ -172,6 +171,8 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 
 		public void ExportStats()
 		{
+			var deck = SelectedDeck == ALL_DECK ? null : SelectedDeck;
+			StatsConverter.Export(SelectedExporter, new GameFilter(deck?.Id, SelectedRegion, SelectedGameMode, SelectedTimeFrame));
 		}
 
 		private void ExportViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -185,16 +186,6 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			{
 				CouldBeArena = SelectedDeck.IsArena;
 			}
-		}
-
-		private string GetDefaultFileName()
-		{
-			var name = Settings.Default.ExportFileName;
-			if (Settings.Default.UseExportFileTimestamp)
-			{
-				name += "-" + DateTime.Now.ToString("yyyyMMddHHmmss");
-			}
-			return name;
 		}
 	}
 }

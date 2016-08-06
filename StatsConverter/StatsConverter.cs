@@ -13,6 +13,8 @@ using HDT.Plugins.Common.Providers;
 using HDT.Plugins.Common.Services;
 using HDT.Plugins.StatsConverter.Converters;
 using HDT.Plugins.StatsConverter.Models;
+using HDT.Plugins.StatsConverter.Properties;
+using Microsoft.Win32;
 
 namespace HDT.Plugins.StatsConverter
 {
@@ -84,7 +86,10 @@ namespace HDT.Plugins.StatsConverter
 
 		public static List<Game> Filter(GameFilter filter)
 		{
-			return filter.Apply(_data.GetAllGames());
+			_logger.Info($"Filter: {filter.Deck}, {filter.Mode}, {filter.Region}, {filter.TimeFrame}");
+			var games = _data.GetAllGames();
+			_logger.Info($"game count = {games.Count}");
+			return filter.Apply(games);
 		}
 
 		public static void Export(IStatsConverter conveter, string filepath, List<Game> stats)
@@ -95,12 +100,68 @@ namespace HDT.Plugins.StatsConverter
 				if (stats.Count <= 0)
 					throw new Exception("No stats found");
 				var stream = conveter.To(stats);
-				// TODO write stream to file
+				using (var file = File.Create(@"E:\Dump\tmp.csv"))
+				{
+					stream.Seek(0, SeekOrigin.Begin);
+					stream.CopyTo(file);
+				}
 			}
 			catch (Exception e)
 			{
 				_logger.Error(e);
 			}
+		}
+
+		public static void Export(IStatsConverter conveter, GameFilter filter)
+		{
+			var stats = Filter(filter);
+			try
+			{
+				if (stats.Count <= 0)
+					throw new Exception("No stats found");
+
+				// set up and open save dialog
+				SaveFileDialog dlg = new SaveFileDialog();
+				dlg.FileName = GetDefaultFileName();
+				dlg.DefaultExt = "." + conveter.FileExtension;
+				dlg.InitialDirectory = Settings.Default.DefaultExportPath;
+				dlg.Filter = conveter.Name + " Files | *." + conveter.FileExtension;
+				bool? result = dlg.ShowDialog();
+
+				// TODO failed message
+				if (result != true)
+					return;
+
+				var filename = dlg.FileName;
+				// export and save document
+				//await Converter.Export(exporter, filename, stats);
+				// export arena extras
+				//if (mode == GameMode.Arena && CheckBoxArenaExtras.IsChecked == true)
+				//{
+				//	await Task.Run(() => Converter.ArenaExtras(filename, stats, deck, decks));
+				//}
+
+				var stream = conveter.To(stats);
+				using (var file = File.Create(filename))
+				{
+					stream.Seek(0, SeekOrigin.Begin);
+					stream.CopyTo(file);
+				}
+			}
+			catch (Exception e)
+			{
+				_logger.Error(e);
+			}
+		}
+
+		private static string GetDefaultFileName()
+		{
+			var name = Settings.Default.ExportFileName;
+			if (Settings.Default.UseExportFileTimestamp)
+			{
+				name += "-" + DateTime.Now.ToString("yyyyMMddHHmmss");
+			}
+			return name;
 		}
 
 		public static void ArenaExtras(string filename, List<Game> stats, Guid? deck, List<Deck> decks)

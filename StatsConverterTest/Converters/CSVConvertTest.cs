@@ -55,9 +55,9 @@ namespace StatsConverterTest.Converters
 		public void TestSetup()
 		{
 			stream = new MemoryStream();
-			StreamWriter writer = new StreamWriter(stream);//, new UnicodeEncoding()); TODO
+			StreamWriter writer = new StreamWriter(stream);
 			writer.WriteLine("Deck,Version,Class,Mode,Region,Rank,Start Time,Coin,Opponent Class,Opponent Name,Turns,Duration,Result,Conceded,Note,Archetype,Id");
-			writer.WriteLine(",,Druid,Brawl,US,0,2015-01-25 19:03:26,No,Druid,,0,0,Win,No,,,00000000-0000-0000-0000-000000000000");
+			writer.WriteLine(",,All,Brawl,US,0,2015-01-25 19:03:26,No,All,,0,0,Win,No,,,00000000-0000-0000-0000-000000000000");
 			writer.WriteLine("A Deck,1.0,Warlock,Ranked,EU,12,2015-01-25 19:14:36,No,Hunter,后海大白鲨,5,360,Loss,No,Some notes,,00000000-0000-0000-0000-000000000000");
 			writer.Flush();
 			stream.Position = 0;
@@ -74,7 +74,8 @@ namespace StatsConverterTest.Converters
 		public void FromStream()
 		{
 			var from = convert.From(stream);
-			CollectionAssert.AreEqual(games, from); // TODO Game.Equals only on Id
+			// TODO: Game.Equals only on Id
+			CollectionAssert.AreEqual(games, from);
 		}
 	}
 }
