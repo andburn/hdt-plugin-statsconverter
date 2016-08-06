@@ -7,6 +7,7 @@ NUGET
       Fody (>= 1.26.1)
     CsvHelper (2.16)
     Fody (1.29.4)
+    GitVersionTask (3.6.2)
     Moq (4.5.16)
       Castle.Core (>= 3.3.3)
     MvvmLightLibs (5.3)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Controls;
 using CsvHelper;
 using GalaSoft.MvvmLight.Command;
@@ -19,7 +20,6 @@ using Microsoft.Win32;
 namespace HDT.Plugins.StatsConverter
 {
 	[Name("Stats Converter")]
-	[PluginVersion("0.2.1")]
 	[Description("Import and export game statistics in different formats")]
 	public class StatsConverter : PluginBase
 	{
@@ -38,7 +38,7 @@ namespace HDT.Plugins.StatsConverter
 		}
 
 		public StatsConverter()
-			: base()
+			: base(Assembly.GetExecutingAssembly())
 		{
 			_updater = ServiceFactory.CreateUpdateService();
 			_logger = ServiceFactory.CreateLoggingService();
