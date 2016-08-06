@@ -22,9 +22,7 @@ NUGET
       NUnit.Extension.NUnitV2ResultWriter (>= 3.4.1)
       NUnit.Extension.TeamCityEventListener (>= 1.0.1)
       NUnit.Extension.VSProjectLoader (>= 3.4.1)
-    WindowsAPICodePack-Core (1.1.2)
-    WindowsAPICodePack-Shell (1.1.1)
-      WindowsAPICodePack-Core (>= 1.1.1)
+    Ookii.Dialogs (1.0)
   remote: paket-files/github.com/andburn/hdt-plugin-common/Common.NuPkg
     HDT.Plugins.Common (0.1.0.0)
 GIT

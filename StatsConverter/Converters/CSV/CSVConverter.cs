@@ -43,7 +43,7 @@ namespace HDT.Plugins.StatsConverter.Converters.CSV
 					csvWriter.WriteHeader<Game>();
 					csvWriter.WriteRecords(stats);
 				}
-				// TODO CopyTo doesn't work here?
+				// QSTN: why doesn't CopyTo work here instead
 				return new MemoryStream(memoryStream.ToArray());
 			}
 		}

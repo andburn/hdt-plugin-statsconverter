@@ -6,7 +6,7 @@ git https://github.com/andburn/hdt-plugin-common.git master Packages: /Common.Nu
 
 nuget HDT.Plugins.Common
 
-nuget WindowsAPICodePack-Shell >= 1.1
+nuget Ookii.Dialogs >= 1.0
 nuget CsvHelper >= 2.0
 nuget MvvmLightLibs >= 5.3
 
