@@ -61,9 +61,9 @@ namespace HDT.Plugins.StatsConverter
 				{
 					_logger.Info($"Plugin Update available ({latest.Version})");
 					SlidePanelManager.Notification("Plugin Update Available",
-						$"[DOWNLOAD]({latest.DownloadUrl}) EndGame v{latest.Version}",
-						"download3", () => Process.Start(latest.DownloadUrl)
-						).AutoClose(10);
+						$"[DOWNLOAD]({latest.DownloadUrl}) EndGame v{latest.Version}", "download3",
+						() => Process.Start(latest.DownloadUrl))
+						.AutoClose(10);
 				}
 			}
 			catch (Exception e)
@@ -92,7 +92,7 @@ namespace HDT.Plugins.StatsConverter
 			return filter.Apply(games);
 		}
 
-		public static void Export(IStatsConverter conveter, string filepath, List<Game> stats)
+		public static void Export(IStatsConverter conveter, GameFilter filter, string filepath, List<Game> stats)
 		{
 			// TODO have loading spinner on view
 			try
@@ -112,12 +112,16 @@ namespace HDT.Plugins.StatsConverter
 			}
 		}
 
-		public static void Export(IStatsConverter conveter, GameFilter filter)
+		public static void Export(IStatsConverter conveter, GameFilter filter, string file)
 		{
-			var stats = Filter(filter);
+			var games = _data.GetAllGames();
+			var filtered = filter.Apply(games);
+			_logger.Info($"Filter: {filter.Deck}, {filter.Mode}, {filter.Region}, {filter.TimeFrame}");
+			_logger.Info($"game count = {games.Count}");
+
 			try
 			{
-				if (stats.Count <= 0)
+				if (filtered.Count <= 0)
 					throw new Exception("No stats found");
 
 				// set up and open save dialog
@@ -141,7 +145,7 @@ namespace HDT.Plugins.StatsConverter
 				//	await Task.Run(() => Converter.ArenaExtras(filename, stats, deck, decks));
 				//}
 
-				var stream = conveter.To(stats);
+				var stream = conveter.To(filtered);
 				using (var file = File.Create(filename))
 				{
 					stream.Seek(0, SeekOrigin.Begin);
