@@ -172,7 +172,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public void ExportStats()
 		{
 			var deck = SelectedDeck == ALL_DECK ? null : SelectedDeck;
-			StatsConverter.Export(SelectedExporter, new GameFilter(deck?.Id, SelectedRegion, SelectedGameMode, SelectedTimeFrame));
+			StatsConverter.Export(SelectedExporter, new GameFilter(deck?.Id, SelectedRegion, SelectedGameMode, SelectedTimeFrame), "FILE");
 		}
 
 		private void ExportViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

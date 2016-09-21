@@ -47,6 +47,11 @@ namespace HDT.Plugins.StatsConverter
 
 		public override async void OnLoad()
 		{
+			var settings = new Common.Settings.Settings("first = one\nsecond = 2", "StatsConverter");
+			_logger.Info(settings.Get("first"));
+			settings.Set("second", "22");
+			_logger.Info(settings.Get("second"));
+
 			PluginMenu pm = new PluginMenu("Stats Converter", "pie-chart");
 			pm.Append("Settings", "cog", new RelayCommand(() => System.Console.WriteLine()));
 			pm.Append("Import", new RelayCommand(() => System.Console.WriteLine()));
@@ -146,10 +151,10 @@ namespace HDT.Plugins.StatsConverter
 				//}
 
 				var stream = conveter.To(filtered);
-				using (var file = File.Create(filename))
+				using (var f = File.Create(filename))
 				{
 					stream.Seek(0, SeekOrigin.Begin);
-					stream.CopyTo(file);
+					stream.CopyTo(f);
 				}
 			}
 			catch (Exception e)

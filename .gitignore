@@ -2,9 +2,10 @@
 /coverage
 
 # paket
-.paket/paket.exe
+.paket
 paket.local
 /paket-files
+!/.paket/paket.bootstrapper.exe
 
 # power shell scripts
 /*.ps1
