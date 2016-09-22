@@ -1,25 +1,45 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using HDT.Plugins.StatsConverter.Properties;
 using Ookii.Dialogs.Wpf;
 
 namespace HDT.Plugins.StatsConverter.ViewModels
 {
 	public class SettingsViewModel : ViewModelBase
 	{
-		private Settings _settings;
-
-		public Settings Settings
+		public string ExportFileName
 		{
-			get { return _settings; }
-			set { Set(() => Settings, ref _settings, value); }
+			get { return StatsConverter.Settings.Get("ExportFileName"); }
+			set
+			{
+				StatsConverter.Settings.Set("ExportFileName", value);
+				RaisePropertyChanged(() => ExportFileName);
+			}
+		}
+
+		public string DefaultExportPath
+		{
+			get { return StatsConverter.Settings.Get("DefaultExportPath"); }
+			set
+			{
+				StatsConverter.Settings.Set("DefaultExportPath", value);
+				RaisePropertyChanged(() => DefaultExportPath);
+			}
+		}
+
+		public bool UseExportFileTimestamp
+		{
+			get { return StatsConverter.Settings.Get("UseExportFileTimestamp").Bool; }
+			set
+			{
+				StatsConverter.Settings.Set("UseExportFileTimestamp", value);
+				RaisePropertyChanged(() => UseExportFileTimestamp);
+			}
 		}
 
 		public RelayCommand SelectDirectoryCommand { get; private set; }
 
 		public SettingsViewModel()
 		{
-			Settings = Settings.Default;
 			SelectDirectoryCommand = new RelayCommand(() => ChooseOuputDir());
 		}
 
@@ -30,7 +50,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			dialog.UseDescriptionForTitle = true;
 
 			if ((bool)dialog.ShowDialog())
-				Settings.DefaultExportPath = dialog.SelectedPath;
+				DefaultExportPath = dialog.SelectedPath;
 		}
 	}
 }

@@ -12,9 +12,9 @@ using HDT.Plugins.Common.Models;
 using HDT.Plugins.Common.Plugin;
 using HDT.Plugins.Common.Providers;
 using HDT.Plugins.Common.Services;
+using HDT.Plugins.Common.Settings;
 using HDT.Plugins.StatsConverter.Converters;
 using HDT.Plugins.StatsConverter.Models;
-using HDT.Plugins.StatsConverter.Properties;
 using Microsoft.Win32;
 
 namespace HDT.Plugins.StatsConverter
@@ -32,9 +32,18 @@ namespace HDT.Plugins.StatsConverter
 
 		private MenuItem _statsMenuItem;
 
+		public static readonly Settings Settings;
+
 		public override MenuItem MenuItem
 		{
 			get { return _statsMenuItem; }
+		}
+
+		static StatsConverter()
+		{
+			var assembly = Assembly.GetExecutingAssembly();
+			var resourceName = "HDT.Plugins.StatsConverter.Resources.Default.ini";
+			Settings = new Settings(assembly.GetManifestResourceStream(resourceName), "StatsConverter");
 		}
 
 		public StatsConverter()
@@ -47,10 +56,7 @@ namespace HDT.Plugins.StatsConverter
 
 		public override async void OnLoad()
 		{
-			var settings = new Common.Settings.Settings("first = one\nsecond = 2", "StatsConverter");
-			_logger.Info(settings.Get("first"));
-			settings.Set("second", "22");
-			_logger.Info(settings.Get("second"));
+			_logger.Info(Settings.Get("Test"));
 
 			PluginMenu pm = new PluginMenu("Stats Converter", "pie-chart");
 			pm.Append("Settings", "cog", new RelayCommand(() => System.Console.WriteLine()));
@@ -133,7 +139,7 @@ namespace HDT.Plugins.StatsConverter
 				SaveFileDialog dlg = new SaveFileDialog();
 				dlg.FileName = GetDefaultFileName();
 				dlg.DefaultExt = "." + conveter.FileExtension;
-				dlg.InitialDirectory = Settings.Default.DefaultExportPath;
+				dlg.InitialDirectory = Settings.Get("DefaultExportPath");
 				dlg.Filter = conveter.Name + " Files | *." + conveter.FileExtension;
 				bool? result = dlg.ShowDialog();
 
@@ -165,8 +171,8 @@ namespace HDT.Plugins.StatsConverter
 
 		private static string GetDefaultFileName()
 		{
-			var name = Settings.Default.ExportFileName;
-			if (Settings.Default.UseExportFileTimestamp)
+			string name = Settings.Get("ExportFileName");
+			if (Settings.Get("UseExportFileTimestamp").Bool)
 			{
 				name += "-" + DateTime.Now.ToString("yyyyMMddHHmmss");
 			}

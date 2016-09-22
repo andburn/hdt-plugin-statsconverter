@@ -72,12 +72,6 @@
     <Compile Include="Models\ArenaExtraMap.cs" />
     <Compile Include="Models\GameStatsWrapperMap.cs" />
     <Compile Include="Models\GameStatsWrapper.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Settings.cs" />
     <Compile Include="StatsConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Converters\GameFilter.cs" />
@@ -93,10 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
+    <EmbeddedResource Include="Resources\Default.ini" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\SettingsView.xaml">

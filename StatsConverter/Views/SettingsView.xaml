@@ -10,12 +10,12 @@
         <DockPanel Margin="0,4">
             <Label Content="Filename prefix" Width="100" />
             <TextBox Width="200"
-                     Text="{Binding Settings.ExportFileName}"
+                     Text="{Binding ExportFileName}"
                      ToolTip="Text to add to the start of exported file names" />
         </DockPanel>
         <DockPanel Margin="0,4">
             <Label Content="Add timestamp" Width="100" />
-            <CheckBox IsChecked="{Binding Settings.UseExportFileTimestamp}"
+            <CheckBox IsChecked="{Binding UseExportFileTimestamp}"
                       ToolTip="Add a timestamp to the exported file name" />
         </DockPanel>
         <DockPanel Margin="0,4">
@@ -26,8 +26,8 @@
                 <TextBlock TextTrimming="CharacterEllipsis"
                            Margin="2,0"
                            VerticalAlignment="Center"
-                           Text="{Binding Settings.DefaultExportPath}"
-                           ToolTip="{Binding Settings.DefaultExportPath}" />
+                           Text="{Binding DefaultExportPath}"
+                           ToolTip="{Binding DefaultExportPath}" />
             </Border>
             <Button DockPanel.Dock="Right" Content="Browse"
                     ToolTip="Set the default ouput directory for exported stats"
