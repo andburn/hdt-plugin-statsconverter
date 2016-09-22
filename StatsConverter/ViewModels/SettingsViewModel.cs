@@ -8,31 +8,40 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 	{
 		public string ExportFileName
 		{
-			get { return StatsConverter.Settings.Get("ExportFileName"); }
+			get
+			{
+				return StatsConverter.Settings.Get("ExportFileName");
+			}
 			set
 			{
 				StatsConverter.Settings.Set("ExportFileName", value);
-				RaisePropertyChanged(() => ExportFileName);
+				RaisePropertyChanged("ExportFileName");
 			}
 		}
 
 		public string DefaultExportPath
 		{
-			get { return StatsConverter.Settings.Get("DefaultExportPath"); }
+			get
+			{
+				return StatsConverter.Settings.Get("DefaultExportPath");
+			}
 			set
 			{
 				StatsConverter.Settings.Set("DefaultExportPath", value);
-				RaisePropertyChanged(() => DefaultExportPath);
+				RaisePropertyChanged("DefaultExportPath");
 			}
 		}
 
 		public bool UseExportFileTimestamp
 		{
-			get { return StatsConverter.Settings.Get("UseExportFileTimestamp").Bool; }
+			get
+			{
+				return StatsConverter.Settings.Get("UseExportFileTimestamp").Bool;
+			}
 			set
 			{
 				StatsConverter.Settings.Set("UseExportFileTimestamp", value);
-				RaisePropertyChanged(() => UseExportFileTimestamp);
+				RaisePropertyChanged("UseExportFileTimestamp");
 			}
 		}
 

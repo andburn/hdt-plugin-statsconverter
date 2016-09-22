@@ -56,7 +56,7 @@ namespace HDT.Plugins.StatsConverter
 
 		public override async void OnLoad()
 		{
-			_logger.Info(Settings.Get("Test"));
+			_logger.Info(Settings.Get("DefaultExportPath"));
 
 			PluginMenu pm = new PluginMenu("Stats Converter", "pie-chart");
 			pm.Append("Settings", "cog", new RelayCommand(() => System.Console.WriteLine()));
