@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
-using CsvHelper;
 using GalaSoft.MvvmLight.Command;
 using HDT.Plugins.Common.Controls.SlidePanels;
-using HDT.Plugins.Common.Models;
 using HDT.Plugins.Common.Plugin;
 using HDT.Plugins.Common.Providers;
 using HDT.Plugins.Common.Services;
 using HDT.Plugins.Common.Settings;
-using HDT.Plugins.StatsConverter.Converters;
-using HDT.Plugins.StatsConverter.Models;
-using Microsoft.Win32;
+using HDT.Plugins.StatsConverter.Views;
 
 namespace HDT.Plugins.StatsConverter
 {
@@ -23,16 +19,12 @@ namespace HDT.Plugins.StatsConverter
 	[Description("Import and export game statistics in different formats")]
 	public class StatsConverter : PluginBase
 	{
-		private static readonly Uri UpdateUrl =
-			new Uri(@"https://api.github.com/repos/andburn/hdt-plugin-statsconverter/releases");
-
-		private static IUpdateService _updater;
-		private static ILoggingService _logger;
-		private static IDataRepository _data;
+		public static readonly IUpdateService Updater;
+		public static readonly ILoggingService Logger;
+		public static readonly IDataRepository Data;
+		public static readonly Settings Settings;
 
 		private MenuItem _statsMenuItem;
-
-		public static readonly Settings Settings;
 
 		public override MenuItem MenuItem
 		{
@@ -41,6 +33,11 @@ namespace HDT.Plugins.StatsConverter
 
 		static StatsConverter()
 		{
+			// initialize services
+			Updater = ServiceFactory.CreateUpdateService();
+			Logger = ServiceFactory.CreateLoggingService();
+			Data = ServiceFactory.CreateDataRepository();
+			// load settings
 			var assembly = Assembly.GetExecutingAssembly();
 			var resourceName = "HDT.Plugins.StatsConverter.Resources.Default.ini";
 			Settings = new Settings(assembly.GetManifestResourceStream(resourceName), "StatsConverter");
@@ -49,157 +46,80 @@ namespace HDT.Plugins.StatsConverter
 		public StatsConverter()
 			: base(Assembly.GetExecutingAssembly())
 		{
-			_updater = ServiceFactory.CreateUpdateService();
-			_logger = ServiceFactory.CreateLoggingService();
-			_data = ServiceFactory.CreateDataRepository();
 		}
 
 		public override async void OnLoad()
 		{
-			_logger.Info(Settings.Get("DefaultExportPath"));
-
-			PluginMenu pm = new PluginMenu("Stats Converter", "pie-chart");
-			pm.Append("Settings", "cog", new RelayCommand(() => System.Console.WriteLine()));
-			pm.Append("Import", new RelayCommand(() => System.Console.WriteLine()));
-			pm.Append("Export", new RelayCommand(() => System.Console.WriteLine()));
-
-			_statsMenuItem = pm.Menu;
-
-			try
-			{
-				var latest = await _updater.CheckForUpdate(UpdateUrl, Version);
-				if (latest.HasUpdate)
-				{
-					_logger.Info($"Plugin Update available ({latest.Version})");
-					SlidePanelManager.Notification("Plugin Update Available",
-						$"[DOWNLOAD]({latest.DownloadUrl}) EndGame v{latest.Version}", "download3",
-						() => Process.Start(latest.DownloadUrl))
-						.AutoClose(10);
-				}
-			}
-			catch (Exception e)
-			{
-				_logger.Error(e);
-			}
+			CreatePluginMenu();
+			await UpdateCheck("StatsConverter", "hdt-plugin-statsconverter");
 		}
 
 		public override void OnUnload()
 		{
 			SlidePanelManager.DetachAll();
+			CloseMainView();
+		}
+
+		public override string ButtonText
+		{
+			get { return "Open"; }
 		}
 
 		public override void OnButtonPress()
 		{
-			new Views.MainView().Show();
+			ShowMainView();
 		}
 
-		// Converter stuff (put here for now) ---------------
-
-		public static List<Game> Filter(GameFilter filter)
+		private void ShowMainView()
 		{
-			_logger.Info($"Filter: {filter.Deck}, {filter.Mode}, {filter.Region}, {filter.TimeFrame}");
-			var games = _data.GetAllGames();
-			_logger.Info($"game count = {games.Count}");
-			return filter.Apply(games);
-		}
-
-		public static void Export(IStatsConverter conveter, GameFilter filter, string filepath, List<Game> stats)
-		{
-			// TODO have loading spinner on view
-			try
+			var open = Application.Current.Windows.OfType<MainView>();
+			if (open.Count() > 0)
 			{
-				if (stats.Count <= 0)
-					throw new Exception("No stats found");
-				var stream = conveter.To(stats);
-				using (var file = File.Create(@"E:\Dump\tmp.csv"))
-				{
-					stream.Seek(0, SeekOrigin.Begin);
-					stream.CopyTo(file);
-				}
+				var view = open.First();
+				if (view.WindowState == WindowState.Minimized)
+					view.WindowState = WindowState.Normal;
+				view.Activate();
 			}
-			catch (Exception e)
-			{
-				_logger.Error(e);
-			}
-		}
-
-		public static void Export(IStatsConverter conveter, GameFilter filter, string file)
-		{
-			var games = _data.GetAllGames();
-			var filtered = filter.Apply(games);
-			_logger.Info($"Filter: {filter.Deck}, {filter.Mode}, {filter.Region}, {filter.TimeFrame}");
-			_logger.Info($"game count = {games.Count}");
-
-			try
-			{
-				if (filtered.Count <= 0)
-					throw new Exception("No stats found");
-
-				// set up and open save dialog
-				SaveFileDialog dlg = new SaveFileDialog();
-				dlg.FileName = GetDefaultFileName();
-				dlg.DefaultExt = "." + conveter.FileExtension;
-				dlg.InitialDirectory = Settings.Get("DefaultExportPath");
-				dlg.Filter = conveter.Name + " Files | *." + conveter.FileExtension;
-				bool? result = dlg.ShowDialog();
-
-				// TODO failed message
-				if (result != true)
-					return;
-
-				var filename = dlg.FileName;
-				// export and save document
-				//await Converter.Export(exporter, filename, stats);
-				// export arena extras
-				//if (mode == GameMode.Arena && CheckBoxArenaExtras.IsChecked == true)
-				//{
-				//	await Task.Run(() => Converter.ArenaExtras(filename, stats, deck, decks));
-				//}
-
-				var stream = conveter.To(filtered);
-				using (var f = File.Create(filename))
-				{
-					stream.Seek(0, SeekOrigin.Begin);
-					stream.CopyTo(f);
-				}
-			}
-			catch (Exception e)
-			{
-				_logger.Error(e);
-			}
-		}
-
-		private static string GetDefaultFileName()
-		{
-			string name = Settings.Get("ExportFileName");
-			if (Settings.Get("UseExportFileTimestamp").Bool)
-			{
-				name += "-" + DateTime.Now.ToString("yyyyMMddHHmmss");
-			}
-			return name;
-		}
-
-		public static void ArenaExtras(string filename, List<Game> stats, Guid? deck, List<Deck> decks)
-		{
-			List<ArenaExtra> arenaRuns = null;
-			if (deck == null)
-				arenaRuns = decks
-					.Where(x => x.IsArena && stats.Any(s => s.Deck.Id == x.Id))
-					.Select(x => new ArenaExtra(x, stats))
-					.OrderByDescending(x => x.LastPlayed).ToList();
 			else
-				arenaRuns = decks
-					.Where(x => x.Id == deck && x.IsArena)
-					.Select(x => new ArenaExtra(x, stats))
-					.OrderByDescending(x => x.LastPlayed).ToList();
-
-			var fn = filename.Replace(".csv", "-extra.csv");
-			using (var writer = new StreamWriter(fn))
-			using (var csv = new CsvWriter(writer))
 			{
-				csv.Configuration.RegisterClassMap<ArenaExtraMap>();
-				csv.WriteHeader<ArenaExtra>();
-				csv.WriteRecords(arenaRuns);
+				(new MainView()).Show();
+			}
+		}
+
+		private void CloseMainView()
+		{
+			foreach (var view in Application.Current.Windows.OfType<MainView>())
+				view.Close();
+		}
+
+		private void CreatePluginMenu()
+		{
+			PluginMenu pm = new PluginMenu("Stats Converter", "pie-chart",
+				new RelayCommand(() => ShowMainView()));
+			_statsMenuItem = pm.Menu;
+		}
+
+		private async Task UpdateCheck(string name, string repo)
+		{
+			var uri = new Uri($"https://api.github.com/repos/andburn/{repo}/releases");
+			Logger.Debug("update uri = " + uri);
+			try
+			{
+				var latest = await Updater.CheckForUpdate(uri, Version);
+				if (latest.HasUpdate)
+				{
+					Logger.Info($"Plugin Update available ({latest.Version})");
+					SlidePanelManager
+						.Notification("Plugin Update Available",
+							$"[DOWNLOAD]({latest.DownloadUrl}) {name} v{latest.Version}",
+							"download3",
+							() => Process.Start(latest.DownloadUrl))
+						.AutoClose(10);
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e);
 			}
 		}
 	}
