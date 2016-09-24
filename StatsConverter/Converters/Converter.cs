@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using CsvHelper;
 using HDT.Plugins.Common.Models;
+using HDT.Plugins.Common.Settings;
 using HDT.Plugins.StatsConverter.Models;
 using Microsoft.Win32;
 
@@ -51,20 +52,6 @@ namespace HDT.Plugins.StatsConverter.Converters
 				if (filtered.Count <= 0)
 					throw new Exception("No stats found");
 
-				// TODO replace with ooki
-				// set up and open save dialog
-				SaveFileDialog dlg = new SaveFileDialog();
-				dlg.FileName = GetDefaultFileName();
-				dlg.DefaultExt = "." + conveter.FileExtension;
-				dlg.InitialDirectory = StatsConverter.Settings.Get("DefaultExportPath");
-				dlg.Filter = conveter.Name + " Files | *." + conveter.FileExtension;
-				bool? result = dlg.ShowDialog();
-
-				// TODO failed message
-				if (result != true)
-					return;
-
-				var filename = dlg.FileName;
 				// export and save document
 				//await Converter.Export(exporter, filename, stats);
 				// export arena extras
@@ -74,7 +61,7 @@ namespace HDT.Plugins.StatsConverter.Converters
 				//}
 
 				var stream = conveter.To(filtered);
-				using (var f = File.Create(filename))
+				using (var f = File.Create(file))
 				{
 					stream.Seek(0, SeekOrigin.Begin);
 					stream.CopyTo(f);
@@ -84,17 +71,7 @@ namespace HDT.Plugins.StatsConverter.Converters
 			{
 				StatsConverter.Logger.Error(e);
 			}
-		}
-
-		private static string GetDefaultFileName()
-		{
-			string name = StatsConverter.Settings.Get("ExportFileName");
-			if (StatsConverter.Settings.Get("UseExportFileTimestamp").Bool)
-			{
-				name += "-" + DateTime.Now.ToString("yyyyMMddHHmmss");
-			}
-			return name;
-		}
+		}		
 
 		public static void ArenaExtras(string filename, List<Game> stats, Guid? deck, List<Deck> decks)
 		{
@@ -118,6 +95,6 @@ namespace HDT.Plugins.StatsConverter.Converters
 				csv.WriteHeader<ArenaExtra>();
 				csv.WriteRecords(arenaRuns);
 			}
-		}
+		}		
 	}
 }

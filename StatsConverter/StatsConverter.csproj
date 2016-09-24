@@ -61,6 +61,7 @@
     <Compile Include="Converters\CSV\TypeConverters.cs" />
     <Compile Include="Converters\IStatsConverter.cs" />
     <Compile Include="Converters\CSV\GameMap.cs" />
+    <Compile Include="Converters\Utilities.cs" />
     <Compile Include="MergedTrigger.cs" />
     <Compile Include="ViewModels\ExportViewModel.cs" />
     <Compile Include="ViewModels\ImportViewModel.cs" />

@@ -5,8 +5,6 @@ using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using HDT.Plugins.Common.Models;
-using HDT.Plugins.Common.Providers;
-using HDT.Plugins.Common.Services;
 using HDT.Plugins.Common.Util;
 using HDT.Plugins.StatsConverter.Converters;
 using HDT.Plugins.StatsConverter.Converters.CSV;
@@ -15,8 +13,6 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 {
 	public class ExportViewModel : ViewModelBase
 	{
-		private IDataRepository _data;
-
 		private List<Deck> _allDecks;
 
 		private static readonly Deck ALL_DECK = new Deck(Guid.Empty, "All", false);
@@ -121,27 +117,26 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 
 		public ExportViewModel()
 		{
-			_data = ServiceFactory.CreateDataRepository();
-			_allDecks = _data.GetAllDecks();
-
+			_allDecks = StatsConverter.Data.GetAllDecks();
+			// initialize selection lists
 			GameModes = Enum.GetValues(typeof(GameMode)).OfType<GameMode>();
 			TimePeriods = Enum.GetValues(typeof(TimeFrame)).OfType<TimeFrame>();
 			Regions = Enum.GetValues(typeof(Region)).OfType<Region>().Where(x => x != Region.UNKNOWN);
 			Decks = new ObservableCollection<Deck>();
-			// TODO store/generate this somehow
-			Exporters = new List<IStatsConverter>() { new CSVConverter() };
-
+			Exporters = new List<IStatsConverter>() {
+				new CSVConverter()
+			};
+			// set default selections
 			SelectedGameMode = GameMode.ALL;
 			SelectedRegion = Region.US;
 			SelectedTimeFrame = TimeFrame.ALL;
 			SelectedExporter = Exporters.FirstOrDefault();
 
-			FilterDecks(GameMode.ALL);
+			FilterDecks(SelectedGameMode);
 			CouldBeArena = false;
 
-			PropertyChanged += ExportViewModel_PropertyChanged;
-
 			ExportCommand = new RelayCommand(() => ExportStats());
+			PropertyChanged += ExportViewModel_PropertyChanged;
 		}
 
 		public void FilterDecks(GameMode mode)
@@ -172,11 +167,17 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public void ExportStats()
 		{
 			var deck = SelectedDeck == ALL_DECK ? null : SelectedDeck;
-			Converter.Export(SelectedExporter, new GameFilter(deck?.Id, SelectedRegion, SelectedGameMode, SelectedTimeFrame), "FILE");
+			var filter = new GameFilter(deck?.Id, SelectedRegion, SelectedGameMode, SelectedTimeFrame);
+			var filename = Utilities.SelectFile(
+				SelectedExporter.Name,
+				SelectedExporter.FileExtension,
+				StatsConverter.Settings.Get("DefaultExportPath"));
+			Converter.Export(SelectedExporter, filter, filename);
 		}
 
 		private void ExportViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
+			// TODO can this moved into setter's
 			if (e.PropertyName == "SelectedGameMode")
 			{
 				CouldBeArena = SelectedGameMode == GameMode.ARENA;

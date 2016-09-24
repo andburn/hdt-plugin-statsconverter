@@ -14,7 +14,7 @@ namespace HDT.Plugins.StatsConverter.Converters.CSV
 
 		public string FileExtension
 		{
-			get { return ".csv"; }
+			get { return "csv"; }
 		}
 
 		public string Description
