@@ -25,6 +25,7 @@ namespace StatsConverterTest.Converters
 					Deck = new Deck(),
 					Region = Region.US,
 					Mode = GameMode.BRAWL,
+					PlayerClass = PlayerClass.HUNTER,
 					StartTime = new DateTime(2015, 01, 25, 19, 03, 26),
 					EndTime = new DateTime(2015, 01, 25, 19, 09, 14)
 				},
@@ -44,7 +45,7 @@ namespace StatsConverterTest.Converters
 					OpponentName = "后海大白鲨",
 					Turns = 5,
 					Seconds = 360,
-					PlayerGotCoin = false,
+					PlayerGotCoin = true,
 					WasConceded = false,
 					Note = new Note() { Text = "Some notes" }
 				}
@@ -57,8 +58,8 @@ namespace StatsConverterTest.Converters
 			stream = new MemoryStream();
 			StreamWriter writer = new StreamWriter(stream);
 			writer.WriteLine("Deck,Version,Class,Mode,Region,Rank,Start Time,Coin,Opponent Class,Opponent Name,Turns,Duration,Result,Conceded,Note,Archetype,Id");
-			writer.WriteLine(",,All,Brawl,US,0,2015-01-25 19:03:26,No,All,,0,0,Win,No,,,00000000-0000-0000-0000-000000000000");
-			writer.WriteLine("A Deck,1.0,Warlock,Ranked,EU,12,2015-01-25 19:14:36,No,Hunter,后海大白鲨,5,360,Loss,No,Some notes,,00000000-0000-0000-0000-000000000000");
+			writer.WriteLine(",,Hunter,Brawl,US,0,2015-01-25 19:03:26,No,All,,0,0,Win,No,,,00000000-0000-0000-0000-000000000000");
+			writer.WriteLine("A Deck,1.0,Warlock,Ranked,EU,12,2015-01-25 19:14:36,Yes,Hunter,后海大白鲨,5,360,Loss,No,Some notes,,00000000-0000-0000-0000-000000000000");
 			writer.Flush();
 			stream.Position = 0;
 		}
@@ -71,11 +72,52 @@ namespace StatsConverterTest.Converters
 		}
 
 		[Test]
-		public void FromStream()
+		public void Should_MapFromStream_Correctly_WithAllProps()
 		{
-			var from = convert.From(stream);
-			// TODO: Game.Equals only on Id
-			CollectionAssert.AreEqual(games, from);
+			var game = convert.From(stream)[1];
+			Assert.AreEqual("A Deck", game.Deck.Name);			
+			Assert.AreEqual(new Version(1, 0), game.DeckVersion);
+			Assert.AreEqual(PlayerClass.WARLOCK, game.PlayerClass);
+			Assert.AreEqual(GameMode.RANKED, game.Mode);
+			Assert.AreEqual(Region.EU, game.Region);
+			Assert.AreEqual(12, game.Rank);
+			Assert.AreEqual(new DateTime(2015, 01, 25, 19, 14, 36), game.StartTime);
+			Assert.AreEqual(new DateTime(), game.EndTime);
+			Assert.IsTrue(game.PlayerGotCoin);
+			Assert.AreEqual(PlayerClass.HUNTER, game.OpponentClass);
+			Assert.AreEqual("后海大白鲨", game.OpponentName);
+			Assert.AreEqual(5, game.Turns);
+			Assert.AreEqual(360, game.Seconds);
+			Assert.AreEqual(GameResult.LOSS, game.Result);
+			Assert.IsFalse(game.WasConceded);
+			Assert.AreEqual("Some notes", game.Note.Text);
+			// TODO need test arch too
+			Assert.AreEqual(string.Empty, game.Note.Archetype);
+			Assert.AreEqual(Guid.Empty, game.Id);
 		}
+
+		[Test]
+		public void Should_MapFromStream_Correctly_WithMissingProps()
+		{
+			var game = convert.From(stream)[0];
+			Assert.AreEqual(string.Empty, game.Deck.Name);
+			Assert.AreEqual(null, game.DeckVersion);
+			Assert.AreEqual(PlayerClass.HUNTER, game.PlayerClass);
+			Assert.AreEqual(GameMode.BRAWL, game.Mode);
+			Assert.AreEqual(Region.US, game.Region);
+			Assert.AreEqual(0, game.Rank);
+			Assert.AreEqual(new DateTime(2015, 01, 25, 19, 03, 26), game.StartTime);
+			Assert.AreEqual(new DateTime(), game.EndTime);
+			Assert.IsFalse(game.PlayerGotCoin);
+			Assert.AreEqual(PlayerClass.ALL, game.OpponentClass);
+			Assert.AreEqual(string.Empty, game.OpponentName);
+			Assert.AreEqual(0, game.Turns);
+			Assert.AreEqual(0, game.Seconds);
+			Assert.AreEqual(GameResult.WIN, game.Result);
+			Assert.IsFalse(game.WasConceded);
+			Assert.AreEqual(string.Empty, game.Note.Text);
+			Assert.AreEqual(string.Empty, game.Note.Archetype);
+			Assert.AreEqual(Guid.Empty, game.Id);
+		}		
 	}
 }
