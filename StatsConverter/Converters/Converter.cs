@@ -73,6 +73,23 @@ namespace HDT.Plugins.StatsConverter.Converters
 			}
 		}		
 
+		public static void Import(IStatsConverter converter, string file)
+		{
+			try
+			{
+				using (var fs = new FileStream(file, FileMode.Open))
+				{
+					var games = converter.From(fs);
+					StatsConverter.Data.UpdateGames(games);
+				}
+			}
+			catch (Exception e)
+			{
+				// TODO error message
+				StatsConverter.Logger.Error(e);
+			}
+		}
+
 		public static void ArenaExtras(string filename, List<Game> stats, Guid? deck, List<Deck> decks)
 		{
 			List<ArenaExtra> arenaRuns = null;
