@@ -171,7 +171,8 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			var filename = Utilities.SelectFile(
 				SelectedExporter.Name,
 				SelectedExporter.FileExtension,
-				StatsConverter.Settings.Get("DefaultExportPath"));
+				StatsConverter.Settings.Get("DefaultExportPath"),
+				true);
 			Converter.Export(SelectedExporter, filter, filename);
 		}
 

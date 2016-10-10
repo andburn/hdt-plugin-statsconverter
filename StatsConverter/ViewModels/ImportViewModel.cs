@@ -38,7 +38,6 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 
 		private void ImportGames()
 		{
-			// TODO opens save file, want open file
 			var filename = Utilities.SelectFile(
 				SelectedImporter.Name,
 				SelectedImporter.FileExtension,

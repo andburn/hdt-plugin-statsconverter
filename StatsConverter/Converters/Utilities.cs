@@ -15,11 +15,19 @@ namespace HDT.Plugins.StatsConverter.Converters
 			return name;
 		}
 
-		public static string SelectFile(string name, string ext, string path)
+		public static string SelectFile(string name, string ext, string path, bool save = false)
 		{
-			// set up and open save dialog
-			SaveFileDialog dlg = new SaveFileDialog();
-			dlg.FileName = GetDefaultFileName();
+			FileDialog dlg;
+			if (save)
+			{
+				dlg = new SaveFileDialog();
+				dlg.FileName = GetDefaultFileName();
+			}				
+			else
+			{
+				dlg = new OpenFileDialog();
+			}
+							
 			dlg.DefaultExt = "." + ext;
 			dlg.InitialDirectory = path;
 			dlg.Filter = name + " Files | *." + ext;

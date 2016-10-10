@@ -10,7 +10,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel HorizontalAlignment="Center">
         <DockPanel Margin="0,2">
-            <Label Content="Export As" Width="100" DockPanel.Dock="Left" />
+            <Label Content="Import From" Width="100" DockPanel.Dock="Left" />
             <ComboBox Width="200"
                       ItemsSource="{Binding Importers}" SelectedItem="{Binding SelectedImporter}">
                 <ComboBox.ItemTemplate>
