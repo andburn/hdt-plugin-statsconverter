@@ -32,7 +32,7 @@ namespace HDT.Plugins.StatsConverter.Converters.CSV
 				.Name("Opponent Class");
 			Map(m => m.OpponentName).Name("Opponent Name");
 			Map(m => m.Turns);
-			Map(m => m.Seconds).Name("Duration"); // TODO not seconds
+			Map(m => m.Minutes).Name("Duration");
 			Map(m => m.Result)
 				.TypeConverter<EnumConverter>()
 				.TypeConverterOption("GameResult");

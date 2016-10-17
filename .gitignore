@@ -1,5 +1,6 @@
 # tests
 /coverage
+/*.xml
 
 # paket
 .paket
