@@ -9,7 +9,7 @@
              xmlns:views="clr-namespace:HDT.Plugins.StatsConverter.Views"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
-             Width="540" Height="320"
+             Width="540" Height="400"
              Title="Hearthstone Deck Tracker">
     <Window.DataContext>
         <viewmodels:MainViewModel />

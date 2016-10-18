@@ -44,7 +44,7 @@ namespace StatsConverterTest.Converters
 					OpponentClass = PlayerClass.HUNTER,
 					OpponentName = "后海大白鲨",
 					Turns = 5,
-					Seconds = 360,
+					Minutes = 6,
 					PlayerGotCoin = true,
 					WasConceded = false,
 					Note = new Note() { Text = "Some notes" }
@@ -87,7 +87,7 @@ namespace StatsConverterTest.Converters
 			Assert.AreEqual(PlayerClass.HUNTER, game.OpponentClass);
 			Assert.AreEqual("后海大白鲨", game.OpponentName);
 			Assert.AreEqual(5, game.Turns);
-			Assert.AreEqual(360, game.Seconds);
+			Assert.AreEqual(6, game.Minutes);
 			Assert.AreEqual(GameResult.LOSS, game.Result);
 			Assert.IsFalse(game.WasConceded);
 			Assert.AreEqual("Some notes", game.Note.Text);
@@ -112,7 +112,7 @@ namespace StatsConverterTest.Converters
 			Assert.AreEqual(PlayerClass.ALL, game.OpponentClass);
 			Assert.AreEqual(string.Empty, game.OpponentName);
 			Assert.AreEqual(0, game.Turns);
-			Assert.AreEqual(0, game.Seconds);
+			Assert.AreEqual(0, game.Minutes);
 			Assert.AreEqual(GameResult.WIN, game.Result);
 			Assert.IsFalse(game.WasConceded);
 			Assert.AreEqual(string.Empty, game.Note.Text);

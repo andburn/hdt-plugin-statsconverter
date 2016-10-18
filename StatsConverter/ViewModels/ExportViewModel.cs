@@ -62,7 +62,12 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public GameMode SelectedGameMode
 		{
 			get { return _selectedGameMode; }
-			set { Set(() => SelectedGameMode, ref _selectedGameMode, value); }
+			set
+			{
+				Set(() => SelectedGameMode, ref _selectedGameMode, value);
+				UpdateArenaStatus();
+				FilterDecks(value);
+			}
 		}
 
 		private TimeFrame _selectedTimeFrame;
@@ -86,7 +91,11 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public Deck SelectedDeck
 		{
 			get { return _selectedDeck; }
-			set { Set(() => SelectedDeck, ref _selectedDeck, value); }
+			set
+			{
+				Set(() => SelectedDeck, ref _selectedDeck, value);
+				UpdateArenaStatus();
+			}
 		}
 
 		private IStatsConverter _selectedExporter;
@@ -113,6 +122,14 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			set { Set(() => CouldBeArena, ref _couldBeArena, value); }
 		}
 
+		private string _gameCount;
+
+		public string GameCount
+		{
+			get { return _gameCount; }
+			set { Set(() => GameCount, ref _gameCount, value); }
+		}
+
 		public RelayCommand ExportCommand { get; private set; }
 
 		public ExportViewModel()
@@ -136,7 +153,6 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			CouldBeArena = false;
 
 			ExportCommand = new RelayCommand(() => ExportStats());
-			PropertyChanged += ExportViewModel_PropertyChanged;
 		}
 
 		public void FilterDecks(GameMode mode)
@@ -176,18 +192,9 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			Converter.Export(SelectedExporter, filter, filename);
 		}
 
-		private void ExportViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private void UpdateArenaStatus()
 		{
-			// TODO can this moved into setter's
-			if (e.PropertyName == "SelectedGameMode")
-			{
-				CouldBeArena = SelectedGameMode == GameMode.ARENA;
-				FilterDecks(SelectedGameMode);
-			}
-			else if (e.PropertyName == "SelectedDeck")
-			{
-				CouldBeArena = SelectedDeck.IsArena;
-			}
+			CouldBeArena = SelectedDeck == null ? false : SelectedDeck.IsArena || SelectedGameMode == GameMode.ARENA;
 		}
 	}
 }
