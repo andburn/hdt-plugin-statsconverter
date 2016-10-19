@@ -37,7 +37,7 @@ namespace HDT.Plugins.StatsConverter.Converters
 			// filter by deck first if needed
 			if (Deck != null)
 			{
-				filtered = filtered.Where(g => g.Deck.Id.Equals(Deck));
+				filtered = filtered.Where(g => g.Deck != null && Deck.Equals(g.Deck.Id));
 			}
 			// region filter
 			if (!Region.Equals(Region.ALL))

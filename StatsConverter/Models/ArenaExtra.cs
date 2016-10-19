@@ -9,7 +9,7 @@ namespace HDT.Plugins.StatsConverter.Models
 	public class ArenaExtra
 	{
 		public string Name { get; private set; }
-		public string PlayerClass { get; private set; }
+		public PlayerClass PlayerClass { get; private set; }
 		public List<string> Cards { get; private set; }
 		public int Gold { get; private set; }
 		public int Dust { get; private set; }

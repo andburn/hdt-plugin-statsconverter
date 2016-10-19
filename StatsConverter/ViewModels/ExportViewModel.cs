@@ -15,7 +15,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 	{
 		private List<Deck> _allDecks;
 
-		private static readonly Deck ALL_DECK = new Deck(Guid.Empty, "All", false);
+		private static readonly Deck ALL_DECK = new Deck(Guid.Empty, "All", false, "All", false);
 
 		private static string _gameCountFormatString = "{0} game{1} found";
 
@@ -78,9 +78,9 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			get { return _selectedGameMode; }
 			set
 			{
-				Set(() => SelectedGameMode, ref _selectedGameMode, value);
-				UpdateArenaStatus();
+				Set(() => SelectedGameMode, ref _selectedGameMode, value);				
 				FilterDecks(value);
+				UpdateArenaStatus();
 				UpdateGameCount();
 			}
 		}
@@ -243,7 +243,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 
 		private void UpdateArenaStatus()
 		{
-			CouldBeArena = SelectedDeck == null ? false : SelectedDeck.IsArena || SelectedGameMode == GameMode.ARENA;
+			CouldBeArena = SelectedDeck == ALL_DECK ? false : SelectedDeck.IsArena || SelectedGameMode == GameMode.ARENA;
 		}
 
 		private void UpdateGameCount()
