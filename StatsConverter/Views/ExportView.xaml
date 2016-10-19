@@ -26,6 +26,17 @@
             </ComboBox>
         </DockPanel>
         <DockPanel Margin="0,2">
+            <Label Content="Game Format" Width="100" DockPanel.Dock="Left" />
+            <ComboBox Width="200"
+                      ItemsSource="{Binding GameFormats}" SelectedItem="{Binding SelectedGameFormat}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource EnumStringConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </DockPanel>
+        <DockPanel Margin="0,2">
             <Label Content="Deck" Width="100" DockPanel.Dock="Left" />
             <ComboBox Width="200"
                       ItemsSource="{Binding Decks}"  SelectedItem="{Binding SelectedDeck}">

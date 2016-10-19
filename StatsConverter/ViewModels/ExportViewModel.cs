@@ -32,11 +32,15 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public IEnumerable<GameMode> GameModes
 		{
 			get { return _gameModes; }
-			set
-			{
-				Set(() => GameModes, ref _gameModes, value);
-				UpdateGameCount();
-			}
+			set { Set(() => GameModes, ref _gameModes, value); }
+		}
+
+		private IEnumerable<GameFormat> _gameFormats;
+
+		public IEnumerable<GameFormat> GameFormats
+		{
+			get { return _gameFormats; }
+			set { Set(() => GameFormats, ref _gameFormats, value); }
 		}
 
 		private IEnumerable<TimeFrame> _timePeriods;
@@ -79,7 +83,21 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			set
 			{
 				Set(() => SelectedGameMode, ref _selectedGameMode, value);				
-				FilterDecks(value);
+				FilterDecks(value, SelectedGameFormat);
+				UpdateArenaStatus();
+				UpdateGameCount();
+			}
+		}
+
+		private GameFormat _selectedGameFormat;
+
+		public GameFormat SelectedGameFormat
+		{
+			get { return _selectedGameFormat; }
+			set
+			{
+				Set(() => SelectedGameFormat, ref _selectedGameFormat, value);
+				FilterDecks(SelectedGameMode, value);
 				UpdateArenaStatus();
 				UpdateGameCount();
 			}
@@ -186,6 +204,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			_allDecks = StatsConverter.Data.GetAllDecks();
 			// initialize selection lists
 			GameModes = Enum.GetValues(typeof(GameMode)).OfType<GameMode>();
+			GameFormats = Enum.GetValues(typeof(GameFormat)).OfType<GameFormat>();
 			TimePeriods = Enum.GetValues(typeof(TimeFrame)).OfType<TimeFrame>();
 			Regions = Enum.GetValues(typeof(Region)).OfType<Region>().Where(x => x != Region.UNKNOWN);
 			Decks = new ObservableCollection<Deck>();
@@ -194,33 +213,47 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			};
 			// set default selections
 			SelectedGameMode = GameMode.ALL;
+			SelectedGameFormat = GameFormat.ANY;
 			SelectedRegion = Region.US;
 			SelectedTimeFrame = TimeFrame.ALL;
 			SelectedExporter = Exporters.FirstOrDefault();
 
-			FilterDecks(SelectedGameMode);
+			FilterDecks(SelectedGameMode, SelectedGameFormat);
 			CouldBeArena = false;
 
 			ExportCommand = new RelayCommand(() => ExportStats());
 		}
 
-		public void FilterDecks(GameMode mode)
+		public void FilterDecks(GameMode mode, GameFormat format)
 		{
 			Decks.Clear();
 			_allDecks
 				.Where(d =>
 				{
+					var include = true;
 					switch (mode)
 					{
 						case GameMode.ALL:
-							return true;
+							include = include && true; break;
 
 						case GameMode.ARENA:
-							return d.IsArena;
+							include = include && d.IsArena; break;
 
 						default:
-							return !d.IsArena;
+							include = include && !d.IsArena; break;
 					}
+					switch (format)
+					{
+						case GameFormat.ANY:
+							include = include && true; break;
+
+						case GameFormat.STANDARD:
+							include = include && d.IsStandard; break;
+
+						case GameFormat.WILD:
+							include = include && !d.IsStandard; break;
+					}
+					return include;
 				})
 				.OrderBy(d => d.Name)
 				.ToList()
@@ -232,7 +265,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public void ExportStats()
 		{
 			var deck = SelectedDeck == ALL_DECK ? null : SelectedDeck;
-			var filter = new GameFilter(deck?.Id, SelectedRegion, SelectedGameMode, SelectedTimeFrame);
+			var filter = new GameFilter(deck?.Id, SelectedRegion, SelectedGameMode, SelectedTimeFrame, SelectedGameFormat);
 			var filename = Utilities.SelectFile(
 				SelectedExporter.Name,
 				SelectedExporter.FileExtension,
@@ -249,7 +282,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		private void UpdateGameCount()
 		{
 			var deck = SelectedDeck == ALL_DECK ? null : SelectedDeck;
-			var filter = new GameFilter(deck?.Id, SelectedRegion, SelectedGameMode, SelectedTimeFrame);
+			var filter = new GameFilter(deck?.Id, SelectedRegion, SelectedGameMode, SelectedTimeFrame, SelectedGameFormat);
 			var games = StatsConverter.Data.GetAllGames();
 			GameCount = filter.Apply(games).Count;
 		}

@@ -13,6 +13,7 @@ namespace HDT.Plugins.StatsConverter.Converters
 
 		public Region Region { get; private set; }
 		public GameMode Mode { get; private set; }
+		public GameFormat Format { get; private set; }
 		public TimeFrame TimeFrame { get; private set; }
 
 		public GameFilter()
@@ -21,14 +22,16 @@ namespace HDT.Plugins.StatsConverter.Converters
 			Region = Region.ALL;
 			Mode = GameMode.ALL;
 			TimeFrame = TimeFrame.ALL;
+			Format = GameFormat.ANY;
 		}
 
-		public GameFilter(Guid? deck, Region region, GameMode mode, TimeFrame time)
+		public GameFilter(Guid? deck, Region region, GameMode mode, TimeFrame time, GameFormat format)
 		{
 			Deck = deck;
 			Region = region;
 			Mode = mode;
 			TimeFrame = time;
+			Format = format;
 		}
 
 		public List<Game> Apply(List<Game> games)
@@ -38,6 +41,11 @@ namespace HDT.Plugins.StatsConverter.Converters
 			if (Deck != null)
 			{
 				filtered = filtered.Where(g => g.Deck != null && Deck.Equals(g.Deck.Id));
+			}
+			// format filter
+			if (!Format.Equals(GameFormat.ANY))
+			{
+				filtered = filtered.Where(g => g.Format == Format);
 			}
 			// region filter
 			if (!Region.Equals(Region.ALL))

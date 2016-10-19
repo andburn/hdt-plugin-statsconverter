@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using HDT.Plugins.Common.Models;
 using HDT.Plugins.Common.Util;
 using HDT.Plugins.StatsConverter.Converters;
-using HDT.Plugins.StatsConverter.Converters.CSV;
 using NUnit.Framework;
 
 namespace StatsConverterTest.Converters
@@ -23,6 +22,7 @@ namespace StatsConverterTest.Converters
 					Deck = new Deck(),
 					Region = Region.US,
 					Mode = GameMode.BRAWL,
+					Format = GameFormat.WILD,
 					StartTime = new DateTime(2015, 01, 25, 19, 03, 26),
 					EndTime = new DateTime(2015, 01, 25, 19, 09, 14)
 				},
@@ -30,6 +30,7 @@ namespace StatsConverterTest.Converters
 					Deck = new Deck(),
 					Region = Region.EU,
 					Mode = GameMode.RANKED,
+					Format = GameFormat.STANDARD,
 					StartTime = DateTime.Now - new TimeSpan(2, 10, 0),
 					EndTime =  DateTime.Now - new TimeSpan(2, 0, 0)
 				},
@@ -57,7 +58,7 @@ namespace StatsConverterTest.Converters
 		[Test]
 		public void Apply_FilterByDeck()
 		{
-			var filter = new GameFilter(games[0].Deck.Id, Region.ALL, GameMode.ALL, TimeFrame.ALL);
+			var filter = new GameFilter(games[0].Deck.Id, Region.ALL, GameMode.ALL, TimeFrame.ALL, GameFormat.ANY);
 			var filtered = filter.Apply(games);
 			Assert.AreEqual(1, filtered.Count);
 			Assert.AreEqual(games[0].Deck.Id, filtered[0].Deck.Id);
@@ -66,7 +67,7 @@ namespace StatsConverterTest.Converters
 		[Test]
 		public void Apply_FilterByRegion()
 		{
-			var filter = new GameFilter(null, Region.EU, GameMode.ALL, TimeFrame.ALL);
+			var filter = new GameFilter(null, Region.EU, GameMode.ALL, TimeFrame.ALL, GameFormat.ANY);
 			var filtered = filter.Apply(games);
 			Assert.AreEqual(1, filtered.Count);
 			Assert.AreEqual(Region.EU, filtered[0].Region);
@@ -75,16 +76,25 @@ namespace StatsConverterTest.Converters
 		[Test]
 		public void Apply_FilterByMode()
 		{
-			var filter = new GameFilter(null, Region.ALL, GameMode.RANKED, TimeFrame.ALL);
+			var filter = new GameFilter(null, Region.ALL, GameMode.RANKED, TimeFrame.ALL, GameFormat.ANY);
 			var filtered = filter.Apply(games);
 			Assert.AreEqual(1, filtered.Count);
 			Assert.AreEqual(GameMode.RANKED, filtered[0].Mode);
 		}
 
 		[Test]
+		public void Apply_FilterByFormat()
+		{
+			var filter = new GameFilter(null, Region.ALL, GameMode.ALL, TimeFrame.ALL, GameFormat.STANDARD);
+			var filtered = filter.Apply(games);
+			Assert.AreEqual(1, filtered.Count);
+			Assert.AreEqual(GameFormat.STANDARD, filtered[0].Format);
+		}
+
+		[Test]
 		public void Apply_FilterByTime()
 		{
-			var filter = new GameFilter(null, Region.ALL, GameMode.ALL, TimeFrame.TODAY);
+			var filter = new GameFilter(null, Region.ALL, GameMode.ALL, TimeFrame.TODAY, GameFormat.ANY);
 			var filtered = filter.Apply(games);
 			Assert.AreEqual(1, filtered.Count);
 		}

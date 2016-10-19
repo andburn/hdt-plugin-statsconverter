@@ -59,7 +59,7 @@ namespace StatsConverterTest.Converters
 			StreamWriter writer = new StreamWriter(stream);
 			writer.WriteLine("Deck,Version,Class,Mode,Region,Rank,Start Time,Coin,Opponent Class,Opponent Name,Turns,Duration,Result,Conceded,Note,Archetype,Id");
 			writer.WriteLine(",,Hunter,Brawl,US,0,2015-01-25 19:03:26,No,All,,0,0,Win,No,,,00000000-0000-0000-0000-000000000000");
-			writer.WriteLine("A Deck,1.0,Warlock,Ranked,EU,12,2015-01-25 19:14:36,Yes,Hunter,后海大白鲨,5,360,Loss,No,Some notes,,00000000-0000-0000-0000-000000000000");
+			writer.WriteLine("A Deck,1.0,Warlock,Ranked,EU,12,2015-01-25 19:14:36,Yes,Hunter,后海大白鲨,5,6,Loss,No,Some notes,,00000000-0000-0000-0000-000000000000");
 			writer.Flush();
 			stream.Position = 0;
 		}
