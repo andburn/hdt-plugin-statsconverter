@@ -32,6 +32,8 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 
 		public MainViewModel()
 		{
+			// set default view
+			ContentViewModel = _viewModels["export"];
 			NavigateCommand = new RelayCommand<string>(x => OnNavigation(x));
 		}
 
