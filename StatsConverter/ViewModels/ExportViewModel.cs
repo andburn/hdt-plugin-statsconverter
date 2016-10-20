@@ -277,7 +277,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 
 		private void UpdateArenaStatus()
 		{
-			CouldBeArena = SelectedDeck == ALL_DECK ? false : SelectedDeck.IsArena || SelectedGameMode == GameMode.ARENA;
+			CouldBeArena = SelectedGameMode == GameMode.ARENA || SelectedDeck.IsArena;
 		}
 
 		private void UpdateGameCount()

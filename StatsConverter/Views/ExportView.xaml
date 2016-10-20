@@ -64,12 +64,6 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </DockPanel>
-        <DockPanel DockPanel.Dock="Right"
-                   Visibility="{Binding CouldBeArena, Converter={StaticResource BoolToVisiblityConverter}}"
-                   ToolTip="Include arena decks and rewards">
-            <Label Content="Arena Extras" Width="100" DockPanel.Dock="Left" />
-            <CheckBox IsChecked="{Binding IncludeArenaExtras}" HorizontalAlignment="Left" />
-        </DockPanel>
         <DockPanel Margin="0,2">
             <Label Content="Export As" Width="100" DockPanel.Dock="Left" />
             <ComboBox Width="200"
@@ -80,6 +74,12 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Right"
+                   Visibility="{Binding CouldBeArena, Converter={StaticResource BoolToVisiblityConverter}}"
+                   ToolTip="Include arena decks and rewards">
+            <Label Content="Arena Extras" Width="100" DockPanel.Dock="Left" />
+            <CheckBox IsChecked="{Binding IncludeArenaExtras}" HorizontalAlignment="Left" />
         </DockPanel>
         
         <Button Content="Export" Width="90" Margin="0,16,0,4" IsEnabled="{Binding HasGames}" Command="{Binding ExportCommand}" />
