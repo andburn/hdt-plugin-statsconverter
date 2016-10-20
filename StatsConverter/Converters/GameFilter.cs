@@ -8,9 +8,7 @@ namespace HDT.Plugins.StatsConverter.Converters
 {
 	public class GameFilter
 	{
-		// TODO: allow null guid ?
-		public Guid? Deck { get; private set; }
-
+		public Guid? DeckId { get; private set; }
 		public Region Region { get; private set; }
 		public GameMode Mode { get; private set; }
 		public GameFormat Format { get; private set; }
@@ -18,7 +16,7 @@ namespace HDT.Plugins.StatsConverter.Converters
 
 		public GameFilter()
 		{
-			Deck = null;
+			DeckId = null;
 			Region = Region.ALL;
 			Mode = GameMode.ALL;
 			TimeFrame = TimeFrame.ALL;
@@ -27,7 +25,7 @@ namespace HDT.Plugins.StatsConverter.Converters
 
 		public GameFilter(Guid? deck, Region region, GameMode mode, TimeFrame time, GameFormat format)
 		{
-			Deck = deck;
+			DeckId = deck;
 			Region = region;
 			Mode = mode;
 			TimeFrame = time;
@@ -38,9 +36,16 @@ namespace HDT.Plugins.StatsConverter.Converters
 		{
 			IEnumerable<Game> filtered = games;
 			// filter by deck first if needed
-			if (Deck != null)
+			if (DeckId != null)
 			{
-				filtered = filtered.Where(g => g.Deck != null && Deck.Equals(g.Deck.Id));
+				if (DeckId == Deck.None.Id)
+				{
+					filtered = filtered.Where(g => g.Deck == null);
+				}
+				else
+				{
+					filtered = filtered.Where(g => g.Deck != null && DeckId.Equals(g.Deck.Id));
+				}				
 			}
 			// format filter
 			if (!Format.Equals(GameFormat.ANY))

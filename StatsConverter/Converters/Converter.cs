@@ -14,7 +14,7 @@ namespace HDT.Plugins.StatsConverter.Converters
 	{
 		public static List<Game> Filter(GameFilter filter)
 		{
-			StatsConverter.Logger.Info($"Filter: {filter.Deck}, {filter.Mode}, {filter.Region}, {filter.TimeFrame}");
+			StatsConverter.Logger.Info($"Filter: {filter.DeckId}, {filter.Mode}, {filter.Region}, {filter.TimeFrame}");
 			var games = StatsConverter.Data.GetAllGames();
 			StatsConverter.Logger.Info($"game count = {games.Count}");
 			return filter.Apply(games);
@@ -44,7 +44,7 @@ namespace HDT.Plugins.StatsConverter.Converters
 		{
 			var games = StatsConverter.Data.GetAllGames();
 			var filtered = filter.Apply(games);
-			StatsConverter.Logger.Info($"Filter: {filter.Deck}, {filter.Mode}, {filter.Region}, {filter.TimeFrame}");
+			StatsConverter.Logger.Info($"Filter: {filter.DeckId}, {filter.Mode}, {filter.Region}, {filter.TimeFrame}");
 			StatsConverter.Logger.Info($"game count = {games.Count}");
 
 			try

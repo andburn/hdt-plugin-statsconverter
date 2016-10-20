@@ -41,7 +41,7 @@ namespace StatsConverterTest.Converters
 		public void DefaultFilter_ShouldHavePropsSetToAll()
 		{
 			var filter = new GameFilter();
-			Assert.IsNull(filter.Deck);
+			Assert.IsNull(filter.DeckId);
 			Assert.AreEqual(Region.ALL, filter.Region);
 			Assert.AreEqual(GameMode.ALL, filter.Mode);
 			Assert.AreEqual(TimeFrame.ALL, filter.TimeFrame);

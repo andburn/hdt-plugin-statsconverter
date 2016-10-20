@@ -259,6 +259,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 				.ToList()
 				.ForEach(d => Decks.Add(d));
 			Decks.Insert(0, ALL_DECK);
+			Decks.Insert(1, Deck.None);
 			SelectedDeck = ALL_DECK;
 		}
 
