@@ -70,7 +70,8 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </DockPanel>
-
-        <Button Content="Export" Width="90" Margin="0,20" Command="{Binding ExportCommand}" />
+        
+        <Button Content="Export" Width="90" Margin="0,16,0,4" IsEnabled="{Binding HasGames}" Command="{Binding ExportCommand}" />
+        <TextBlock Text="{Binding GameCountString}" Margin="0,6,0,0" HorizontalAlignment="Center" />
     </StackPanel>
 </UserControl>

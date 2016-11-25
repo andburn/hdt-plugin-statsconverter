@@ -17,6 +17,8 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 
 		private static readonly Deck ALL_DECK = new Deck(Guid.Empty, "All", false);
 
+		private static string _gameCountFormatString = "{0} game{1} found";
+
 		private ObservableCollection<Deck> _decks;
 
 		public ObservableCollection<Deck> Decks
@@ -30,7 +32,11 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public IEnumerable<GameMode> GameModes
 		{
 			get { return _gameModes; }
-			set { Set(() => GameModes, ref _gameModes, value); }
+			set
+			{
+				Set(() => GameModes, ref _gameModes, value);
+				UpdateGameCount();
+			}
 		}
 
 		private IEnumerable<TimeFrame> _timePeriods;
@@ -38,7 +44,11 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public IEnumerable<TimeFrame> TimePeriods
 		{
 			get { return _timePeriods; }
-			set { Set(() => TimePeriods, ref _timePeriods, value); }
+			set
+			{
+				Set(() => TimePeriods, ref _timePeriods, value);
+				UpdateGameCount();
+			}
 		}
 
 		private IEnumerable<Region> _regions;
@@ -46,7 +56,11 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public IEnumerable<Region> Regions
 		{
 			get { return _regions; }
-			set { Set(() => Regions, ref _regions, value); }
+			set
+			{
+				Set(() => Regions, ref _regions, value);
+				UpdateGameCount();
+			}
 		}
 
 		private IEnumerable<IStatsConverter> _exporters;
@@ -67,6 +81,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 				Set(() => SelectedGameMode, ref _selectedGameMode, value);
 				UpdateArenaStatus();
 				FilterDecks(value);
+				UpdateGameCount();
 			}
 		}
 
@@ -75,7 +90,11 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public TimeFrame SelectedTimeFrame
 		{
 			get { return _selectedTimeFrame; }
-			set { Set(() => SelectedTimeFrame, ref _selectedTimeFrame, value); }
+			set
+			{
+				Set(() => SelectedTimeFrame, ref _selectedTimeFrame, value);
+				UpdateGameCount();
+			}
 		}
 
 		private Region _selectedRegion;
@@ -83,7 +102,11 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public Region SelectedRegion
 		{
 			get { return _selectedRegion; }
-			set { Set(() => SelectedRegion, ref _selectedRegion, value); }
+			set
+			{
+				Set(() => SelectedRegion, ref _selectedRegion, value);
+				UpdateGameCount();
+			}
 		}
 
 		private Deck _selectedDeck;
@@ -94,6 +117,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			set
 			{
 				Set(() => SelectedDeck, ref _selectedDeck, value);
+				UpdateGameCount();
 				UpdateArenaStatus();
 			}
 		}
@@ -103,7 +127,11 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public IStatsConverter SelectedExporter
 		{
 			get { return _selectedExporter; }
-			set { Set(() => SelectedExporter, ref _selectedExporter, value); }
+			set
+			{
+				Set(() => SelectedExporter, ref _selectedExporter, value);
+				UpdateGameCount();
+			}
 		}
 
 		private bool _includeArenaExtras;
@@ -122,12 +150,33 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			set { Set(() => CouldBeArena, ref _couldBeArena, value); }
 		}
 
-		private string _gameCount;
+		private int _gameCount;
 
-		public string GameCount
+		public int GameCount
 		{
 			get { return _gameCount; }
-			set { Set(() => GameCount, ref _gameCount, value); }
+			set
+			{
+				Set(() => GameCount, ref _gameCount, value);
+				GameCountString = string.Format(_gameCountFormatString, _gameCount, _gameCount == 1 ? "" : "s");
+				HasGames = _gameCount > 0;
+			}
+		}
+
+		private string _gameCountString;
+
+		public string GameCountString
+		{
+			get { return _gameCountString; }
+			set { Set(() => GameCountString, ref _gameCountString, value); }
+		}
+
+		private bool _hasGames;
+
+		public bool HasGames
+		{
+			get { return _hasGames; }
+			set { Set(() => HasGames, ref _hasGames, value); }
 		}
 
 		public RelayCommand ExportCommand { get; private set; }
@@ -195,6 +244,14 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		private void UpdateArenaStatus()
 		{
 			CouldBeArena = SelectedDeck == null ? false : SelectedDeck.IsArena || SelectedGameMode == GameMode.ARENA;
+		}
+
+		private void UpdateGameCount()
+		{
+			var deck = SelectedDeck == ALL_DECK ? null : SelectedDeck;
+			var filter = new GameFilter(deck?.Id, SelectedRegion, SelectedGameMode, SelectedTimeFrame);
+			var games = StatsConverter.Data.GetAllGames();
+			GameCount = filter.Apply(games).Count;
 		}
 	}
 }
