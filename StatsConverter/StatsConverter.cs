@@ -11,6 +11,7 @@ using HDT.Plugins.Common.Plugin;
 using HDT.Plugins.Common.Providers;
 using HDT.Plugins.Common.Services;
 using HDT.Plugins.Common.Settings;
+using HDT.Plugins.Common.Util;
 using HDT.Plugins.StatsConverter.Views;
 
 namespace HDT.Plugins.StatsConverter
@@ -94,7 +95,7 @@ namespace HDT.Plugins.StatsConverter
 
 		private void CreatePluginMenu()
 		{
-			PluginMenu pm = new PluginMenu("Stats Converter", "pie-chart",
+			PluginMenu pm = new PluginMenu("Stats Converter", IcoMoon.PieChart,
 				new RelayCommand(() => ShowMainView()));
 			_statsMenuItem = pm.Menu;
 		}
@@ -112,7 +113,7 @@ namespace HDT.Plugins.StatsConverter
 					SlidePanelManager
 						.Notification("Plugin Update Available",
 							$"[DOWNLOAD]({latest.DownloadUrl}) {name} v{latest.Version}",
-							"download3",
+							IcoMoon.Download3,
 							() => Process.Start(latest.DownloadUrl))
 						.AutoClose(10);
 				}

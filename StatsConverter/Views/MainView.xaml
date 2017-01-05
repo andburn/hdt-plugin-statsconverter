@@ -10,7 +10,7 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              Width="540" Height="440"
-             Title="Hearthstone Deck Tracker">
+             Title="Hearthstone Deck Tracker - Stats Converter">
     <Window.DataContext>
         <viewmodels:MainViewModel />
     </Window.DataContext>
@@ -26,7 +26,16 @@
         </DataTemplate>
     </Window.Resources>
     <DockPanel>
-        <DockPanel DockPanel.Dock="Top" Background="BlueViolet" Height="60">
+        <DockPanel DockPanel.Dock="Top" Height="60">
+            <DockPanel.Background>
+                <ImageBrush ImageSource="pack://application:,,,/HDT.Plugins.Common;component/Resources/hdt-banner.png" 
+                            Viewport="0,-50,600,150"
+                            ViewportUnits="Absolute"
+                            TileMode="Tile"
+                            Stretch="None"
+                            AlignmentX="Left"
+                            AlignmentY="Top"/>
+            </DockPanel.Background>
             <controls:MoonTextButton DockPanel.Dock="Right" Margin="4"
                                      Text="SETTINGS" Icon="&#xe994;"
                                      Command="{Binding NavigateCommand}" Param="settings" />
@@ -38,7 +47,7 @@
                                      Command="{Binding NavigateCommand}" Param="export" />
             <TextBlock Foreground="White" FontSize="28" VerticalAlignment="Center" Margin="8">Stats Converter</TextBlock>
         </DockPanel>
-        <DockPanel DockPanel.Dock="Top" Background="CadetBlue">
+        <DockPanel DockPanel.Dock="Top" Background="#2e3136">
             <TextBlock Text="{Binding ContentTitle}" Foreground="White" FontSize="16" Margin="8,4,4,4" />
         </DockPanel>
         <ContentControl Content="{Binding ContentViewModel}" Margin="5,20,5,10" />
