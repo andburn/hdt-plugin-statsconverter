@@ -4,3 +4,4 @@ MvvmLightLibs
 HDT.Plugins.Common
 Costura.Fody
 GitVersionTask
+SimpleInjector

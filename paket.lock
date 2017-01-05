@@ -1,37 +1,33 @@
-FRAMEWORK: >= NET45
+FRAMEWORK: >= NET452
 NUGET
-  remote: https://www.nuget.org/api/v2
-    Castle.Core (3.3.3)
+  remote: https://api.nuget.org/v3/index.json
     CommonServiceLocator (1.3)
     Costura.Fody (1.3.3)
       Fody (>= 1.26.1)
     CsvHelper (2.16.3)
     Fody (1.29.4)
-    GitVersionTask (3.6.4)
-    ini-parser (2.3)
-    Moq (4.5.22)
-      Castle.Core (>= 3.3.3)
+    GitVersionTask (3.6.5)
+    ini-parser (2.4)
     MvvmLightLibs (5.3)
       CommonServiceLocator (>= 1.3)
-    NUnit (3.5)
-    NUnit.ConsoleRunner (3.4.1)
-    NUnit.Extension.NUnitProjectLoader (3.5)
-    NUnit.Extension.NUnitV2Driver (3.5)
-    NUnit.Extension.NUnitV2ResultWriter (3.5)
-    NUnit.Extension.TeamCityEventListener (1.0.2)
-    NUnit.Extension.VSProjectLoader (3.5)
-    NUnit.Runners (3.4.1)
-      NUnit.ConsoleRunner (>= 3.4.1)
-      NUnit.Extension.NUnitProjectLoader (>= 3.4.1)
-      NUnit.Extension.NUnitV2Driver (>= 3.4.1)
-      NUnit.Extension.NUnitV2ResultWriter (>= 3.4.1)
-      NUnit.Extension.TeamCityEventListener (>= 1.0.1)
-      NUnit.Extension.VSProjectLoader (>= 3.4.1)
+    Newtonsoft.Json (6.0.8)
     Ookii.Dialogs (1.0)
+    SimpleInjector (3.3.2)
   remote: paket-files/github.com/andburn/hdt-plugin-common/Common.NuPkg
     HDT.Plugins.Common (0.1.0.0)
       ini-parser (>= 2.3)
+      SimpleInjector (>= 3.3.2)
 GIT
   remote: https://github.com/andburn/hdt-plugin-common.git
-     (991a508f4cf579c3932b2b2e0419938229c327cf)
+     (22dd35a157b62fb4b8f0ed7427b594bcf9912f41)
       path: /Common.NuPkg/
+GROUP Test
+STRATEGY: MIN
+NUGET
+  remote: https://api.nuget.org/v3/index.json
+    Castle.Core (3.3.3) - framework: >= net45
+    coveralls.io (1.3.4)
+    Moq (4.5.30)
+      Castle.Core (>= 3.3.3) - framework: >= net45
+    NUnit (3.5)
+    NUnit.ConsoleRunner (3.5)

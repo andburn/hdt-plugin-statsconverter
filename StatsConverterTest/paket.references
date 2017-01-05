@@ -1,3 +1,7 @@
 HDT.Plugins.Common
-NUnit
-Moq
+SimpleInjector
+
+group Test
+	NUnit
+	Moq
+	coveralls.io
