@@ -8,6 +8,7 @@ using HDT.Plugins.Common.Models;
 using HDT.Plugins.Common.Util;
 using HDT.Plugins.StatsConverter.Converters;
 using HDT.Plugins.StatsConverter.Converters.CSV;
+using HDT.Plugins.StatsConverter.Utils;
 
 namespace HDT.Plugins.StatsConverter.ViewModels
 {
@@ -267,10 +268,10 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		{
 			var deck = SelectedDeck == ALL_DECK ? null : SelectedDeck;
 			var filter = new GameFilter(deck?.Id, SelectedRegion, SelectedGameMode, SelectedTimeFrame, SelectedGameFormat);
-			var filename = Utilities.SelectFile(
+			var filename = ViewModelHelper.SelectFile(
 				SelectedExporter.Name,
 				SelectedExporter.FileExtension,
-				StatsConverter.Settings.Get("DefaultExportPath"),
+				StatsConverter.Settings.Get(Strings.DefaultExportPath),
 				true);
 			Converter.Export(SelectedExporter, filter, filename);
 		}

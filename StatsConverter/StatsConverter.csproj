@@ -79,12 +79,13 @@
     <Compile Include="Converters\CSV\TypeConverters.cs" />
     <Compile Include="Converters\IStatsConverter.cs" />
     <Compile Include="Converters\CSV\GameMap.cs" />
-    <Compile Include="Converters\Utilities.cs" />
     <Compile Include="MergedTrigger.cs" />
+    <Compile Include="Utils\Strings.cs" />
     <Compile Include="ViewModels\ExportViewModel.cs" />
     <Compile Include="ViewModels\ImportViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelHelper.cs" />
     <Compile Include="Views\ExportView.xaml.cs">
       <DependentUpon>ExportView.xaml</DependentUpon>
     </Compile>

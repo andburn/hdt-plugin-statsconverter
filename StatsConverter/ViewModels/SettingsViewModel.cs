@@ -1,5 +1,7 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.IO;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using HDT.Plugins.StatsConverter.Utils;
 using Ookii.Dialogs.Wpf;
 
 namespace HDT.Plugins.StatsConverter.ViewModels
@@ -10,12 +12,12 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		{
 			get
 			{
-				return StatsConverter.Settings.Get("ExportFileName");
+				return StatsConverter.Settings.Get(Strings.ExportFileName);
 			}
 			set
 			{
-				StatsConverter.Settings.Set("ExportFileName", value);
-				RaisePropertyChanged("ExportFileName");
+				StatsConverter.Settings.Set(Strings.ExportFileName, value);
+				RaisePropertyChanged(Strings.ExportFileName);
 			}
 		}
 
@@ -23,12 +25,12 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		{
 			get
 			{
-				return StatsConverter.Settings.Get("DefaultExportPath");
+				return StatsConverter.Settings.Get(Strings.DefaultExportPath);
 			}
 			set
 			{
-				StatsConverter.Settings.Set("DefaultExportPath", value);
-				RaisePropertyChanged("DefaultExportPath");
+				StatsConverter.Settings.Set(Strings.DefaultExportPath, value);
+				RaisePropertyChanged(Strings.DefaultExportPath);
 			}
 		}
 
@@ -36,12 +38,12 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		{
 			get
 			{
-				return StatsConverter.Settings.Get("UseExportFileTimestamp").Bool;
+				return StatsConverter.Settings.Get(Strings.UseExportFileTimestamp).Bool;
 			}
 			set
 			{
-				StatsConverter.Settings.Set("UseExportFileTimestamp", value);
-				RaisePropertyChanged("UseExportFileTimestamp");
+				StatsConverter.Settings.Set(Strings.UseExportFileTimestamp, value);
+				RaisePropertyChanged(Strings.UseExportFileTimestamp);
 			}
 		}
 
@@ -58,8 +60,17 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			dialog.Description = "Select a folder";
 			dialog.UseDescriptionForTitle = true;
 
+			// set initial directory to setting if exists
+			var current = StatsConverter.Settings.Get(Strings.DefaultExportPath).Value;
+			if (Directory.Exists(current))
+				dialog.SelectedPath = current;
+
 			if ((bool)dialog.ShowDialog())
+			{
 				DefaultExportPath = dialog.SelectedPath;
+				StatsConverter.Settings.Set(Strings.DefaultExportPath, dialog.SelectedPath);
+				RaisePropertyChanged(Strings.DefaultExportPath);
+			}
 		}
 	}
 }

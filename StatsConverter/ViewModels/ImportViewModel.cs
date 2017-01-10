@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using HDT.Plugins.StatsConverter.Converters;
 using HDT.Plugins.StatsConverter.Converters.CSV;
+using HDT.Plugins.StatsConverter.Utils;
 
 namespace HDT.Plugins.StatsConverter.ViewModels
 {
@@ -38,10 +39,10 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 
 		private void ImportGames()
 		{
-			var filename = Utilities.SelectFile(
+			var filename = ViewModelHelper.SelectFile(
 				SelectedImporter.Name,
 				SelectedImporter.FileExtension,
-				StatsConverter.Settings.Get("DefaultExportPath"));
+				StatsConverter.Settings.Get(Strings.DefaultExportPath));
 			Converter.Import(SelectedImporter, filename);
 		}
 	}
