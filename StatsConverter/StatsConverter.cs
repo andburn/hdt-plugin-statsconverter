@@ -12,6 +12,7 @@ using HDT.Plugins.Common.Providers;
 using HDT.Plugins.Common.Services;
 using HDT.Plugins.Common.Settings;
 using HDT.Plugins.Common.Util;
+using HDT.Plugins.StatsConverter.ViewModels;
 using HDT.Plugins.StatsConverter.Views;
 
 namespace HDT.Plugins.StatsConverter
@@ -25,6 +26,8 @@ namespace HDT.Plugins.StatsConverter
 		public static readonly IDataRepository Data;
 		public static readonly Settings Settings;
 
+		private static readonly MainViewModel _mainViewModel;
+
 		private MenuItem _statsMenuItem;
 
 		public override MenuItem MenuItem
@@ -35,13 +38,16 @@ namespace HDT.Plugins.StatsConverter
 		static StatsConverter()
 		{
 			// initialize services
-			Updater = ServiceFactory.CreateUpdateService();
-			Logger = ServiceFactory.CreateLoggingService();
-			Data = ServiceFactory.CreateDataRepository();
+			var resolver = Injector.Instance.Container;
+			Updater = resolver.GetInstance<IUpdateService>();
+			Logger = resolver.GetInstance<ILoggingService>();
+			Data = resolver.GetInstance<IDataRepository>();
 			// load settings
 			var assembly = Assembly.GetExecutingAssembly();
 			var resourceName = "HDT.Plugins.StatsConverter.Resources.Default.ini";
 			Settings = new Settings(assembly.GetManifestResourceStream(resourceName), "StatsConverter");
+			// persistent main view model
+			_mainViewModel = new MainViewModel();
 		}
 
 		public StatsConverter()
@@ -73,18 +79,24 @@ namespace HDT.Plugins.StatsConverter
 
 		private void ShowMainView()
 		{
+			MainView view = null;
+			// check for any open windows
 			var open = Application.Current.Windows.OfType<MainView>();
-			if (open.Count() > 0)
+			if (open.Count() == 1)
 			{
-				var view = open.First();
-				if (view.WindowState == WindowState.Minimized)
-					view.WindowState = WindowState.Normal;
-				view.Activate();
+				view = open.FirstOrDefault();
 			}
 			else
 			{
-				(new MainView()).Show();
+				CloseMainView();
+				// create view
+				view = new MainView();
+				view.DataContext = _mainViewModel;
 			}
+			view.Show();
+			if (view.WindowState == WindowState.Minimized)
+				view.WindowState = WindowState.Normal;
+			view.Activate();
 		}
 
 		private void CloseMainView()

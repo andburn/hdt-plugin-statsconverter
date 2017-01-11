@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using HDT.Plugins.StatsConverter.Utils;
 
 namespace HDT.Plugins.StatsConverter.ViewModels
 {
 	public class MainViewModel : ViewModelBase
 	{
 		private Dictionary<string, ViewModelBase> _viewModels = new Dictionary<string, ViewModelBase> {
-			{ "settings", new SettingsViewModel() },
-			{ "import", new ImportViewModel() },
-			{ "export", new ExportViewModel() }
+			{ Strings.NavSettings, new SettingsViewModel() },
+			{ Strings.NavImport, new ImportViewModel() },
+			{ Strings.NavExport, new ExportViewModel() }
 		};
 
 		private string _contentTitle;
@@ -32,8 +33,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 
 		public MainViewModel()
 		{
-			// set default view
-			ContentViewModel = _viewModels["export"];
+			ContentViewModel = _viewModels[Strings.NavExport];
 			NavigateCommand = new RelayCommand<string>(x => OnNavigation(x));
 		}
 

@@ -10,6 +10,7 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              Width="540" Height="440"
+             MinWidth="540" MinHeight="440"
              Title="Hearthstone Deck Tracker - Stats Converter">
     <Window.DataContext>
         <viewmodels:MainViewModel />
