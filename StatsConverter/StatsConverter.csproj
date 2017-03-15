@@ -136,7 +136,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <EmbeddedResource Include="Resources\Default.ini" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -180,6 +179,11 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+    <Target 
+		AfterTargets="AfterBuild;NonWinFodyTarget"
+		Name="CleanReferenceCopyLocalPaths" >
+    <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
+  </Target>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')" />
   </Choose>
