@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HDT.Plugins.Common.Models;
-using HDT.Plugins.Common.Util;
+using HDT.Plugins.Common.Enums;
 
 namespace HDT.Plugins.StatsConverter.Models
 {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using HDT.Plugins.Common.Enums;
 using HDT.Plugins.Common.Models;
-using HDT.Plugins.Common.Util;
 using HDT.Plugins.StatsConverter.Converters;
 using HDT.Plugins.StatsConverter.Converters.CSV;
 using NUnit.Framework;
@@ -75,7 +75,7 @@ namespace StatsConverterTest.Converters
 		public void Should_MapFromStream_Correctly_WithAllProps()
 		{
 			var game = convert.From(stream)[1];
-			Assert.AreEqual("A Deck", game.Deck.Name);			
+			Assert.AreEqual("A Deck", game.Deck.Name);
 			Assert.AreEqual(new Version(1, 0), game.DeckVersion);
 			Assert.AreEqual(PlayerClass.WARLOCK, game.PlayerClass);
 			Assert.AreEqual(GameMode.RANKED, game.Mode);
@@ -118,6 +118,6 @@ namespace StatsConverterTest.Converters
 			Assert.AreEqual(string.Empty, game.Note.Text);
 			Assert.AreEqual(string.Empty, game.Note.Archetype);
 			Assert.AreEqual(Guid.Empty, game.Id);
-		}		
+		}
 	}
 }

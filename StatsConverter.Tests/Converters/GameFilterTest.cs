@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using HDT.Plugins.Common.Models;
-using HDT.Plugins.Common.Util;
+using HDT.Plugins.Common.Enums;
 using HDT.Plugins.StatsConverter.Converters;
 using NUnit.Framework;
 

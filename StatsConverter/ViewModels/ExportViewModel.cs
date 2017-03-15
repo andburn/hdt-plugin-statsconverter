@@ -5,7 +5,7 @@ using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using HDT.Plugins.Common.Models;
-using HDT.Plugins.Common.Util;
+using HDT.Plugins.Common.Enums;
 using HDT.Plugins.StatsConverter.Converters;
 using HDT.Plugins.StatsConverter.Converters.CSV;
 using HDT.Plugins.StatsConverter.Utils;

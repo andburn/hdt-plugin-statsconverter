@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatsConverter", "StatsConverter\StatsConverter.csproj", "{39F85DE1-B107-4D4D-BAC4-F4CE94549637}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatsConverterTest", "StatsConverterTest\StatsConverterTest.csproj", "{CA51C1DE-BB68-4527-9069-228072B5D3E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatsConverter.Tests", "StatsConverter.Tests\StatsConverter.Tests.csproj", "{CA51C1DE-BB68-4527-9069-228072B5D3E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatsConverter.Plugin", "StatsConverter.Plugin\StatsConverter.Plugin.csproj", "{C88204F1-60F7-4A47-9F91-22C3CD9FD539}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +34,14 @@ Global
 		{CA51C1DE-BB68-4527-9069-228072B5D3E5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CA51C1DE-BB68-4527-9069-228072B5D3E5}.Release|x86.ActiveCfg = Release|x86
 		{CA51C1DE-BB68-4527-9069-228072B5D3E5}.Release|x86.Build.0 = Release|x86
+		{C88204F1-60F7-4A47-9F91-22C3CD9FD539}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C88204F1-60F7-4A47-9F91-22C3CD9FD539}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C88204F1-60F7-4A47-9F91-22C3CD9FD539}.Debug|x86.ActiveCfg = Debug|x86
+		{C88204F1-60F7-4A47-9F91-22C3CD9FD539}.Debug|x86.Build.0 = Debug|x86
+		{C88204F1-60F7-4A47-9F91-22C3CD9FD539}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C88204F1-60F7-4A47-9F91-22C3CD9FD539}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C88204F1-60F7-4A47-9F91-22C3CD9FD539}.Release|x86.ActiveCfg = Release|x86
+		{C88204F1-60F7-4A47-9F91-22C3CD9FD539}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,0 @@
-HDT.Plugins.Common
-SimpleInjector
-
-group Test
-	NUnit
-	Moq
-	coveralls.io

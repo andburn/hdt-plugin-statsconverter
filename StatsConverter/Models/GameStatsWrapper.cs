@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using HDT.Plugins.Common.Models;
-using HDT.Plugins.Common.Util;
+using HDT.Plugins.Common.Enums;
 
 namespace HDT.Plugins.StatsConverter.Models
 {

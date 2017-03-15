@@ -1,7 +1,6 @@
 ﻿using System;
-using System.IO;
 using CsvHelper.TypeConversion;
-using HDT.Plugins.Common.Util;
+using HDT.Plugins.Common.Enums;
 
 namespace HDT.Plugins.StatsConverter.Converters.CSV
 {
@@ -104,5 +103,5 @@ namespace HDT.Plugins.StatsConverter.Converters.CSV
 		{
 			return type == typeof(string);
 		}
-	}	
+	}
 }

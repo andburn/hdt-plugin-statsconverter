@@ -6,73 +6,63 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using GalaSoft.MvvmLight.Command;
-using HDT.Plugins.Common.Controls.SlidePanels;
-using HDT.Plugins.Common.Plugin;
-using HDT.Plugins.Common.Providers;
+using HDT.Plugins.Common.Controls;
 using HDT.Plugins.Common.Services;
 using HDT.Plugins.Common.Settings;
-using HDT.Plugins.Common.Util;
+using HDT.Plugins.Common.Utils;
 using HDT.Plugins.StatsConverter.ViewModels;
 using HDT.Plugins.StatsConverter.Views;
+using Ninject;
 
 namespace HDT.Plugins.StatsConverter
 {
-	[Name("Stats Converter")]
-	[Description("Import and export game statistics in different formats")]
-	public class StatsConverter : PluginBase
+	public class StatsConverter : IPluggable
 	{
-		public static readonly IUpdateService Updater;
-		public static readonly ILoggingService Logger;
-		public static readonly IDataRepository Data;
-		public static readonly Settings Settings;
+		public static IUpdateService Updater;
+		public static ILoggingService Logger;
+		public static IDataRepository Data;
+		public static IEventsService Events;
+		public static IGameClientService Client;
+		public static IConfigurationRepository Config;
+		public static Settings Settings;
+		public static MainViewModel MainViewModel;
 
-		private static readonly MainViewModel _mainViewModel;
+		private static IKernel _kernel;
+		private static Version _version;
 
-		private MenuItem _statsMenuItem;
+		public static readonly string Name = "Stats Converter";
 
-		public override MenuItem MenuItem
+		public StatsConverter(IKernel kernel, Version version)
 		{
-			get { return _statsMenuItem; }
-		}
-
-		static StatsConverter()
-		{
+			_kernel = kernel;
+			_version = version;
 			// initialize services
-			var resolver = Injector.Instance.Container;
-			Updater = resolver.GetInstance<IUpdateService>();
-			Logger = resolver.GetInstance<ILoggingService>();
-			Data = resolver.GetInstance<IDataRepository>();
+			Updater = _kernel.Get<IUpdateService>();
+			Logger = _kernel.Get<ILoggingService>();
+			Data = _kernel.Get<IDataRepository>();
+			Events = _kernel.Get<IEventsService>();
+			Client = _kernel.Get<IGameClientService>();
+			Config = _kernel.Get<IConfigurationRepository>();
 			// load settings
 			var assembly = Assembly.GetExecutingAssembly();
 			var resourceName = "HDT.Plugins.StatsConverter.Resources.Default.ini";
 			Settings = new Settings(assembly.GetManifestResourceStream(resourceName), "StatsConverter");
-			// persistent main view model
-			_mainViewModel = new MainViewModel();
+			// other
+			MainViewModel = new MainViewModel();
 		}
 
-		public StatsConverter()
-			: base(Assembly.GetExecutingAssembly())
+		public async void Load()
 		{
+			await UpdateCheck("andburn", "hdt-plugin-statsconverter");
 		}
 
-		public override async void OnLoad()
-		{
-			CreatePluginMenu();
-			await UpdateCheck("StatsConverter", "hdt-plugin-statsconverter");
-		}
-
-		public override void OnUnload()
+		public void Unload()
 		{
 			SlidePanelManager.DetachAll();
 			CloseMainView();
 		}
 
-		public override string ButtonText
-		{
-			get { return "Open"; }
-		}
-
-		public override void OnButtonPress()
+		public void ButtonPress()
 		{
 			ShowMainView();
 		}
@@ -91,7 +81,7 @@ namespace HDT.Plugins.StatsConverter
 				CloseMainView();
 				// create view
 				view = new MainView();
-				view.DataContext = _mainViewModel;
+				view.DataContext = MainViewModel;
 			}
 			view.Show();
 			if (view.WindowState == WindowState.Minimized)
@@ -105,35 +95,41 @@ namespace HDT.Plugins.StatsConverter
 				view.Close();
 		}
 
-		private void CreatePluginMenu()
+		public MenuItem CreateMenu()
 		{
 			PluginMenu pm = new PluginMenu("Stats Converter", IcoMoon.PieChart,
 				new RelayCommand(() => ShowMainView()));
-			_statsMenuItem = pm.Menu;
+			return pm.Menu;
 		}
 
-		private async Task UpdateCheck(string name, string repo)
+		public static void Notify(string title, string message, int autoClose, string icon = null, Action action = null)
 		{
-			var uri = new Uri($"https://api.github.com/repos/andburn/{repo}/releases");
-			Logger.Debug("update uri = " + uri);
+			SlidePanelManager
+				.Notification(_kernel.Get<ISlidePanel>(), title, message, icon, action)
+				.AutoClose(autoClose);
+		}
+
+		private async Task UpdateCheck(string user, string repo)
+		{
 			try
 			{
-				var latest = await Updater.CheckForUpdate(uri, Version);
+				var latest = await Updater.CheckForUpdate(user, repo, _version);
 				if (latest.HasUpdate)
 				{
 					Logger.Info($"Plugin Update available ({latest.Version})");
-					SlidePanelManager
-						.Notification("Plugin Update Available",
-							$"[DOWNLOAD]({latest.DownloadUrl}) {name} v{latest.Version}",
-							IcoMoon.Download3,
-							() => Process.Start(latest.DownloadUrl))
-						.AutoClose(10);
+					Notify("Plugin Update Available",
+						$"[DOWNLOAD]({latest.DownloadUrl}) {Name} v{latest.Version}",
+						10, IcoMoon.Download3, () => Process.Start(latest.DownloadUrl));
 				}
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+				Logger.Error($"Github update failed: {e.Message}");
 			}
+		}
+
+		public void Repeat()
+		{
 		}
 	}
 }
