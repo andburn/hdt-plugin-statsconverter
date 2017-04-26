@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using CsvHelper.TypeConversion;
 using HDT.Plugins.Common.Enums;
 
@@ -102,6 +104,25 @@ namespace HDT.Plugins.StatsConverter.Converters.CSV
 		public override bool CanConvertFrom(Type type)
 		{
 			return type == typeof(string);
+		}
+	}
+
+	public class CardsConverter : DefaultTypeConverter
+	{
+		public override string ConvertToString(TypeConverterOptions options, object value)
+		{
+			if (value == null)
+			{
+				return string.Empty;
+			}
+
+			List<string> cards = value as List<string>;
+			if (cards == null)
+			{
+				return string.Empty;
+			}
+
+			return cards.Select(x => x.Replace(',', ' ')).Aggregate((x, y) => $"{x}|{y}");
 		}
 	}
 }

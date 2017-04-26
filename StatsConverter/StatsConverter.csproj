@@ -103,11 +103,11 @@
   <ItemGroup>
     <Compile Include="Converters\Converter.cs" />
     <Compile Include="Converters\CSV\CSVConverter.cs" />
-    <Compile Include="Converters\CSV\DeckMap.cs" />
-    <Compile Include="Converters\CSV\NoteMap.cs" />
+    <Compile Include="Converters\CSV\Maps\DeckMap.cs" />
+    <Compile Include="Converters\CSV\Maps\NoteMap.cs" />
     <Compile Include="Converters\CSV\TypeConverters.cs" />
     <Compile Include="Converters\IStatsConverter.cs" />
-    <Compile Include="Converters\CSV\GameMap.cs" />
+    <Compile Include="Converters\CSV\Maps\GameMap.cs" />
     <Compile Include="MergedTrigger.cs" />
     <Compile Include="Utils\Strings.cs" />
     <Compile Include="ViewModels\ExportViewModel.cs" />
@@ -119,9 +119,7 @@
       <DependentUpon>ExportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\ArenaExtra.cs" />
-    <Compile Include="Models\ArenaExtraMap.cs" />
-    <Compile Include="Models\GameStatsWrapperMap.cs" />
-    <Compile Include="Models\GameStatsWrapper.cs" />
+    <Compile Include="Converters\CSV\Maps\ArenaExtraMap.cs" />
     <Compile Include="StatsConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Converters\GameFilter.cs" />
@@ -179,9 +177,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-    <Target 
-		AfterTargets="AfterBuild;NonWinFodyTarget"
-		Name="CleanReferenceCopyLocalPaths" >
+  <Target Condition="'$(Configuration)' == 'Release'" AfterTargets="AfterBuild;NonWinFodyTarget" Name="CleanReferenceCopyLocalPaths">
     <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
   </Target>
   <Choose>

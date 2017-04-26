@@ -90,25 +90,26 @@ namespace HDT.Plugins.StatsConverter.Converters
 			}
 		}
 
+		// TODO can't have this here its CSV specific
 		public static void ArenaExtras(string filename, List<Game> stats, Guid? deck, List<Deck> decks)
 		{
 			List<ArenaExtra> arenaRuns = null;
 			if (deck == null)
 				arenaRuns = decks
 					.Where(x => x.IsArena && stats.Any(s => s.Deck.Id == x.Id))
-					.Select(x => new ArenaExtra(x, stats))
+					.Select(x => new ArenaExtra(StatsConverter.Data, x, stats))
 					.OrderByDescending(x => x.LastPlayed).ToList();
 			else
 				arenaRuns = decks
 					.Where(x => x.Id == deck && x.IsArena)
-					.Select(x => new ArenaExtra(x, stats))
+					.Select(x => new ArenaExtra(StatsConverter.Data, x, stats))
 					.OrderByDescending(x => x.LastPlayed).ToList();
 
 			var fn = filename.Replace(".csv", "-extra.csv");
 			using (var writer = new StreamWriter(fn))
 			using (var csv = new CsvWriter(writer))
 			{
-				csv.Configuration.RegisterClassMap<ArenaExtraMap>();
+				csv.Configuration.RegisterClassMap<Plugins.StatsConverter.Converters.CSV.Maps.ArenaExtraMap>();
 				csv.WriteHeader<ArenaExtra>();
 				csv.WriteRecords(arenaRuns);
 			}

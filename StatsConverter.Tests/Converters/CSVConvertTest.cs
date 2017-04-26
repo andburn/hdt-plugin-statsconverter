@@ -19,37 +19,37 @@ namespace StatsConverterTest.Converters
 		[OneTimeSetUp]
 		public void Setup()
 		{
-			convert = new CSVConverter();
-			games = new List<Game>() {
-				new Game() {
-					Deck = new Deck(),
-					Region = Region.US,
-					Mode = GameMode.BRAWL,
-					PlayerClass = PlayerClass.HUNTER,
-					StartTime = new DateTime(2015, 01, 25, 19, 03, 26),
-					EndTime = new DateTime(2015, 01, 25, 19, 09, 14)
-				},
-				new Game() {
-					Id = new Guid("00000000-0000-0000-0000-000000000000"),
-					Deck = new Deck() { Name = "A Deck" },
-					DeckVersion = new Version(1, 0),
-					Region = Region.EU,
-					Mode = GameMode.RANKED,
-					Result = GameResult.LOSS,
-					StartTime = new DateTime(2015, 01, 25, 19, 14, 36),
-					EndTime = new DateTime(2015, 01, 25, 19, 24, 17),
-					Rank = 12,
-					PlayerClass = PlayerClass.WARLOCK,
-					PlayerName = "ThePlayer",
-					OpponentClass = PlayerClass.HUNTER,
-					OpponentName = "后海大白鲨",
-					Turns = 5,
-					Minutes = 6,
-					PlayerGotCoin = true,
-					WasConceded = false,
-					Note = new Note() { Text = "Some notes" }
-				}
+			var g1 = new Game() {
+				Deck = new Deck(),
+				Region = Region.US,
+				Mode = GameMode.BRAWL,
+				PlayerClass = PlayerClass.HUNTER,
+				StartTime = new DateTime(2015, 01, 25, 19, 03, 26),
+				EndTime = new DateTime(2015, 01, 25, 19, 09, 14)
 			};
+			var g2 = new Game() {
+				Id = new Guid("00000000-0000-0000-0000-000000000000"),
+				Deck = new Deck() { Name = "A Deck" },
+				DeckVersion = new Version(1, 0),
+				Region = Region.EU,
+				Mode = GameMode.RANKED,
+				Result = GameResult.LOSS,
+				StartTime = new DateTime(2015, 01, 25, 19, 14, 36),
+				EndTime = new DateTime(2015, 01, 25, 19, 24, 17),
+				Rank = 12,
+				PlayerClass = PlayerClass.WARLOCK,
+				PlayerName = "ThePlayer",
+				OpponentClass = PlayerClass.HUNTER,
+				OpponentName = "后海大白鲨",
+				Turns = 5,
+				Minutes = 6,
+				PlayerGotCoin = true,
+				WasConceded = false,
+				Note = new Note("[Face] Some notes")
+			};
+
+			convert = new CSVConverter();
+			games = new List<Game>() { g1, g2 };
 		}
 
 		[SetUp]
@@ -59,7 +59,7 @@ namespace StatsConverterTest.Converters
 			StreamWriter writer = new StreamWriter(stream);
 			writer.WriteLine("Deck,Version,Class,Mode,Region,Rank,Start Time,Coin,Opponent Class,Opponent Name,Turns,Duration,Result,Conceded,Note,Archetype,Id");
 			writer.WriteLine(",,Hunter,Brawl,US,0,2015-01-25 19:03:26,No,All,,0,0,Win,No,,,00000000-0000-0000-0000-000000000000");
-			writer.WriteLine("A Deck,1.0,Warlock,Ranked,EU,12,2015-01-25 19:14:36,Yes,Hunter,后海大白鲨,5,6,Loss,No,Some notes,,00000000-0000-0000-0000-000000000000");
+			writer.WriteLine("A Deck,1.0,Warlock,Ranked,EU,12,2015-01-25 19:14:36,Yes,Hunter,后海大白鲨,5,6,Loss,No,Some notes,Face,00000000-0000-0000-0000-000000000000");
 			writer.Flush();
 			stream.Position = 0;
 		}
@@ -91,8 +91,7 @@ namespace StatsConverterTest.Converters
 			Assert.AreEqual(GameResult.LOSS, game.Result);
 			Assert.IsFalse(game.WasConceded);
 			Assert.AreEqual("Some notes", game.Note.Text);
-			// TODO need test arch too
-			Assert.AreEqual(string.Empty, game.Note.Archetype);
+			Assert.AreEqual("Face", game.Note.Archetype);
 			Assert.AreEqual(Guid.Empty, game.Id);
 		}
 

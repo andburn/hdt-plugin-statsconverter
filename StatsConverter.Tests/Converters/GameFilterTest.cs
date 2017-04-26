@@ -4,6 +4,7 @@ using HDT.Plugins.Common.Models;
 using HDT.Plugins.Common.Enums;
 using HDT.Plugins.StatsConverter.Converters;
 using NUnit.Framework;
+using StatsConverter.Tests;
 
 namespace StatsConverterTest.Converters
 {
@@ -17,24 +18,7 @@ namespace StatsConverterTest.Converters
 		public void SetUp()
 		{
 			now = "2015-01-10T19:23:44+00:00";
-			games = new List<Game>() {
-				new Game() {
-					Deck = new Deck(),
-					Region = Region.US,
-					Mode = GameMode.BRAWL,
-					Format = GameFormat.WILD,
-					StartTime = new DateTime(2015, 01, 25, 19, 03, 26),
-					EndTime = new DateTime(2015, 01, 25, 19, 09, 14)
-				},
-				new Game() {
-					Deck = new Deck(),
-					Region = Region.EU,
-					Mode = GameMode.RANKED,
-					Format = GameFormat.STANDARD,
-					StartTime = DateTime.Now - new TimeSpan(2, 10, 0),
-					EndTime =  DateTime.Now - new TimeSpan(2, 0, 0)
-				},
-			};
+			games = TestHelper.GetGameList();
 		}
 
 		[Test]

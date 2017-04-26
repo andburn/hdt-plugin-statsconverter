@@ -2,6 +2,7 @@
 using System.IO;
 using CsvHelper;
 using HDT.Plugins.Common.Models;
+using HDT.Plugins.StatsConverter.Converters.CSV.Maps;
 
 namespace HDT.Plugins.StatsConverter.Converters.CSV
 {

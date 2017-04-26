@@ -1,86 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using HDT.Plugins.Common.Enums;
 using HDT.Plugins.Common.Models;
-using HDT.Plugins.Common.Util;
 
-namespace HDT.Plugins.StatsConverter.Test
+namespace StatsConverter.Tests
 {
 	public class TestHelper
 	{
-		public static List<DeckStats> SampleStats;
-
-		static TestHelper()
+		public static List<Game> GetGameList()
 		{
-			SampleStats = new List<DeckStats>();
-			CreateStats(SampleStats);
-		}
-
-		public static GameStats CreateGame(Guid deck, Region region, GameMode mode, int days)
-		{
-			var game = new GameStats(GameResult.WIN, "Mage", "Mage");
-			game.DeckId = deck;
-			game.Region = region;
-			game.GameMode = mode;
-			game.StartTime = DateTime.Now.Subtract(TimeSpan.FromDays(days));
-
-			return game;
-		}
-
-		public static Deck[] CreateStats(List<DeckStats> list)
-		{
-			// Deck A - no stats
-			var deckA = new Deck();
-			deckA.Name = "DeckA";
-			var deckAStats = new DeckStats(deckA);
-
-			// Deck B - a single game
-			var deckB = new Deck();
-			deckB.Name = "DeckB";
-			var deckBStats = new DeckStats(deckB);
-			deckBStats.Games = new List<GameStats>()
+			return new List<Game>()
 			{
-				CreateGame(deckB.DeckId, Region.EU, GameMode.RANKED, 2)
+				new Game() {
+					Deck = new Deck(),
+					Region = Region.US,
+					Mode = GameMode.BRAWL,
+					Format = GameFormat.WILD,
+					StartTime = new DateTime(2015, 01, 25, 19, 03, 26),
+					EndTime = new DateTime(2015, 01, 25, 19, 09, 14)
+				},
+				new Game() {
+					Deck = new Deck(),
+					Region = Region.EU,
+					Mode = GameMode.RANKED,
+					Format = GameFormat.STANDARD,
+					StartTime = DateTime.Now - new TimeSpan(2, 10, 0),
+					EndTime = DateTime.Now - new TimeSpan(2, 0, 0)
+				},
 			};
-
-			// Deck C - multiple games
-			var deckC = new Deck();
-			deckC.Name = "DeckC";
-			var deckCStats = new DeckStats(deckC);
-			deckCStats.Games = new List<GameStats>()
-			{
-				CreateGame(deckC.DeckId, Region.EU, GameMode.ARENA, 2),
-				CreateGame(deckC.DeckId, Region.EU, GameMode.ARENA, 4),
-				CreateGame(deckC.DeckId, Region.US, GameMode.RANKED, 7),
-				CreateGame(deckC.DeckId, Region.ASIA, GameMode.RANKED, 30),
-				CreateGame(deckC.DeckId, Region.US, GameMode.CASUAL, 0),
-				CreateGame(deckC.DeckId, Region.UNKNOWN, GameMode.CASUAL, 1),
-				CreateGame(deckC.DeckId, Region.EU, GameMode.RANKED, 2),
-				CreateGame(deckC.DeckId, Region.EU, GameMode.RANKED, 80),
-			};
-
-			list.Add(deckAStats);
-			list.Add(deckBStats);
-			list.Add(deckCStats);
-
-			return new Deck[] { deckA, deckB, deckC };
 		}
 
-		public static int CountLines(string file)
+		public static List<Card> GetCards()
 		{
-			var count = 0;
-			try
-			{
-				var lines = File.ReadLines(file);
-				count = lines.Count();
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine("File Not Found (" + e.Message + ")");
-				count = -1;
-			}
-			return count;
+			return new List<Card>() {
+				new Card() {
+					Name = "Boot Hoarder",
+					Id = "AB_123",
+					Count = 2
+				},
+				new Card() {
+					Name = "Acolyte of Rain",
+					Id = "AB_789",
+					Count = 1
+				}
+			};
+		}
+
+		public static Deck GetDeck()
+		{
+			return new Deck() {
+				Name = "A Deck",
+				Class = PlayerClass.PALADIN,
+				LastPlayed = new DateTime(2015, 03, 12, 21, 11, 22),
+				Cards = GetCards(),
+				ArenaReward = new ArenaReward() {
+					Gold = 100,
+					Dust = 20,
+					Cards = new List<Card>(),
+					Packs = new List<string>() { "Classic" },
+					PaymentMethod = "Gold"
+				}
+			};
 		}
 	}
 }

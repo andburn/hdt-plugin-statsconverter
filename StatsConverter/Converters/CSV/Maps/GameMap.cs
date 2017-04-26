@@ -1,7 +1,7 @@
 ﻿using CsvHelper.Configuration;
 using HDT.Plugins.Common.Models;
 
-namespace HDT.Plugins.StatsConverter.Converters.CSV
+namespace HDT.Plugins.StatsConverter.Converters.CSV.Maps
 {
 	public class GameMap : CsvClassMap<Game>
 	{

@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using HDT.Plugins.Common.Models;
 using HDT.Plugins.Common.Enums;
+using HDT.Plugins.Common.Services;
 
 namespace HDT.Plugins.StatsConverter.Models
 {
 	public class ArenaExtra
 	{
+		private IDataRepository _data;
+
 		public string Name { get; private set; }
 		public PlayerClass PlayerClass { get; private set; }
 		public List<string> Cards { get; private set; }
@@ -20,8 +23,9 @@ namespace HDT.Plugins.StatsConverter.Models
 		public int Win { get; private set; }
 		public int Loss { get; private set; }
 
-		public ArenaExtra(Deck deck, List<Game> stats = null)
+		public ArenaExtra(IDataRepository data, Deck deck, List<Game> stats = null)
 		{
+			_data = data;
 			Name = deck.Name;
 			PlayerClass = deck.Class;
 			LastPlayed = deck.LastPlayed;
@@ -29,8 +33,6 @@ namespace HDT.Plugins.StatsConverter.Models
 			var run = RunRecord(deck, stats);
 			Win = run.Item1;
 			Loss = run.Item2;
-			//Win = deck.GetGames().Count(g => g.Result == GameResult.Win);
-			//Loss = deck.GetGames().Count(g => g.Result == GameResult.Loss);
 
 			if (deck.ArenaReward != null)
 			{
@@ -44,7 +46,7 @@ namespace HDT.Plugins.StatsConverter.Models
 
 		private Tuple<int, int> RunRecord(Deck d, List<Game> filtered)
 		{
-			var relevant = new List<Game>(); // TODO d.DeckStats.Games);
+			var relevant = _data.GetAllGamesWithDeck(d.Id);
 			if (filtered != null)
 			{
 				relevant = relevant.Intersect(filtered).ToList();
