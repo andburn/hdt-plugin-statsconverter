@@ -273,7 +273,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 				SelectedExporter.FileExtension,
 				StatsConverter.Settings.Get(Strings.DefaultExportPath),
 				true);
-			Converter.Export(SelectedExporter, filter, filename);
+			Converter.Export(StatsConverter.Data, SelectedExporter, filter, IncludeArenaExtras, filename);
 		}
 
 		private void UpdateArenaStatus()
