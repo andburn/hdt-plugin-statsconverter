@@ -73,13 +73,7 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </DockPanel>
-        <DockPanel DockPanel.Dock="Right"
-                   Visibility="{Binding CouldBeArena, Converter={StaticResource BoolToVisiblityConverter}}"
-                   ToolTip="Include arena decks and rewards">
-            <Label Content="Arena Extras" Width="100" DockPanel.Dock="Left" />
-            <CheckBox IsChecked="{Binding IncludeArenaExtras}" HorizontalAlignment="Left" />
-        </DockPanel>
-        
+
         <Button Content="Export" Width="90" Margin="0,16,0,4" IsEnabled="{Binding HasGames}" Command="{Binding ExportCommand}" />
         <TextBlock Text="{Binding GameCountString}" Margin="0,6,0,0" HorizontalAlignment="Center" />
     </StackPanel>

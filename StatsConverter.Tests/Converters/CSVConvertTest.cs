@@ -6,10 +6,8 @@ using HDT.Plugins.Common.Models;
 using HDT.Plugins.Common.Services;
 using HDT.Plugins.StatsConverter.Converters;
 using HDT.Plugins.StatsConverter.Converters.CSV;
-using HDT.Plugins.StatsConverter.Models;
 using Moq;
 using NUnit.Framework;
-using StatsConverter.Tests;
 
 namespace StatsConverterTest.Converters
 {
@@ -18,8 +16,7 @@ namespace StatsConverterTest.Converters
 	{
 		private IStatsConverter convert;
 		private List<Game> games;
-		private List<ArenaExtra> arenas;
-		private Stream stream;	
+		private Stream stream;
 
 		[OneTimeSetUp]
 		public void Setup()
@@ -56,11 +53,9 @@ namespace StatsConverterTest.Converters
 			var data = new Mock<IDataRepository>();
 			data.Setup(x => x.GetAllGamesWithDeck(It.IsAny<Guid>()))
 				.Returns(new List<Game>());
-			var a1 = new ArenaExtra(data.Object, TestHelper.GetDeck());
 
 			convert = new CSVConverter();
 			games = new List<Game>() { g1, g2 };
-			arenas = new List<ArenaExtra>() { a1 };
 		}
 
 		[SetUp]
@@ -79,19 +74,6 @@ namespace StatsConverterTest.Converters
 		public void Should_MapToGameStream()
 		{
 			var to = convert.To(games);
-			FileAssert.AreEqual(stream, to);
-		}
-
-		[Test]
-		public void Should_MapToArenaExtraStream()
-		{
-			var stream = new MemoryStream();
-			StreamWriter writer = new StreamWriter(stream);
-			writer.WriteLine("Deck Name,Class,Date,Win,Loss,Payment,Gold,Dust,Packs,Cards,Deck");
-			writer.WriteLine("A Deck,PALADIN,12/03/2015 21:11:22,0,0,Gold,100,20,1,0,Boot Hoarder x2|Acolyte of Rain x1");			
-			writer.Flush();
-			stream.Position = 0;
-			var to = convert.To(arenas);
 			FileAssert.AreEqual(stream, to);
 		}
 

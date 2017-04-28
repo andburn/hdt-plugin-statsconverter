@@ -90,7 +90,6 @@
     <Compile Include="Converters\CSVConvertTest.cs" />
     <Compile Include="Converters\GameFilterTest.cs" />
     <Compile Include="Converters\TypeConverterTest.cs" />
-    <Compile Include="Models\ArenaExtraTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestHelper.cs" />
   </ItemGroup>

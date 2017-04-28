@@ -153,14 +153,6 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			}
 		}
 
-		private bool _includeArenaExtras;
-
-		public bool IncludeArenaExtras
-		{
-			get { return _includeArenaExtras; }
-			set { Set(() => IncludeArenaExtras, ref _includeArenaExtras, value); }
-		}
-
 		private bool _couldBeArena;
 
 		public bool CouldBeArena
@@ -273,7 +265,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 				SelectedExporter.FileExtension,
 				StatsConverter.Settings.Get(Strings.DefaultExportPath),
 				true);
-			Converter.Export(StatsConverter.Data, SelectedExporter, filter, IncludeArenaExtras, filename);
+			Converter.Export(StatsConverter.Data, SelectedExporter, filter, filename);
 		}
 
 		private void UpdateArenaStatus()

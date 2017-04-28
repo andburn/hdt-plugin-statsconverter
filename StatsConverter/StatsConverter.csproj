@@ -118,8 +118,6 @@
     <Compile Include="Views\ExportView.xaml.cs">
       <DependentUpon>ExportView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\ArenaExtra.cs" />
-    <Compile Include="Converters\CSV\Maps\ArenaExtraMap.cs" />
     <Compile Include="StatsConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Converters\GameFilter.cs" />
