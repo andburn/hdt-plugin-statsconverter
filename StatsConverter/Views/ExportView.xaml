@@ -76,5 +76,6 @@
 
         <Button Content="Export" Width="90" Margin="0,16,0,4" IsEnabled="{Binding HasGames}" Command="{Binding ExportCommand}" />
         <TextBlock Text="{Binding GameCountString}" Margin="0,6,0,0" HorizontalAlignment="Center" />
+        <TextBlock Text="{Binding StatusMessage}" Margin="0,6,0,0" HorizontalAlignment="Center" FontWeight="Bold"/>
     </StackPanel>
 </UserControl>

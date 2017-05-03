@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using HDT.Plugins.Common.Enums;
@@ -183,6 +184,14 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			set { Set(() => GameCountString, ref _gameCountString, value); }
 		}
 
+		private string _statusMessage;
+
+		public string StatusMessage
+		{
+			get { return _statusMessage; }
+			set { Set(() => StatusMessage, ref _statusMessage, value); }
+		}
+
 		private bool _hasGames;
 
 		public bool HasGames
@@ -215,7 +224,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			FilterDecks(SelectedGameMode, SelectedGameFormat);
 			CouldBeArena = false;
 
-			ExportCommand = new RelayCommand(() => ExportStats());
+			ExportCommand = new RelayCommand(async () => await ExportStats());
 		}
 
 		public void FilterDecks(GameMode mode, GameFormat format)
@@ -257,7 +266,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			SelectedDeck = ALL_DECK;
 		}
 
-		public void ExportStats()
+		public async Task ExportStats()
 		{
 			var deck = SelectedDeck == ALL_DECK ? null : SelectedDeck;
 			var filter = new GameFilter(deck?.Id, SelectedRegion, SelectedGameMode, SelectedTimeFrame, SelectedGameFormat);
@@ -275,7 +284,9 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 					SelectedExporter.FileExtension,
 					StatsConverter.Settings.Get(Strings.DefaultExportPath));
 			}
-			Converter.Export(StatsConverter.Data, SelectedExporter, filter, filename);
+			var complete = Converter.Export(StatsConverter.Data, SelectedExporter, filter, filename);
+			var message = complete ? "Export complete" : "Export failed";
+			await SetStatus(message);
 		}
 
 		private void UpdateArenaStatus()
@@ -289,6 +300,13 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			var filter = new GameFilter(deck?.Id, SelectedRegion, SelectedGameMode, SelectedTimeFrame, SelectedGameFormat);
 			var games = StatsConverter.Data.GetAllGames();
 			GameCount = filter.Apply(games).Count;
+		}
+
+		private async Task SetStatus(string message, int timeout = 2)
+		{
+			StatusMessage = message;
+			await Task.Delay(timeout * 1000);
+			StatusMessage = string.Empty;
 		}
 	}
 }
