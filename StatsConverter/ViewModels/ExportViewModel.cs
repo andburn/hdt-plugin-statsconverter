@@ -10,6 +10,7 @@ using HDT.Plugins.Common.Enums;
 using HDT.Plugins.Common.Models;
 using HDT.Plugins.StatsConverter.Converters;
 using HDT.Plugins.StatsConverter.Converters.CSV;
+using HDT.Plugins.StatsConverter.Converters.XML;
 using HDT.Plugins.StatsConverter.Utils;
 
 namespace HDT.Plugins.StatsConverter.ViewModels
@@ -212,7 +213,8 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			Regions = Enum.GetValues(typeof(Region)).OfType<Region>().Where(x => x != Region.UNKNOWN);
 			Decks = new ObservableCollection<Deck>();
 			Exporters = new List<IStatsConverter>() {
-				new CSVConverter()
+				new CSVConverter(),
+				new OpenXMLConverter()
 			};
 			// set default selections
 			SelectedGameMode = GameMode.ALL;

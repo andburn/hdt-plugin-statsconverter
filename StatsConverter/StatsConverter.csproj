@@ -54,12 +54,18 @@
     <None Include="FodyWeavers.xml">
       <Paket>True</Paket>
     </None>
+    <Reference Include="ClosedXML, Version=0.87.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.87.1\lib\net40\ClosedXML.dll</HintPath>
+    </Reference>
     <Reference Include="Common">
       <HintPath>..\..\build\Common\Common.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
       <HintPath>..\packages\CsvHelper.2.16.3.0\lib\net45\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
@@ -108,6 +114,7 @@
     <Compile Include="Converters\CSV\TypeConverters.cs" />
     <Compile Include="Converters\IStatsConverter.cs" />
     <Compile Include="Converters\CSV\Maps\GameMap.cs" />
+    <Compile Include="Converters\XML\OpenXMLConverter.cs" />
     <Compile Include="MergedTrigger.cs" />
     <Compile Include="Utils\Strings.cs" />
     <Compile Include="ViewModels\ExportViewModel.cs" />
