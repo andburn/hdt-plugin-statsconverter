@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\Converter.cs" />
+    <Compile Include="Converters\ConverterException.cs" />
     <Compile Include="Converters\CSV\CSVConverter.cs" />
     <Compile Include="Converters\CSV\Maps\DeckMap.cs" />
     <Compile Include="Converters\CSV\Maps\NoteMap.cs" />

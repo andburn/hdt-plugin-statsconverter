@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using HDT.Plugins.StatsConverter.Converters;
 using HDT.Plugins.StatsConverter.Converters.CSV;
+using HDT.Plugins.StatsConverter.Converters.XML;
 using HDT.Plugins.StatsConverter.Utils;
 
 namespace HDT.Plugins.StatsConverter.ViewModels
@@ -31,7 +32,8 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public ImportViewModel()
 		{
 			Importers = new List<IStatsConverter>() {
-				new CSVConverter()
+				new CSVConverter(),
+				new OpenXMLConverter()
 			};
 			SelectedImporter = Importers.FirstOrDefault();
 			ImportCommand = new RelayCommand(() => ImportGames());
