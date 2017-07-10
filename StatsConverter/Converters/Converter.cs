@@ -40,7 +40,7 @@ namespace HDT.Plugins.StatsConverter.Converters
 				using (var fs = new FileStream(file, FileMode.Open))
 				{
 					var games = converter.From(fs);
-					StatsConverter.Data.UpdateGames(games);
+					StatsConverter.Data.AddGames(games);
 				}
 			}
 			catch (Exception e)
