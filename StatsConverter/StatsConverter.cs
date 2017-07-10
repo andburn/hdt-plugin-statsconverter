@@ -131,5 +131,64 @@ namespace HDT.Plugins.StatsConverter
 		public void Repeat()
 		{
 		}
+
+		private Version _version;
+		private IKernel _kernel;
+		private IPluggable _plugin;
+
+		public Plugin()
+		{
+			_version = GetVersion() ?? new Version(0, 0, 0, 0);
+			_kernel = GetKernel();
+			_plugin = new StatsConverter(_kernel, _version);
+		}
+
+		private MenuItem _menuItem;
+
+		public MenuItem MenuItem
+		{
+			get
+			{
+				if (_menuItem == null)
+					_menuItem = _plugin.CreateMenu();
+				return _menuItem;
+			}
+		}
+
+		public string Name => "Stats Converter";
+
+		public string Description => "Import and export game statistics in different formats.";
+
+		public string ButtonText => "Settings";
+
+		public string Author => "andburn";
+
+		public Version Version => _version;
+
+		public void OnButtonPress() => _plugin.ButtonPress();
+
+		public void OnLoad() => _plugin.Load();
+
+		public void OnUnload() => _plugin.Unload();
+
+		public void OnUpdate() => _plugin.Repeat();
+
+		private IKernel GetKernel()
+		{
+			var kernel = new StandardKernel();
+			kernel.Bind<IDataRepository>().To<TrackerDataRepository>().InSingletonScope();
+			kernel.Bind<IUpdateService>().To<GitHubUpdateService>().InSingletonScope();
+			kernel.Bind<ILoggingService>().To<TrackerLoggingService>().InSingletonScope();
+			kernel.Bind<IEventsService>().To<TrackerEventsService>().InSingletonScope();
+			kernel.Bind<IGameClientService>().To<TrackerClientService>().InSingletonScope();
+			kernel.Bind<IConfigurationRepository>().To<TrackerConfigRepository>().InSingletonScope();
+			kernel.Bind<ISlidePanel>().To<MetroSlidePanel>();
+			return kernel;
+		}
+
+		private Version GetVersion()
+		{
+			return GitVersion.Get(Assembly.GetExecutingAssembly(), this);
+		}
 	}
 }
