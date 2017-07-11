@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using HDT.Plugins.Common.Enums;
+﻿using HDT.Plugins.Common.Enums;
 using HDT.Plugins.Common.Models;
 using HDT.Plugins.Common.Services;
 using HDT.Plugins.StatsConverter.Converters;
 using HDT.Plugins.StatsConverter.Converters.CSV;
 using Moq;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace StatsConverterTest.Converters
 {
@@ -21,15 +21,18 @@ namespace StatsConverterTest.Converters
 		[OneTimeSetUp]
 		public void Setup()
 		{
-			var g1 = new Game() {
+			var g1 = new Game()
+			{
 				Deck = new Deck(),
 				Region = Region.US,
 				Mode = GameMode.BRAWL,
+				Result = GameResult.WIN,
 				PlayerClass = PlayerClass.HUNTER,
 				StartTime = new DateTime(2015, 01, 25, 19, 03, 26),
 				EndTime = new DateTime(2015, 01, 25, 19, 09, 14)
 			};
-			var g2 = new Game() {
+			var g2 = new Game()
+			{
 				Id = new Guid("00000000-0000-0000-0000-000000000000"),
 				Deck = new Deck() { Name = "A Deck" },
 				DeckVersion = new Version(1, 0),
@@ -120,7 +123,7 @@ namespace StatsConverterTest.Converters
 			Assert.AreEqual(0, game.Minutes);
 			Assert.AreEqual(GameResult.WIN, game.Result);
 			Assert.IsFalse(game.WasConceded);
-			Assert.AreEqual(string.Empty, game.Note.Text);
+			Assert.AreEqual(null, game.Note.Text);
 			Assert.AreEqual(string.Empty, game.Note.Archetype);
 			Assert.AreEqual(Guid.Empty, game.Id);
 		}

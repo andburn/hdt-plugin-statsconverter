@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:controls="clr-namespace:HDT.Plugins.Common.Controls;assembly=Common"
+             xmlns:controls="clr-namespace:HDT.Plugins.Common.Controls;assembly=StatsConverter.Common"
              xmlns:viewmodels="clr-namespace:HDT.Plugins.StatsConverter.ViewModels"
              xmlns:views="clr-namespace:HDT.Plugins.StatsConverter.Views"
              mc:Ignorable="d"
@@ -28,7 +28,7 @@
     <DockPanel>
         <DockPanel DockPanel.Dock="Top" Height="60">
             <DockPanel.Background>
-                <ImageBrush ImageSource="pack://application:,,,/Common;component/Resources/hdt-banner.png" 
+                <ImageBrush ImageSource="pack://application:,,,/StatsConverter.Common;component/Resources/hdt-banner.png" 
                             Viewport="0,-50,600,150"
                             ViewportUnits="Absolute"
                             TileMode="Tile"

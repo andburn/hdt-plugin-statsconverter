@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using ClosedXML.Excel;
+﻿using ClosedXML.Excel;
 using HDT.Plugins.Common.Enums;
 using HDT.Plugins.Common.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace HDT.Plugins.StatsConverter.Converters.XML
 {
@@ -14,7 +14,7 @@ namespace HDT.Plugins.StatsConverter.Converters.XML
 		private string[] propNames = new string[] {
 			"Deck", "Version", "Class", "Mode", "Region", "Rank", "Start Time",
 			"Coin", "Opponent Class", "Opponent Name", "Turns", "Duration",
-			"Result", "Conceded", "Archetype", "Note", "Id"
+			"Result", "Conceded", "Note", "Archetype", "Id"
 		};
 
 		public string Name => "Excel";
@@ -47,7 +47,7 @@ namespace HDT.Plugins.StatsConverter.Converters.XML
 			// ASSUMPTIONS:
 			// - header is in row 1
 			// - games starts at row 2
-			// - colunmn 1 is the first value			
+			// - colunmn 1 is the first value
 
 			// create a game obj from each row (skip header)
 			for (int i = 2; i <= rows; i++)
@@ -55,7 +55,7 @@ namespace HDT.Plugins.StatsConverter.Converters.XML
 				var rowData = new object[cols];
 				for (int j = 1; j <= cols; j++)
 				{
-					rowData[j] = worksheet.Cell(i, j).Value;
+					rowData[j - 1] = worksheet.Cell(i, j).Value;
 				}
 				games.Add(ReadRow(rowData));
 			}
@@ -82,6 +82,7 @@ namespace HDT.Plugins.StatsConverter.Converters.XML
 			// save to a stream and return
 			using (var memoryStream = new MemoryStream())
 			{
+				//worksheet.Columns().AdjustToContents();
 				workbook.SaveAs(memoryStream);
 				return new MemoryStream(memoryStream.ToArray());
 			}
@@ -90,34 +91,51 @@ namespace HDT.Plugins.StatsConverter.Converters.XML
 		private Game ReadRow(object[] props)
 		{
 			var game = new Game();
-			// TODO is adding a deck a good idea?
-			//game.Deck = new Deck() { Name = props[0].ToString() };
-			game.DeckVersion = new Version(props[1].ToString());
-			Enum.TryParse(props[2].ToString(), out PlayerClass pclass);
-			game.PlayerClass = pclass;
-			Enum.TryParse(props[3].ToString(), out GameMode gmode);
+			
+			game.Deck = new Deck();
+			var deckName = props[0].ToString();
+			if (!string.IsNullOrWhiteSpace(deckName))
+				game.Deck.Name = deckName;
+
+			Version.TryParse(props[1].ToString(), out Version version);
+			game.DeckVersion = version;
+
+			game.PlayerClass = Common.Enums.Convert.ToHeroClass(props[2].ToString());
+
+			Enum.TryParse(StringUpper(3, props), out GameMode gmode);
 			game.Mode = gmode;
-			Enum.TryParse(props[4].ToString(), out Region region);
+
+			Enum.TryParse(StringUpper(4, props), out Region region);
 			game.Region = region;
+
 			int.TryParse(props[5].ToString(), out int rank);
 			game.Rank = rank;
+
 			DateTime.TryParse(props[6].ToString(), out DateTime stime);
 			game.StartTime = stime;
+
 			game.PlayerGotCoin = props[7].ToString() == "Yes";
-			Enum.TryParse(props[8].ToString(), out PlayerClass oclass);
+
+			Enum.TryParse(StringUpper(8, props), out PlayerClass oclass);
 			game.OpponentClass = oclass;
+
 			game.OpponentName = props[9].ToString();
+
 			int.TryParse(props[10].ToString(), out int turns);
 			game.Turns = turns;
+
 			int.TryParse(props[11].ToString(), out int mins);
 			game.Minutes = mins;
-			Enum.TryParse(props[12].ToString(), out GameResult result);
+
+			Enum.TryParse(StringUpper(12, props), out GameResult result);
 			game.Result = result;
+
 			game.WasConceded = props[13].ToString() == "Yes";
-			game.Note = new Note() {
-				Archetype = props[14].ToString(),
-				Text = props[15].ToString()
-			};
+
+			game.Note = new Note(props[14].ToString());
+			var arch = props[15].ToString();
+			game.Note.Archetype = string.IsNullOrEmpty(arch) ? null : arch;
+
 			game.Id = new Guid(props[16].ToString());
 
 			return game;
@@ -125,28 +143,60 @@ namespace HDT.Plugins.StatsConverter.Converters.XML
 
 		private void WriteRow(IXLWorksheet sheet, Game game, int row)
 		{
-			var props = new object[] {
-				game.Deck?.Name,
-				$"{game.DeckVersion.Major}.{game.DeckVersion.Minor}",
-				EnumStringConverter.ToTitleCase(game.PlayerClass),
-				EnumStringConverter.ToTitleCase(game.Mode),
-				game.Region,
-				game.Rank,
-				game.StartTime,
-				game.PlayerGotCoin ? "Yes" : "No",
-				EnumStringConverter.ToTitleCase(game.OpponentClass),
-				game.OpponentName,
-				game.Turns,
-				game.Minutes,
-				EnumStringConverter.ToTitleCase(game.Result),
-				game.WasConceded ? "Yes" : "No",
-				game.Note?.Archetype,
-				game.Note?.Text,
-				game.Id
+			var props = new CellValue[] {
+				new CellValue(game.Deck?.Name),
+				new CellValue(game.DeckVersion),
+				new CellValue(EnumStringConverter.ToTitleCase(game.PlayerClass)),
+				new CellValue(EnumStringConverter.ToTitleCase(game.Mode)),
+				new CellValue(game.Region),
+				new CellValue(game.Rank, XLCellValues.Number),
+				new CellValue(game.StartTime, XLCellValues.DateTime),
+				new CellValue(game.PlayerGotCoin ? "Yes" : "No"),
+				new CellValue(EnumStringConverter.ToTitleCase(game.OpponentClass)),
+				new CellValue(game.OpponentName),
+				new CellValue(game.Turns, XLCellValues.Number),
+				new CellValue(game.Minutes, XLCellValues.Number),
+				new CellValue(EnumStringConverter.ToTitleCase(game.Result)),
+				new CellValue(game.WasConceded ? "Yes" : "No"),
+				new CellValue(game.Note?.Text),
+				new CellValue(game.Note?.Archetype),
+				new CellValue(game.Id),
 			};
 			for (var i = 0; i < props.Length; i++)
 			{
-				sheet.Cell(row, i + 1).Value = props[i];
+				sheet.Cell(row, i + 1).Value = props[i].Value;
+				sheet.Cell(row, i + 1).SetDataType(props[i].Type);
+				//sheet.Cell(row, i + 1).SetValue<string>(props[i].Value?.ToString());
+				//sheet.Cell(row, i + 1).SetValue(props[i]);				
+			}
+		}
+
+		private string StringUpper(int index, object[] props)
+		{
+			return props[index].ToString().ToUpperInvariant();
+		}
+
+		private class CellValue
+		{
+			public object Value { get; }
+			public XLCellValues Type { get; }
+
+			public CellValue()
+			{
+				Value = null;
+				Type = XLCellValues.Text;
+			}
+
+			public CellValue(object v)
+				: this()
+			{
+				Value = v;
+			}
+
+			public CellValue(object v, XLCellValues t)
+			{
+				Value = v;
+				Type = t;
 			}
 		}
 	}

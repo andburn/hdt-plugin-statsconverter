@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using ClosedXML.Excel;
+﻿using ClosedXML.Excel;
 using HDT.Plugins.Common.Enums;
 using HDT.Plugins.Common.Models;
 using HDT.Plugins.Common.Services;
@@ -9,6 +6,10 @@ using HDT.Plugins.StatsConverter.Converters;
 using HDT.Plugins.StatsConverter.Converters.XML;
 using Moq;
 using NUnit.Framework;
+using StatsConverter.Tests;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace StatsConverterTest.Converters
 {
@@ -22,15 +23,18 @@ namespace StatsConverterTest.Converters
 		[OneTimeSetUp]
 		public void Setup()
 		{
-			var g1 = new Game() {
+			var g1 = new Game()
+			{
 				Deck = new Deck(),
 				Region = Region.US,
+				Result = GameResult.WIN,
 				Mode = GameMode.BRAWL,
 				PlayerClass = PlayerClass.HUNTER,
 				StartTime = new DateTime(2015, 01, 25, 19, 03, 26),
 				EndTime = new DateTime(2015, 01, 25, 19, 09, 14)
 			};
-			var g2 = new Game() {
+			var g2 = new Game()
+			{
 				Id = new Guid("00000000-0000-0000-0000-000000000000"),
 				Deck = new Deck() { Name = "A Deck" },
 				DeckVersion = new Version(1, 0),
@@ -63,24 +67,30 @@ namespace StatsConverterTest.Converters
 		public void TestSetup()
 		{
 			stream = new MemoryStream();
-			//StreamWriter writer = new StreamWriter(stream);
-			//writer.WriteLine("Deck,Version,Class,Mode,Region,Rank,Start Time,Coin,Opponent Class,Opponent Name,Turns,Duration,Result,Conceded,Note,Archetype,Id");
-			//writer.WriteLine(",,Hunter,Brawl,US,0,2015-01-25 19:03:26,No,All,,0,0,Win,No,,,00000000-0000-0000-0000-000000000000");
-			//writer.WriteLine("A Deck,1.0,Warlock,Ranked,EU,12,2015-01-25 19:14:36,Yes,Hunter,后海大白鲨,5,6,Loss,No,Some notes,Face,00000000-0000-0000-0000-000000000000");
-			//writer.Flush();
-			//stream.Position = 0;
-
 			var workbook = new XLWorkbook();
 			var worksheet = workbook.Worksheets.Add("HDT Stats");
-			worksheet.Range("A1:Q1").Value = "Deck,Version,Class,Mode,Region,Rank,Start Time,Coin,Opponent Class,Opponent Name,Turns,Duration,Result,Conceded,Note,Archetype,Id".Split(',');
+
+			var contents = new object[][]
+			{
+				"Deck,Version,Class,Mode,Region,Rank,Start Time,Coin,Opponent Class,Opponent Name,Turns,Duration,Result,Conceded,Note,Archetype,Id".Split(','),
+				new object[]{ null, null, "Hunter", "Brawl", "US", 0, new DateTime(2015, 01, 25, 19, 03, 26), "No", "All", null, 0, 0, "Win", "No", null, null, "00000000-0000-0000-0000-000000000000" },
+				new object[]{ "A Deck", "1.0", "Warlock", "Ranked", "EU", 12, new DateTime(2015, 01, 25, 19, 14, 36), "Yes", "Hunter", "后海大白鲨", 5, 6, "Loss", "No", "Some notes", "Face", "00000000-0000-0000-0000-000000000000" },
+			};
+			worksheet.Cell(1, 1).Value = contents;
 			workbook.SaveAs(stream);
+		}
+
+		[Test]
+		public void TestHelper_StreamEquality_ShouldBeTrueForTheSameStream()
+		{
+			Assert.IsTrue(TestHelper.OpenXmlStreamAreEqual(stream, stream));
 		}
 
 		[Test]
 		public void Should_MapToGameStream()
 		{
 			var to = convert.To(games);
-			FileAssert.AreEqual(stream, to);
+			Assert.IsTrue(TestHelper.OpenXmlStreamAreEqual(stream, to));
 		}
 
 		[Test]
@@ -111,7 +121,7 @@ namespace StatsConverterTest.Converters
 		public void Should_MapFromStream_Correctly_WithMissingProps()
 		{
 			var game = convert.From(stream)[0];
-			Assert.AreEqual(string.Empty, game.Deck.Name);
+			Assert.AreEqual(null, game.Deck.Name);
 			Assert.AreEqual(null, game.DeckVersion);
 			Assert.AreEqual(PlayerClass.HUNTER, game.PlayerClass);
 			Assert.AreEqual(GameMode.BRAWL, game.Mode);
@@ -126,8 +136,8 @@ namespace StatsConverterTest.Converters
 			Assert.AreEqual(0, game.Minutes);
 			Assert.AreEqual(GameResult.WIN, game.Result);
 			Assert.IsFalse(game.WasConceded);
-			Assert.AreEqual(string.Empty, game.Note.Text);
-			Assert.AreEqual(string.Empty, game.Note.Archetype);
+			Assert.AreEqual(null, game.Note.Text);
+			Assert.AreEqual(null, game.Note.Archetype);
 			Assert.AreEqual(Guid.Empty, game.Id);
 		}
 	}
