@@ -23,7 +23,7 @@ namespace HDT.Plugins.StatsConverter.Converters.XML
 
 		public string Description => "Excel files";
 
-		public List<Game> From(Stream stream)
+		public List<Game> ConvertFromStream(Stream stream)
 		{
 			var games = new List<Game>();
 			var workbook = new XLWorkbook(stream);
@@ -63,7 +63,7 @@ namespace HDT.Plugins.StatsConverter.Converters.XML
 			return games;
 		}
 
-		public Stream To(List<Game> stats)
+		public Stream ConvertToStream(List<Game> stats)
 		{
 			var workbook = new XLWorkbook();
 			var worksheet = workbook.Worksheets.Add("HDT Stats");

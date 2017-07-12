@@ -66,6 +66,9 @@
     <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
+    <Reference Include="HearthstoneDeckTracker">
+      <HintPath>..\..\build\Hearthstone Deck Tracker\HearthstoneDeckTracker.exe</HintPath>
+    </Reference>
     <Reference Include="Moq, Version=4.7.8.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.7.8\lib\net45\Moq.dll</HintPath>
     </Reference>

@@ -17,7 +17,7 @@ namespace HDT.Plugins.StatsConverter.Converters
 				if (filtered.Count <= 0)
 					throw new Exception("No stats found");
 
-				var stream = converter.To(filtered);
+				var stream = converter.ConvertToStream(filtered);
 				using (var f = File.Create(file))
 				{
 					stream.Seek(0, SeekOrigin.Begin);
@@ -39,7 +39,7 @@ namespace HDT.Plugins.StatsConverter.Converters
 			{
 				using (var fs = new FileStream(file, FileMode.Open))
 				{
-					var games = converter.From(fs);
+					var games = converter.ConvertFromStream(fs);
 					StatsConverter.Data.AddGames(games);
 				}
 			}

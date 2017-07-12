@@ -14,7 +14,7 @@ namespace StatsConverterTest.Converters
 	[TestFixture]
 	public class CSVConvertTest
 	{
-		private IStatsConverter convert;
+		private IStatsConverter converter;
 		private List<Game> games;
 		private Stream stream;
 
@@ -57,7 +57,7 @@ namespace StatsConverterTest.Converters
 			data.Setup(x => x.GetAllGamesWithDeck(It.IsAny<Guid>()))
 				.Returns(new List<Game>());
 
-			convert = new CSVConverter();
+			converter = new CSVConverter();
 			games = new List<Game>() { g1, g2 };
 		}
 
@@ -76,14 +76,14 @@ namespace StatsConverterTest.Converters
 		[Test]
 		public void Should_MapToGameStream()
 		{
-			var to = convert.To(games);
+			var to = converter.ConvertToStream(games);
 			FileAssert.AreEqual(stream, to);
 		}
 
 		[Test]
 		public void Should_MapFromStream_Correctly_WithAllProps()
 		{
-			var game = convert.From(stream)[1];
+			var game = converter.ConvertFromStream(stream)[1];
 			Assert.AreEqual("A Deck", game.Deck.Name);
 			Assert.AreEqual(new Version(1, 0), game.DeckVersion);
 			Assert.AreEqual(PlayerClass.WARLOCK, game.PlayerClass);
@@ -107,7 +107,7 @@ namespace StatsConverterTest.Converters
 		[Test]
 		public void Should_MapFromStream_Correctly_WithMissingProps()
 		{
-			var game = convert.From(stream)[0];
+			var game = converter.ConvertFromStream(stream)[0];
 			Assert.AreEqual(string.Empty, game.Deck.Name);
 			Assert.AreEqual(null, game.DeckVersion);
 			Assert.AreEqual(PlayerClass.HUNTER, game.PlayerClass);

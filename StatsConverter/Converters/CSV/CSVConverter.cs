@@ -23,7 +23,7 @@ namespace HDT.Plugins.StatsConverter.Converters.CSV
 			get { return "CSV files"; }
 		}
 
-		public List<Game> From(Stream stream)
+		public List<Game> ConvertFromStream(Stream stream)
 		{
 			using (var streamReader = new StreamReader(stream))
 			using (var csv = new CsvReader(streamReader))
@@ -33,7 +33,7 @@ namespace HDT.Plugins.StatsConverter.Converters.CSV
 			}
 		}
 
-		public Stream To(List<Game> stats)
+		public Stream ConvertToStream(List<Game> stats)
 		{
 			using (var memoryStream = new MemoryStream())
 			{
