@@ -7,6 +7,9 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel HorizontalAlignment="Center">
+        <StackPanel.Resources>
+            <BooleanToVisibilityConverter x:Key="BoolToVisiblityConverter" />
+        </StackPanel.Resources>
         <DockPanel Margin="0,4">
             <Label Content="Filename prefix" Width="120" />
             <TextBox Width="180"
@@ -37,6 +40,10 @@
             <Label Content="No Export Dialog" Width="120" />
             <CheckBox IsChecked="{Binding ExportWithoutDialog}"
                       ToolTip="Use the default filename and location when exporting" />
+        </DockPanel>
+        <DockPanel Margin="0,4" Visibility="{Binding IsInDevMode, Converter={StaticResource BoolToVisiblityConverter}}">
+            <Label Content="Enable debug log" Width="120" />
+            <CheckBox IsChecked="{Binding EnableDebugLog}" />
         </DockPanel>
     </StackPanel>
 </UserControl>

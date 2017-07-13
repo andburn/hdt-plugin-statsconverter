@@ -60,6 +60,32 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			}
 		}
 
+		public bool IsInDevMode
+		{
+			get
+			{
+				return StatsConverter.Settings.Get(Strings.DeveloperMode).Bool;
+			}
+			set
+			{
+				StatsConverter.Settings.Set(Strings.DeveloperMode, value);
+				RaisePropertyChanged("IsInDevMode");
+			}
+		}
+
+		public bool EnableDebugLog
+		{
+			get
+			{
+				return StatsConverter.Settings.Get(Strings.DebugLog).Bool;
+			}
+			set
+			{
+				StatsConverter.Settings.Set(Strings.DebugLog, value);
+				RaisePropertyChanged("EnableDebugLog");
+			}
+		}
+
 		public RelayCommand SelectDirectoryCommand { get; private set; }
 
 		public SettingsViewModel()

@@ -6,6 +6,7 @@ using HDT.Plugins.Common.Providers.Web;
 using HDT.Plugins.Common.Services;
 using HDT.Plugins.Common.Settings;
 using HDT.Plugins.Common.Utils;
+using HDT.Plugins.StatsConverter.Utils;
 using HDT.Plugins.StatsConverter.ViewModels;
 using HDT.Plugins.StatsConverter.Views;
 using Hearthstone_Deck_Tracker.Plugins;
@@ -46,6 +47,10 @@ namespace HDT.Plugins.StatsConverter
 			var assembly = Assembly.GetExecutingAssembly();
 			var resourceName = "HDT.Plugins.StatsConverter.Resources.Default.ini";
 			Settings = new Settings(assembly.GetManifestResourceStream(resourceName), "StatsConverter");
+			// set logger name and pass object down to common
+			Logger.SetDumpFileName("StatsConverter");
+			UpdateLogger();
+			Common.Common.Log = Logger;
 			// other
 			MainViewModel = new MainViewModel();
 		}
@@ -156,6 +161,15 @@ namespace HDT.Plugins.StatsConverter
 			{
 				Logger.Error($"Github update failed: {e.Message}");
 			}
+		}
+
+		public static void UpdateLogger()
+		{
+			Logger.Debug($"StatsConverter: Updating Logger");
+			if (Settings.Get(Strings.DebugLog).Bool)
+				Logger.EnableDumpToFile();
+			else
+				Logger.DisableDumpToFile();
 		}
 
 		private MenuItem CreateMenu()

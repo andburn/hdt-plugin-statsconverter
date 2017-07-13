@@ -11,5 +11,8 @@
 		public const string NavSettings = "settings";
 		public const string NavImport = "import";
 		public const string NavExport = "export";
+		// Misc
+		public const string DeveloperMode = "DeveloperMode";
+		public const string DebugLog = "DebugLog";
 	}
 }
