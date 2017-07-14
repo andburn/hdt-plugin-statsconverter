@@ -1,0 +1,34 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+branches:
+  only:
+    - master
+    - /v?\d+\.\d+\.\d+/
+configuration: Release
+platform: x86
+environment:
+  COVERALLS_REPO_TOKEN:
+    secure: 42WiVuB/LmwLSrnaIKPXqRide7k6T5QeXr8EyoYWUhjJuPs/ok95dLJOjmtbixlh
+before_build:
+  - git submodule update --init --recursive
+  - git clone https://github.com/andburn/powershell.git C:\projects\build\Powershell
+  - ps: .\Scripts\bootstrap.ps1
+  - ps: .\Scripts\appveyor.ps1 StatsConverter -PreBuild
+build:
+  project: StatsConverter.sln
+  verbosity: minimal
+after_build:
+- ps: .\Scripts\appveyor.ps1 StatsConverter -PostBuild
+after_test:
+- ps: .\Scripts\appveyor.ps1 StatsConverter -PostTest
+deploy:
+- provider: GitHub
+  tag: $(APPVEYOR_REPO_TAG_NAME)
+  release: Update $(APPVEYOR_REPO_TAG_NAME)
+  description: Description
+  auth_token:
+    secure: OpNj+lrWxBC7mLLsC2F7BqFrwrOBXsgqelz6t0wK8pqIBjO7Imn9Adp+k6OuNbCN
+  artifact: Release
+  draft: true
+  on:
+    APPVEYOR_REPO_TAG: true
