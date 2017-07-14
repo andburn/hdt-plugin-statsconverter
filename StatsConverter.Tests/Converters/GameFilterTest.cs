@@ -17,7 +17,7 @@ namespace StatsConverterTest.Converters
 		[SetUp]
 		public void SetUp()
 		{
-			now = "2015-01-10T19:23:44+00:00";
+			now = "2015-01-10T19:23:44";
 			games = TestHelper.GetGameList();
 		}
 
@@ -106,7 +106,7 @@ namespace StatsConverterTest.Converters
 		[Test]
 		public void ConvertTimeFrameToRange_Today()
 		{
-			var start = "2015-01-10T00:00:00+00:00";
+			var start = "2015-01-10T00:00:00";
 			var range = GameFilter.ConvertTimeFrameToRange(TimeFrame.TODAY, now);
 			Assert.AreEqual(DateTime.Parse(start), range.Start);
 			Assert.AreEqual(DateTime.Parse(now), range.End);
@@ -115,8 +115,8 @@ namespace StatsConverterTest.Converters
 		[Test]
 		public void ConvertTimeFrameToRange_Yesterday()
 		{
-			var start = "2015-01-09T00:00:00+00:00";
-			var end = "2015-01-09T23:59:59+00:00";
+			var start = "2015-01-09T00:00:00";
+			var end = "2015-01-09T23:59:59";
 			var range = GameFilter.ConvertTimeFrameToRange(TimeFrame.YESTERDAY, now);
 			Assert.AreEqual(DateTime.Parse(start), range.Start);
 			Assert.AreEqual(DateTime.Parse(end), range.End);
@@ -125,7 +125,7 @@ namespace StatsConverterTest.Converters
 		[Test]
 		public void ConvertTimeFrameToRange_Last24Hours()
 		{
-			var start = "2015-01-09T19:23:44+00:00";
+			var start = "2015-01-09T19:23:44";
 			var range = GameFilter.ConvertTimeFrameToRange(TimeFrame.LAST_24_HOURS, now);
 			Assert.AreEqual(DateTime.Parse(start), range.Start);
 			Assert.AreEqual(DateTime.Parse(now), range.End);
@@ -134,7 +134,7 @@ namespace StatsConverterTest.Converters
 		[Test]
 		public void ConvertTimeFrameToRange_ThisWeek()
 		{
-			var start = "2015-01-05T00:00:00+00:00";
+			var start = "2015-01-05T00:00:00";
 			var range = GameFilter.ConvertTimeFrameToRange(TimeFrame.THIS_WEEK, now);
 			Assert.AreEqual(DateTime.Parse(start), range.Start);
 			Assert.AreEqual(DateTime.Parse(now), range.End);
@@ -143,8 +143,8 @@ namespace StatsConverterTest.Converters
 		[Test]
 		public void ConvertTimeFrameToRange_PreviousWeek()
 		{
-			var start = "2014-12-29T00:00:00+00:00";
-			var end = "2015-01-04T23:59:59+00:00";
+			var start = "2014-12-29T00:00:00";
+			var end = "2015-01-04T23:59:59";
 			var range = GameFilter.ConvertTimeFrameToRange(TimeFrame.PREVIOUS_WEEK, now);
 			Assert.AreEqual(DateTime.Parse(start), range.Start);
 			Assert.AreEqual(DateTime.Parse(end), range.End);
@@ -153,7 +153,7 @@ namespace StatsConverterTest.Converters
 		[Test]
 		public void ConvertTimeFrameToRange_Last7Days()
 		{
-			var start = "2015-01-03T19:23:44+00:00";
+			var start = "2015-01-03T19:23:44";
 			var range = GameFilter.ConvertTimeFrameToRange(TimeFrame.LAST_7_DAYS, now);
 			Assert.AreEqual(DateTime.Parse(start), range.Start);
 			Assert.AreEqual(DateTime.Parse(now), range.End);
@@ -162,7 +162,7 @@ namespace StatsConverterTest.Converters
 		[Test]
 		public void ConvertTimeFrameToRange_ThisMonth()
 		{
-			var start = "2015-01-01T00:00:00+00:00";
+			var start = "2015-01-01T00:00:00";
 			var range = GameFilter.ConvertTimeFrameToRange(TimeFrame.THIS_MONTH, now);
 			Assert.AreEqual(DateTime.Parse(start), range.Start);
 			Assert.AreEqual(DateTime.Parse(now), range.End);
@@ -171,8 +171,8 @@ namespace StatsConverterTest.Converters
 		[Test]
 		public void ConvertTimeFrameToRange_PreviousMonth()
 		{
-			var start = "2014-12-01T00:00:00+00:00";
-			var end = "2014-12-31T23:59:59+00:00";
+			var start = "2014-12-01T00:00:00";
+			var end = "2014-12-31T23:59:59";
 			var range = GameFilter.ConvertTimeFrameToRange(TimeFrame.PREVIOUS_MONTH, now);
 			Assert.AreEqual(DateTime.Parse(start), range.Start);
 			Assert.AreEqual(DateTime.Parse(end), range.End);
@@ -181,7 +181,7 @@ namespace StatsConverterTest.Converters
 		[Test]
 		public void ConvertTimeFrameToRange_ThisYear()
 		{
-			var start = "2015-01-01T00:00:00+00:00";
+			var start = "2015-01-01T00:00:00";
 			var range = GameFilter.ConvertTimeFrameToRange(TimeFrame.THIS_YEAR, now);
 			Assert.AreEqual(DateTime.Parse(start), range.Start);
 			Assert.AreEqual(DateTime.Parse(now), range.End);
@@ -190,8 +190,8 @@ namespace StatsConverterTest.Converters
 		[Test]
 		public void ConvertTimeFrameToRange_PreviousYear()
 		{
-			var start = "2014-01-01T00:00:00+00:00";
-			var end = "2014-12-31T23:59:59+00:00";
+			var start = "2014-01-01T00:00:00";
+			var end = "2014-12-31T23:59:59";
 			var range = GameFilter.ConvertTimeFrameToRange(TimeFrame.PREVIOUS_YEAR, now);
 			Assert.AreEqual(DateTime.Parse(start), range.Start);
 			Assert.AreEqual(DateTime.Parse(end), range.End);
@@ -200,9 +200,9 @@ namespace StatsConverterTest.Converters
 		[Test]
 		public void ConvertTimeFrameToRange_PreviousYear_LeapYear()
 		{
-			var now = "2017-05-24T11:24:16+00:00";
-			var start = "2016-01-01T00:00:00+00:00";
-			var end = "2016-12-31T23:59:59+00:00";
+			var now = "2017-05-24T11:24:16";
+			var start = "2016-01-01T00:00:00";
+			var end = "2016-12-31T23:59:59";
 			var range = GameFilter.ConvertTimeFrameToRange(TimeFrame.PREVIOUS_YEAR, now);
 			Assert.AreEqual(DateTime.Parse(start), range.Start);
 			Assert.AreEqual(DateTime.Parse(end), range.End);
