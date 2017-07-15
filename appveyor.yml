@@ -6,9 +6,6 @@ branches:
     - /v?\d+\.\d+\.\d+/
 configuration: Release
 platform: x86
-environment:
-  COVERALLS_REPO_TOKEN:
-    secure: 42WiVuB/LmwLSrnaIKPXqRide7k6T5QeXr8EyoYWUhjJuPs/ok95dLJOjmtbixlh
 before_build:
   - git submodule update --init --recursive
   - git clone https://github.com/andburn/powershell.git C:\projects\build\Powershell
