@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using HDT.Plugins.StatsConverter.Utils;
 
@@ -7,13 +6,41 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 {
 	public class MainViewModel : ViewModelBase
 	{
-		private Dictionary<string, ViewModelBase> _viewModels = new Dictionary<string, ViewModelBase> {
-			{ Strings.NavSettings, new SettingsViewModel() },
-			{ Strings.NavImport, new ImportViewModel() },
-			{ Strings.NavExport, new ExportViewModel() }
-		};
+		private ViewModelBase _settingsVM;
 
-		private string _defaultViewModel = Strings.NavExport;
+		public ViewModelBase SettingsVM
+		{
+			get
+			{
+				if (_settingsVM == null)
+					_settingsVM = new SettingsViewModel();
+				return _settingsVM;
+			}
+		}
+
+		private ViewModelBase _importVM;
+
+		public ViewModelBase ImportVM
+		{
+			get
+			{
+				if (_importVM == null)
+					_importVM = new ImportViewModel();
+				return _importVM;
+			}
+		}
+
+		private ViewModelBase _exportVM;
+
+		public ViewModelBase ExportVM
+		{
+			get
+			{
+				if (_exportVM == null)
+					_exportVM = new ExportViewModel();
+				return _exportVM;
+			}
+		}
 
 		private string _contentTitle;
 
@@ -35,23 +62,33 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 
 		public MainViewModel()
 		{
+			ContentViewModel = SettingsVM;
+			ContentTitle = "Settings";
 			NavigateCommand = new RelayCommand<string>(x => OnNavigation(x));
-			OnNavigation(_defaultViewModel);
 		}
 
 		private void OnNavigation(string location)
 		{
-			var key = location.ToLower();
-			if (_viewModels.ContainsKey(key))
+			var loc = location.ToLower();
+			if (loc == Strings.NavSettings)
 			{
-				// change if different to current
-				if (ContentViewModel != _viewModels[key])
-				{
-					ContentViewModel = _viewModels[key];
-					if (key.Length > 2)
-						ContentTitle = key.Substring(0, 1).ToUpper() + key.Substring(1);
-				}
+				ContentViewModel = SettingsVM;
 			}
+			else if (loc == Strings.NavExport)
+			{
+				ContentViewModel = ExportVM;
+			}
+			else if (loc == Strings.NavImport)
+			{
+				ContentViewModel = ImportVM;
+			}
+			else
+			{
+				StatsConverter.Logger.Error($"Unknown Main navigation '{location}'");
+			}
+
+			if (loc.Length > 2)
+				ContentTitle = loc.Substring(0, 1).ToUpper() + loc.Substring(1);
 		}
 	}
 }
