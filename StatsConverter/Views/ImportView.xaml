@@ -3,9 +3,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel HorizontalAlignment="Center">
+             mc:Ignorable="d"             
+             d:DesignHeight="300" d:DesignWidth="340">
+    <StackPanel HorizontalAlignment="Center" Width="340">
+        <StackPanel.Resources>
+            <BooleanToVisibilityConverter x:Key="BoolToVisiblityConverter" />
+        </StackPanel.Resources>
+        <Border Background="Red" 
+                Visibility="{Binding ShowWarning, Converter={StaticResource BoolToVisiblityConverter}}"
+                Margin="0 0 0 20">
+            <DockPanel>
+                <Border Background="White" Padding="8" BorderBrush="Red" BorderThickness="1">
+                    <TextBlock DockPanel.Dock="Left"                           
+                           Text="&#xea07;"
+                           TextAlignment="Center" VerticalAlignment="Center"
+                           Foreground="Red" Background="White"
+                           FontFamily="pack://application:,,,/StatsConverter.Common;component/Resources/#IcoMoon-Free" 
+                           FontSize="22"/>
+                </Border>
+                <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                           VerticalAlignment="Center" Padding="8 6"
+                           Foreground="White"
+                           FontSize="12">
+                   <Bold>Warning:</Bold> The only way to reverse an import is to restore the most recent backup file
+                </TextBlock>
+            </DockPanel>
+        </Border>
+
         <DockPanel Margin="0,2">
             <Label Content="Import From" Width="100" DockPanel.Dock="Left" />
             <ComboBox Width="200"

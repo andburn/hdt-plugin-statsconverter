@@ -11,18 +11,18 @@
             <BooleanToVisibilityConverter x:Key="BoolToVisiblityConverter" />
         </StackPanel.Resources>
         <DockPanel Margin="0,4">
-            <Label Content="Filename prefix" Width="120" />
+            <Label Content="Filename prefix" Width="130" />
             <TextBox Width="180"
                      Text="{Binding ExportFileName}"
                      ToolTip="Text to add to the start of exported file names" />
         </DockPanel>
         <DockPanel Margin="0,4">
-            <Label Content="Add timestamp" Width="120" />
+            <Label Content="Add timestamp" Width="130" />
             <CheckBox IsChecked="{Binding UseExportFileTimestamp}"
                       ToolTip="Add a timestamp to the exported file name" />
         </DockPanel>
         <DockPanel Margin="0,4">
-            <Label DockPanel.Dock="Left" Content="Export to" Width="120"
+            <Label DockPanel.Dock="Left" Content="Export to" Width="130"
                    ToolTip="Set the default ouput directory for exported stats" />
             <Border BorderBrush="LightGray" BorderThickness="1.0" Background="White" CornerRadius="1"
                     Margin="0,0,4,0" Width="100">
@@ -37,12 +37,17 @@
                     Command="{Binding SelectDirectoryCommand}" />
         </DockPanel>
         <DockPanel Margin="0,4">
-            <Label Content="No Export Dialog" Width="120" />
+            <Label Content="No Export Dialog" Width="130" />
             <CheckBox IsChecked="{Binding ExportWithoutDialog}"
                       ToolTip="Use the default filename and location when exporting" />
         </DockPanel>
+        <DockPanel Margin="0,4">
+            <Label Content="Show Import Warning" Width="130" />
+            <CheckBox IsChecked="{Binding ShowWarning}"
+                      ToolTip="Show the warning on the import page" />
+        </DockPanel>
         <DockPanel Margin="0,4" Visibility="{Binding IsInDevMode, Converter={StaticResource BoolToVisiblityConverter}}">
-            <Label Content="Enable debug log" Width="120" />
+            <Label Content="Enable debug log" Width="130" />
             <CheckBox IsChecked="{Binding EnableDebugLog}" />
         </DockPanel>
     </StackPanel>

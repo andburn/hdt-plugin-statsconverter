@@ -86,6 +86,19 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			}
 		}
 
+		public bool ShowWarning
+		{
+			get
+			{
+				return StatsConverter.Settings.Get(Strings.ShowWarning).Bool;
+			}
+			set
+			{
+				StatsConverter.Settings.Set(Strings.ShowWarning, value);
+				RaisePropertyChanged("ShowWarning");
+			}
+		}
+
 		public RelayCommand SelectDirectoryCommand { get; private set; }
 
 		public SettingsViewModel()

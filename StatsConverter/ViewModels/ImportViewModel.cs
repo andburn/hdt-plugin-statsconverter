@@ -27,6 +27,11 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			set { Set(() => SelectedImporter, ref _selectedImporter, value); }
 		}
 
+		public bool ShowWarning
+		{
+			get { return StatsConverter.Settings.Get(Strings.ShowWarning).Bool; }
+		}
+
 		public RelayCommand ImportCommand { get; private set; }
 
 		public ImportViewModel()

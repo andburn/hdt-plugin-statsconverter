@@ -7,6 +7,7 @@
 		public const string UseExportFileTimestamp = "UseExportFileTimestamp";
 		public const string DefaultExportPath = "DefaultExportPath";		
 		public const string ExportWithoutDialog = "ExportWithoutDialog";
+		public const string ShowWarning = "ShowWarning";
 		// Navigation
 		public const string NavSettings = "settings";
 		public const string NavImport = "import";
