@@ -33,7 +33,7 @@ namespace HDT.Plugins.StatsConverter.Converters
 			}
 		}
 
-		public static void Import(IStatsConverter converter, string file)
+		public static bool Import(IStatsConverter converter, string file)
 		{
 			try
 			{
@@ -41,12 +41,14 @@ namespace HDT.Plugins.StatsConverter.Converters
 				{
 					var games = converter.ConvertFromStream(fs);
 					StatsConverter.Data.AddGames(games);
+					return true;
 				}
 			}
 			catch (Exception e)
 			{
 				// TODO error message
 				StatsConverter.Logger.Error(e);
+				return false;
 			}
 		}
 	}

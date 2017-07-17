@@ -6,6 +6,9 @@ using HDT.Plugins.StatsConverter.Converters;
 using HDT.Plugins.StatsConverter.Converters.CSV;
 using HDT.Plugins.StatsConverter.Converters.XML;
 using HDT.Plugins.StatsConverter.Utils;
+using System.Windows.Media;
+using System.Threading.Tasks;
+using HDT.Plugins.Common.Utils;
 
 namespace HDT.Plugins.StatsConverter.ViewModels
 {
@@ -27,6 +30,27 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			set { Set(() => SelectedImporter, ref _selectedImporter, value); }
 		}
 
+		private bool _status;
+
+		public bool Status
+		{
+			get { return _status; }
+			set
+			{
+				Set(() => Status, ref _status, value);
+				StatsConverter.Logger.Debug($"Status: {_status}");
+				UpdateStatusObj().Forget();
+			}
+		}
+
+		private ToastViewModel _statusObj;
+
+		public ToastViewModel StatusObj
+		{
+			get { return _statusObj; }
+			set { Set(() => StatusObj, ref _statusObj, value); }
+		}
+
 		public bool ShowWarning
 		{
 			get { return StatsConverter.Settings.Get(Strings.ShowWarning).Bool; }
@@ -40,6 +64,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 				new CSVConverter(),
 				new OpenXMLConverter()
 			};
+			StatusObj = new ToastViewModel();
 			SelectedImporter = Importers.FirstOrDefault();
 			ImportCommand = new RelayCommand(() => ImportGames());
 		}
@@ -50,7 +75,17 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 				SelectedImporter.Name,
 				SelectedImporter.FileExtension,
 				StatsConverter.Settings.Get(Strings.DefaultExportPath));
-			Converter.Import(SelectedImporter, filename);
+			Status = Converter.Import(SelectedImporter, filename);
 		}
+
+		private async Task UpdateStatusObj()
+		{
+			StatusObj.Icon = Status ? "\uea10" : "\uea0f";
+			StatusObj.Message = Status ? "Import Successful" : "Import Failed";
+			StatusObj.FgColor = Brushes.White;
+			StatusObj.BgColor = Status ? Brushes.Green : Brushes.Red;
+			await StatusObj.Show(4);
+		}
+
 	}
 }

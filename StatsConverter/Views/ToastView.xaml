@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="HDT.Plugins.StatsConverter.Views.ToastView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             d:DesignHeight="30" d:DesignWidth="150"
+             Height="30" Width="150"
+             Visibility="{Binding Visible}">
+    <Border Background="{Binding BgColor}">
+        <DockPanel>
+            <Border Background="{Binding FgColor}" Padding="8" 
+                    BorderBrush="{Binding BgColor}" BorderThickness="1">
+                <TextBlock DockPanel.Dock="Left"                           
+                           Text="{Binding Icon}"
+                           TextAlignment="Center" VerticalAlignment="Center"
+                           Foreground="{Binding BgColor}" Background="{Binding FgColor}"
+                           FontFamily="pack://application:,,,/StatsConverter.Common;component/Resources/#IcoMoon-Free" 
+                           FontSize="14"/>
+            </Border>
+            <TextBlock Text="{Binding Message}"
+                       TextAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="{Binding FgColor}" />
+        </DockPanel>
+    </Border>
+</UserControl>
