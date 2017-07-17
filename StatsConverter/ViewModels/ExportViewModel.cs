@@ -12,6 +12,8 @@ using HDT.Plugins.StatsConverter.Converters;
 using HDT.Plugins.StatsConverter.Converters.CSV;
 using HDT.Plugins.StatsConverter.Converters.XML;
 using HDT.Plugins.StatsConverter.Utils;
+using System.Windows.Media;
+using HDT.Plugins.Common.Utils;
 
 namespace HDT.Plugins.StatsConverter.ViewModels
 {
@@ -185,20 +187,33 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			set { Set(() => GameCountString, ref _gameCountString, value); }
 		}
 
-		private string _statusMessage;
-
-		public string StatusMessage
-		{
-			get { return _statusMessage; }
-			set { Set(() => StatusMessage, ref _statusMessage, value); }
-		}
-
 		private bool _hasGames;
 
 		public bool HasGames
 		{
 			get { return _hasGames; }
 			set { Set(() => HasGames, ref _hasGames, value); }
+		}
+
+		private bool _status;
+
+		public bool Status
+		{
+			get { return _status; }
+			set
+			{
+				Set(() => Status, ref _status, value);
+				StatsConverter.Logger.Debug($"Status: {_status}");
+				UpdateStatusObj().Forget();
+			}
+		}
+
+		private ToastViewModel _statusObj;
+
+		public ToastViewModel StatusObj
+		{
+			get { return _statusObj; }
+			set { Set(() => StatusObj, ref _statusObj, value); }
 		}
 
 		public RelayCommand ExportCommand { get; private set; }
@@ -225,6 +240,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 
 			FilterDecks(SelectedGameMode, SelectedGameFormat);
 			CouldBeArena = false;
+			StatusObj = new ToastViewModel();
 
 			ExportCommand = new RelayCommand(async () => await ExportStats());
 		}
@@ -286,9 +302,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 					SelectedExporter.FileExtension,
 					StatsConverter.Settings.Get(Strings.DefaultExportPath));
 			}
-			var complete = Converter.Export(StatsConverter.Data, SelectedExporter, filter, filename);
-			var message = complete ? "Export complete" : "Export failed";
-			await SetStatus(message);
+			Status = Converter.Export(StatsConverter.Data, SelectedExporter, filter, filename);
 		}
 
 		private void UpdateArenaStatus()
@@ -304,11 +318,13 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			GameCount = filter.Apply(games).Count;
 		}
 
-		private async Task SetStatus(string message, int timeout = 2)
+		private async Task UpdateStatusObj()
 		{
-			StatusMessage = message;
-			await Task.Delay(timeout * 1000);
-			StatusMessage = string.Empty;
+			StatusObj.Icon = Status ? "\uea10" : "\uea0f";
+			StatusObj.Message = Status ? "Export Successful" : "Export Failed";
+			StatusObj.FgColor = Brushes.White;
+			StatusObj.BgColor = Status ? Brushes.Green : Brushes.Red;
+			await StatusObj.Show(4);
 		}
 	}
 }
