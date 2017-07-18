@@ -97,7 +97,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Converters\CSVConvertTest.cs" />
-    <Compile Include="Converters\GameFilterTest.cs" />
     <Compile Include="Converters\OpenXMLConverterTest.cs" />
     <Compile Include="Converters\TypeConverterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

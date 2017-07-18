@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using HDT.Plugins.Common.Services;
+using HDT.Plugins.Common.Utils;
 
 namespace HDT.Plugins.StatsConverter.Converters
 {
