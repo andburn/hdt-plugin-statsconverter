@@ -14,9 +14,8 @@ namespace HDT.Plugins.StatsConverter.Converters
 
 			try
 			{
-				// TODO don't like this exception
 				if (filtered.Count <= 0)
-					throw new Exception("No stats found");
+					throw new ConverterException("No stats found");
 
 				var stream = converter.ConvertToStream(filtered);
 				using (var f = File.Create(file))
@@ -47,7 +46,6 @@ namespace HDT.Plugins.StatsConverter.Converters
 			}
 			catch (Exception e)
 			{
-				// TODO error message
 				StatsConverter.Logger.Error(e);
 				return false;
 			}

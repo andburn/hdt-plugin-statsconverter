@@ -82,7 +82,7 @@ namespace HDT.Plugins.StatsConverter.Converters.XML
 			// save to a stream and return
 			using (var memoryStream = new MemoryStream())
 			{
-				//worksheet.Columns().AdjustToContents();
+				worksheet.Columns().AdjustToContents();
 				workbook.SaveAs(memoryStream);
 				return new MemoryStream(memoryStream.ToArray());
 			}

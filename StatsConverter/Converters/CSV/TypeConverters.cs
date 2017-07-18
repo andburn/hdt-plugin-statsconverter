@@ -77,13 +77,10 @@ namespace HDT.Plugins.StatsConverter.Converters.CSV
 
 		public override object ConvertFromString(TypeConverterOptions options, string text)
 		{
-			// TODO how handle null?
 			if (string.IsNullOrEmpty(text))
 				return null;
 
-			// TODO a default type or error?
-			Type type = typeof(object);
-
+			Type type;
 			switch (options.Format.ToLowerInvariant())
 			{
 				case "mode":
