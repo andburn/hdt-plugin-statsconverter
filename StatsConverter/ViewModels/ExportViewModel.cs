@@ -1,26 +1,24 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using HDT.Plugins.Common.Enums;
+using HDT.Plugins.Common.Models;
+using HDT.Plugins.Common.Utils;
+using HDT.Plugins.StatsConverter.Converters;
+using HDT.Plugins.StatsConverter.Converters.CSV;
+using HDT.Plugins.StatsConverter.Converters.XML;
+using HDT.Plugins.StatsConverter.Utils;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using HDT.Plugins.Common.Enums;
-using HDT.Plugins.Common.Models;
-using HDT.Plugins.StatsConverter.Converters;
-using HDT.Plugins.StatsConverter.Converters.CSV;
-using HDT.Plugins.StatsConverter.Converters.XML;
-using HDT.Plugins.StatsConverter.Utils;
 using System.Windows.Media;
-using HDT.Plugins.Common.Utils;
 
 namespace HDT.Plugins.StatsConverter.ViewModels
 {
 	public class ExportViewModel : ViewModelBase
 	{
-		private List<Deck> _allDecks;
-
 		private static readonly Deck ALL_DECK = new Deck(Guid.Empty, "All", false, "All", false);
 
 		private static string _gameCountFormatString = "{0} game{1} found";
@@ -54,11 +52,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public IEnumerable<TimeFrame> TimePeriods
 		{
 			get { return _timePeriods; }
-			set
-			{
-				Set(() => TimePeriods, ref _timePeriods, value);
-				UpdateGameCount();
-			}
+			set { Set(() => TimePeriods, ref _timePeriods, value); }
 		}
 
 		private IEnumerable<Region> _regions;
@@ -66,11 +60,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public IEnumerable<Region> Regions
 		{
 			get { return _regions; }
-			set
-			{
-				Set(() => Regions, ref _regions, value);
-				UpdateGameCount();
-			}
+			set { Set(() => Regions, ref _regions, value); }
 		}
 
 		private IEnumerable<IStatsConverter> _exporters;
@@ -86,13 +76,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public GameMode SelectedGameMode
 		{
 			get { return _selectedGameMode; }
-			set
-			{
-				Set(() => SelectedGameMode, ref _selectedGameMode, value);
-				FilterDecks(value, SelectedGameFormat);
-				UpdateArenaStatus();
-				UpdateGameCount();
-			}
+			set { Set(() => SelectedGameMode, ref _selectedGameMode, value); }
 		}
 
 		private GameFormat _selectedGameFormat;
@@ -100,13 +84,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public GameFormat SelectedGameFormat
 		{
 			get { return _selectedGameFormat; }
-			set
-			{
-				Set(() => SelectedGameFormat, ref _selectedGameFormat, value);
-				FilterDecks(SelectedGameMode, value);
-				UpdateArenaStatus();
-				UpdateGameCount();
-			}
+			set { Set(() => SelectedGameFormat, ref _selectedGameFormat, value); }
 		}
 
 		private TimeFrame _selectedTimeFrame;
@@ -114,11 +92,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public TimeFrame SelectedTimeFrame
 		{
 			get { return _selectedTimeFrame; }
-			set
-			{
-				Set(() => SelectedTimeFrame, ref _selectedTimeFrame, value);
-				UpdateGameCount();
-			}
+			set { Set(() => SelectedTimeFrame, ref _selectedTimeFrame, value); }
 		}
 
 		private Region _selectedRegion;
@@ -126,11 +100,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public Region SelectedRegion
 		{
 			get { return _selectedRegion; }
-			set
-			{
-				Set(() => SelectedRegion, ref _selectedRegion, value);
-				UpdateGameCount();
-			}
+			set { Set(() => SelectedRegion, ref _selectedRegion, value); }
 		}
 
 		private Deck _selectedDeck;
@@ -138,12 +108,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public Deck SelectedDeck
 		{
 			get { return _selectedDeck; }
-			set
-			{
-				Set(() => SelectedDeck, ref _selectedDeck, value);
-				UpdateGameCount();
-				UpdateArenaStatus();
-			}
+			set { Set(() => SelectedDeck, ref _selectedDeck, value); }
 		}
 
 		private IStatsConverter _selectedExporter;
@@ -151,11 +116,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 		public IStatsConverter SelectedExporter
 		{
 			get { return _selectedExporter; }
-			set
-			{
-				Set(() => SelectedExporter, ref _selectedExporter, value);
-				UpdateGameCount();
-			}
+			set { Set(() => SelectedExporter, ref _selectedExporter, value); }
 		}
 
 		private bool _couldBeArena;
@@ -218,9 +179,12 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 
 		public RelayCommand ExportCommand { get; private set; }
 
+		private static string[] UpdatableProps = new string[] {
+			"SelectedDeck", "SelectedGameMode", "SelectedGameFormat", "SelectedTimeFrame", "SelectedRegion"
+		};
+
 		public ExportViewModel()
 		{
-			_allDecks = StatsConverter.Data.GetAllDecks();
 			// initialize selection lists
 			GameModes = Enum.GetValues(typeof(GameMode)).OfType<GameMode>();
 			GameFormats = Enum.GetValues(typeof(GameFormat)).OfType<GameFormat>();
@@ -232,24 +196,47 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 				new OpenXMLConverter()
 			};
 			// set default selections
-			SelectedGameMode = GameMode.ALL;
+			CouldBeArena = false;
+			StatusObj = new ToastViewModel();
+			SelectedGameMode = GameMode.NONE;
 			SelectedGameFormat = GameFormat.ANY;
 			SelectedRegion = Region.US;
 			SelectedTimeFrame = TimeFrame.ALL;
 			SelectedExporter = Exporters.FirstOrDefault();
 
-			FilterDecks(SelectedGameMode, SelectedGameFormat);
-			CouldBeArena = false;
-			StatusObj = new ToastViewModel();
-
+			PropertyChanged += ExportViewModel_PropertyChanged;
 			ExportCommand = new RelayCommand(async () => await ExportStats());
+
+			// trigger update with a property change
+			SelectedGameMode = GameMode.ALL;
 		}
 
-		public void FilterDecks(GameMode mode, GameFormat format)
+		private async void ExportViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (UpdatableProps.Contains(e.PropertyName))
+			{
+				StatsConverter.Logger.Debug("UpdatableProp: " + e.PropertyName);
+				GameCountString = "Loading, Please Wait";
+				try
+				{
+					if (e.PropertyName == "SelectedGameFormat" || e.PropertyName == "SelectedGameMode" || SelectedDeck == null)
+						await FilterDecks(SelectedGameMode, SelectedGameFormat);
+					await UpdateGameCount();
+					UpdateArenaStatus();
+				}
+				catch (Exception err)
+				{
+					GameCountString = "Loading stats, Failed";
+					StatsConverter.Logger.Error(err);
+				}
+			}
+		}
+
+		public async Task FilterDecks(GameMode mode, GameFormat format)
 		{
 			Decks.Clear();
-			_allDecks
-				.Where(d =>
+			var allDecks = await GetAllDecks();
+			allDecks.Where(d =>
 				{
 					var include = true;
 					switch (mode)
@@ -310,11 +297,16 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			CouldBeArena = SelectedGameMode == GameMode.ARENA || SelectedDeck.IsArena;
 		}
 
-		private void UpdateGameCount()
+		private async Task<List<Deck>> GetAllDecks()
+		{
+			return await Task.Run(() => StatsConverter.Data.GetAllDecks());
+		}
+
+		private async Task UpdateGameCount()
 		{
 			var deck = SelectedDeck == ALL_DECK ? null : SelectedDeck;
 			var filter = new GameFilter(deck?.Id, SelectedRegion, SelectedGameMode, SelectedTimeFrame, SelectedGameFormat);
-			var games = StatsConverter.Data.GetAllGames();
+			var games = await Task.Run(() => StatsConverter.Data.GetAllGames());
 			GameCount = filter.Apply(games).Count;
 		}
 
