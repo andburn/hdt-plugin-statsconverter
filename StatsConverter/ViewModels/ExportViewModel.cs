@@ -289,7 +289,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 					SelectedExporter.FileExtension,
 					StatsConverter.Settings.Get(Strings.DefaultExportPath));
 			}
-			Status = Converter.Export(StatsConverter.Data, SelectedExporter, filter, filename);
+			Status = await Converter.Export(StatsConverter.Data, SelectedExporter, filter, filename);
 		}
 
 		private void UpdateArenaStatus()

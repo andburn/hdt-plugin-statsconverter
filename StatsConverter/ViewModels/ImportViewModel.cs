@@ -66,16 +66,16 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			};
 			StatusObj = new ToastViewModel();
 			SelectedImporter = Importers.FirstOrDefault();
-			ImportCommand = new RelayCommand(() => ImportGames());
+			ImportCommand = new RelayCommand(async() => await ImportGames());
 		}
 
-		private void ImportGames()
+		private async Task ImportGames()
 		{
 			var filename = ViewModelHelper.OpenFileDialog(
 				SelectedImporter.Name,
 				SelectedImporter.FileExtension,
 				StatsConverter.Settings.Get(Strings.DefaultExportPath));
-			Status = Converter.Import(SelectedImporter, filename);
+			Status = await Converter.Import(SelectedImporter, filename);
 		}
 
 		private async Task UpdateStatusObj()
