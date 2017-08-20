@@ -70,29 +70,26 @@ namespace StatsConverter.Tests
 		// Comapre two streams containing OpenXml docs
 		public static bool OpenXmlStreamAreEqual(Stream a, Stream b)
 		{
-			if (a.Length == b.Length)
+			try
 			{
-				try
+				var ad = GetSheetData(a);
+				var bd = GetSheetData(b);
+				if (ad.Length == bd.Length)
 				{
-					var ad = GetSheetData(a);
-					var bd = GetSheetData(b);
-					if (ad.Length == bd.Length)
+					for (var i = 0; i < ad.Length; i++)
 					{
-						for (var i = 0; i < ad.Length; i++)
+						for (var j = 0; j < ad.Length; j++)
 						{
-							for (var j = 0; j < ad.Length; j++)
-							{
-								if (!ad[i][j].Equals(bd[i][j]))
-									return false;
-							}
+							if (!ad[i][j].Equals(bd[i][j]))
+								return false;
 						}
-						return true;
 					}
-				}		
-				catch(Exception)
-				{
-					return false;
+					return true;
 				}
+			}		
+			catch(Exception)
+			{
+				return false;
 			}
 			return false;
 		}
