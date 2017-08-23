@@ -18,6 +18,9 @@ namespace HDT.Plugins.StatsConverter.Converters.CSV.Maps
 			Map(m => m.Mode)
 				.TypeConverter<EnumConverter>()
 				.TypeConverterOption("Mode");
+			Map(m => m.Format)
+				.TypeConverter<EnumConverter>()
+				.TypeConverterOption("Format");
 			Map(m => m.Region);
 			Map(m => m.Rank);
 			Map(m => m.StartTime)

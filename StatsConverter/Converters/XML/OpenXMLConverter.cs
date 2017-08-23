@@ -12,7 +12,7 @@ namespace HDT.Plugins.StatsConverter.Converters.XML
 		private static readonly EnumStringConverter _converter = new EnumStringConverter();
 
 		private string[] propNames = new string[] {
-			"Deck", "Version", "Class", "Mode", "Region", "Rank", "Start Time",
+			"Deck", "Version", "Class", "Mode", "Format", "Region", "Rank", "Start Time",
 			"Coin", "Opponent Class", "Opponent Name", "Turns", "Duration",
 			"Result", "Conceded", "Note", "Archetype", "Id"
 		};
@@ -105,38 +105,41 @@ namespace HDT.Plugins.StatsConverter.Converters.XML
 			Enum.TryParse(StringUpper(3, props), out GameMode gmode);
 			game.Mode = gmode;
 
-			Enum.TryParse(StringUpper(4, props), out Region region);
+			Enum.TryParse(StringUpper(4, props), out GameFormat format);
+			game.Format = format;
+
+			Enum.TryParse(StringUpper(5, props), out Region region);
 			game.Region = region;
 
-			int.TryParse(props[5].ToString(), out int rank);
+			int.TryParse(props[6].ToString(), out int rank);
 			game.Rank = rank;
 
-			DateTime.TryParse(props[6].ToString(), out DateTime stime);
+			DateTime.TryParse(props[7].ToString(), out DateTime stime);
 			game.StartTime = stime;
 
-			game.PlayerGotCoin = props[7].ToString() == "Yes";
+			game.PlayerGotCoin = props[8].ToString() == "Yes";
 
-			Enum.TryParse(StringUpper(8, props), out PlayerClass oclass);
+			Enum.TryParse(StringUpper(9, props), out PlayerClass oclass);
 			game.OpponentClass = oclass;
 
-			game.OpponentName = props[9].ToString();
+			game.OpponentName = props[10].ToString();
 
-			int.TryParse(props[10].ToString(), out int turns);
+			int.TryParse(props[11].ToString(), out int turns);
 			game.Turns = turns;
 
-			int.TryParse(props[11].ToString(), out int mins);
+			int.TryParse(props[12].ToString(), out int mins);
 			game.Minutes = mins;
 
-			Enum.TryParse(StringUpper(12, props), out GameResult result);
+			Enum.TryParse(StringUpper(13, props), out GameResult result);
 			game.Result = result;
 
-			game.WasConceded = props[13].ToString() == "Yes";
+			game.WasConceded = props[14].ToString() == "Yes";
 
-			game.Note = new Note(props[14].ToString());
-			var arch = props[15].ToString();
+			game.Note = new Note(props[15].ToString());
+			var arch = props[16].ToString();
 			game.Note.Archetype = string.IsNullOrEmpty(arch) ? null : arch;
 
-			game.Id = new Guid(props[16].ToString());
+			game.Id = new Guid(props[17].ToString());
 
 			return game;
 		}
@@ -148,6 +151,7 @@ namespace HDT.Plugins.StatsConverter.Converters.XML
 				new CellValue(game.DeckVersion),
 				new CellValue(EnumStringConverter.ToTitleCase(game.PlayerClass)),
 				new CellValue(EnumStringConverter.ToTitleCase(game.Mode)),
+				new CellValue(EnumStringConverter.ToTitleCase(game.Format)),
 				new CellValue(game.Region),
 				new CellValue(game.Rank, XLCellValues.Number),
 				new CellValue(game.StartTime, XLCellValues.DateTime),
@@ -165,9 +169,7 @@ namespace HDT.Plugins.StatsConverter.Converters.XML
 			for (var i = 0; i < props.Length; i++)
 			{
 				sheet.Cell(row, i + 1).Value = props[i].Value;
-				sheet.Cell(row, i + 1).SetDataType(props[i].Type);
-				//sheet.Cell(row, i + 1).SetValue<string>(props[i].Value?.ToString());
-				//sheet.Cell(row, i + 1).SetValue(props[i]);				
+				sheet.Cell(row, i + 1).SetDataType(props[i].Type);				
 			}
 		}
 

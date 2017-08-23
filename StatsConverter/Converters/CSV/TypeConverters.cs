@@ -91,6 +91,8 @@ namespace HDT.Plugins.StatsConverter.Converters.CSV
 					type = typeof(PlayerClass); break;
 				case "gameresult":
 					type = typeof(GameResult); break;
+				case "format":
+					type = typeof(GameFormat); break;
 				default:
 					throw new CsvTypeConverterException("Unknown type: " + options.Format);
 			}

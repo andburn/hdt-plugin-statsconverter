@@ -33,11 +33,12 @@ namespace StatsConverterTest.Converters
 			};
 			var g2 = new Game()
 			{
-				Id = new Guid("00000000-0000-0000-0000-000000000000"),
+				Id = new Guid("11000000-0000-0000-0000-000000000022"),
 				Deck = new Deck() { Name = "A Deck" },
 				DeckVersion = new Version(1, 0),
 				Region = Region.EU,
 				Mode = GameMode.RANKED,
+				Format = GameFormat.STANDARD,
 				Result = GameResult.LOSS,
 				StartTime = new DateTime(2015, 01, 25, 19, 14, 36),
 				EndTime = new DateTime(2015, 01, 25, 19, 24, 17),
@@ -66,9 +67,9 @@ namespace StatsConverterTest.Converters
 		{
 			stream = new MemoryStream();
 			StreamWriter writer = new StreamWriter(stream);
-			writer.WriteLine("Deck,Version,Class,Mode,Region,Rank,Start Time,Coin,Opponent Class,Opponent Name,Turns,Duration,Result,Conceded,Note,Archetype,Id");
-			writer.WriteLine(",,Hunter,Brawl,US,0,2015-01-25 19:03:26,No,All,,0,0,Win,No,,,00000000-0000-0000-0000-000000000000");
-			writer.WriteLine("A Deck,1.0,Warlock,Ranked,EU,12,2015-01-25 19:14:36,Yes,Hunter,后海大白鲨,5,6,Loss,No,Some notes,Face,00000000-0000-0000-0000-000000000000");
+			writer.WriteLine("Deck,Version,Class,Mode,Format,Region,Rank,Start Time,Coin,Opponent Class,Opponent Name,Turns,Duration,Result,Conceded,Note,Archetype,Id");
+			writer.WriteLine(",,Hunter,Brawl,Any,US,0,2015-01-25 19:03:26,No,All,,0,0,Win,No,,,00000000-0000-0000-0000-000000000000");
+			writer.WriteLine("A Deck,1.0,Warlock,Ranked,Standard,EU,12,2015-01-25 19:14:36,Yes,Hunter,后海大白鲨,5,6,Loss,No,Some notes,Face,11000000-0000-0000-0000-000000000022");
 			writer.Flush();
 			stream.Position = 0;
 		}
@@ -88,6 +89,7 @@ namespace StatsConverterTest.Converters
 			Assert.AreEqual(new Version(1, 0), game.DeckVersion);
 			Assert.AreEqual(PlayerClass.WARLOCK, game.PlayerClass);
 			Assert.AreEqual(GameMode.RANKED, game.Mode);
+			Assert.AreEqual(GameFormat.STANDARD, game.Format);
 			Assert.AreEqual(Region.EU, game.Region);
 			Assert.AreEqual(12, game.Rank);
 			Assert.AreEqual(new DateTime(2015, 01, 25, 19, 14, 36), game.StartTime);
@@ -101,7 +103,7 @@ namespace StatsConverterTest.Converters
 			Assert.IsFalse(game.WasConceded);
 			Assert.AreEqual("Some notes", game.Note.Text);
 			Assert.AreEqual("Face", game.Note.Archetype);
-			Assert.AreEqual(Guid.Empty, game.Id);
+			Assert.AreEqual("11000000-0000-0000-0000-000000000022", game.Id.ToString());
 		}
 
 		[Test]
@@ -112,6 +114,7 @@ namespace StatsConverterTest.Converters
 			Assert.AreEqual(null, game.DeckVersion);
 			Assert.AreEqual(PlayerClass.HUNTER, game.PlayerClass);
 			Assert.AreEqual(GameMode.BRAWL, game.Mode);
+			Assert.AreEqual(GameFormat.ANY, game.Format);
 			Assert.AreEqual(Region.US, game.Region);
 			Assert.AreEqual(0, game.Rank);
 			Assert.AreEqual(new DateTime(2015, 01, 25, 19, 03, 26), game.StartTime);
