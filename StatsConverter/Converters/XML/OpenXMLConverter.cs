@@ -139,7 +139,11 @@ namespace HDT.Plugins.StatsConverter.Converters.XML
 			var arch = props[16].ToString();
 			game.Note.Archetype = string.IsNullOrEmpty(arch) ? null : arch;
 
-			game.Id = new Guid(props[17].ToString());
+			var gd = props[17].ToString();
+			if (!string.IsNullOrEmpty(gd))
+				game.Id = new Guid(gd);
+			else
+				game.Id = Guid.Empty;
 
 			return game;
 		}

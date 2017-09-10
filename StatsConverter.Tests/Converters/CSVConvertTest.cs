@@ -130,5 +130,19 @@ namespace StatsConverterTest.Converters
 			Assert.AreEqual(string.Empty, game.Note.Archetype);
 			Assert.AreEqual(Guid.Empty, game.Id);
 		}
+
+		[Test]
+		public void Should_HandleMissingGameId()
+		{
+			var ms = new MemoryStream();
+			StreamWriter writer = new StreamWriter(ms);
+			writer.WriteLine("Deck,Version,Class,Mode,Format,Region,Rank,Start Time,Coin,Opponent Class,Opponent Name,Turns,Duration,Result,Conceded,Note,Archetype,Id");
+			writer.WriteLine(",,Hunter,Brawl,Any,US,0,2015-01-25 19:03:26,No,All,,0,0,Win,No,,,");
+			writer.Flush();
+			ms.Position = 0;
+
+			var g = converter.ConvertFromStream(ms)[0];
+			Assert.AreEqual(Guid.Empty, g.Id);
+		}
 	}
 }

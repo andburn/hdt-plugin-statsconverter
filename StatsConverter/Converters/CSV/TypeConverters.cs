@@ -124,4 +124,36 @@ namespace HDT.Plugins.StatsConverter.Converters.CSV
 			return cards.Select(x => x.Replace(',', ' ')).Aggregate((x, y) => $"{x}|{y}");
 		}
 	}
+
+	public class GameIdConverter : DefaultTypeConverter
+	{
+		public override string ConvertToString(TypeConverterOptions options, object value)
+		{
+			if (string.IsNullOrWhiteSpace(value.ToString()))
+				return string.Empty;
+
+			var g = value as Guid?;
+			if (g == null)
+				return string.Empty;
+
+			return g.ToString();
+		}
+
+		public override object ConvertFromString(TypeConverterOptions options, string text)
+		{
+			if (string.IsNullOrEmpty(text))
+				return Guid.Empty;
+
+			var ok = Guid.TryParse(text, out Guid g);
+			if (ok)
+				return g;
+
+			return Guid.Empty;
+		}
+
+		public override bool CanConvertFrom(Type type)
+		{
+			return true;
+		}
+	}
 }

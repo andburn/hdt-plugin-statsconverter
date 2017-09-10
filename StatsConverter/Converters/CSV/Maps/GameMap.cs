@@ -1,4 +1,5 @@
 ﻿using CsvHelper.Configuration;
+using CsvHelper.TypeConversion;
 using HDT.Plugins.Common.Models;
 
 namespace HDT.Plugins.StatsConverter.Converters.CSV.Maps
@@ -43,7 +44,8 @@ namespace HDT.Plugins.StatsConverter.Converters.CSV.Maps
 				.TypeConverter<BooleanConverter>()
 				.Name("Conceded");
 			References<NoteMap>(m => m.Note);
-			Map(m => m.Id);
+			Map(m => m.Id)
+				.TypeConverter<GameIdConverter>();
 		}
 	}
 }

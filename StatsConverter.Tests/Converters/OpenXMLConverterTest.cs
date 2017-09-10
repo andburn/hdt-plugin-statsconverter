@@ -10,6 +10,7 @@ using StatsConverter.Tests;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace StatsConverterTest.Converters
 {
@@ -142,6 +143,26 @@ namespace StatsConverterTest.Converters
 			Assert.AreEqual(null, game.Note.Text);
 			Assert.AreEqual(null, game.Note.Archetype);
 			Assert.AreEqual(Guid.Empty, game.Id);
+		}
+
+		[Test]
+		public void ShouldNot_ErrorOnAnMissingId()
+		{
+			var ms = new MemoryStream();
+			var workbook = new XLWorkbook();
+			var worksheet = workbook.Worksheets.Add("test");
+			worksheet.Cell(1, 1).Value = new object[][]
+			{
+				"Deck,Version,Class,Mode,Format,Region,Rank,Start Time,Coin,Opponent Class,Opponent Name,Turns,Duration,Result,Conceded,Note,Archetype,Id".Split(','),
+				new object[]{ null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null },
+				new object[]{ null, null, "Hunter", "Brawl", "Any", "US", 0, new DateTime(2015, 01, 25, 19, 03, 26), "No", "All", null, 0, 0, "Win", "No", null, null, null },
+			};
+			workbook.SaveAs(ms);
+
+			var g = converter.ConvertFromStream(ms);
+			Assert.AreEqual(2, g.Count);
+			Assert.AreEqual(Guid.Empty, g[0].Id);
+			Assert.AreEqual(Guid.Empty, g[1].Id);
 		}
 	}
 }

@@ -46,5 +46,37 @@ namespace StatsConverter.Tests.Converters
 			Assert.AreEqual("Boot Hoarder x2|Acolyte of Rain x1", 
 				cnv.ConvertToString(new TypeConverterOptions(), cards));
 		}
+
+		[Test]
+		public void GameIdConverter_ConvertGameIdToString()
+		{
+			var cnv = new GameIdConverter();
+			Assert.AreEqual("01234567-8901-2345-6789-012345678901",
+				cnv.ConvertToString(new TypeConverterOptions(), new Guid("01234567890123456789012345678901")));
+			Assert.AreEqual("00000000-0000-0000-0000-000000000000",
+				cnv.ConvertToString(new TypeConverterOptions(), new Guid()));
+		}
+
+		[Test]
+		public void GameIdConverter_ConvertFromGuidString()
+		{
+			var cnv = new GameIdConverter();
+			Assert.AreEqual(new Guid("01234567890123456789012345678901"),
+				cnv.ConvertFromString(new TypeConverterOptions(), "01234567-8901-2345-6789-012345678901"));
+			Assert.AreEqual(Guid.Empty,
+				cnv.ConvertFromString(new TypeConverterOptions(), "00000000-0000-0000-0000-000000000000"));
+		}
+
+		[Test]
+		public void GameIdConverter_ConvertFromNonGuidString()
+		{
+			var cnv = new GameIdConverter();
+			Assert.AreEqual(Guid.Empty,
+				cnv.ConvertFromString(new TypeConverterOptions(), ""));
+			Assert.AreEqual(Guid.Empty,
+				cnv.ConvertFromString(new TypeConverterOptions(), null));
+			Assert.AreEqual(Guid.Empty,
+				cnv.ConvertFromString(new TypeConverterOptions(), "ABC2"));
+		}
 	}
 }
