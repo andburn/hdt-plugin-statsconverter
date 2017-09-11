@@ -124,6 +124,7 @@
     <Compile Include="Converters\CSV\Maps\GameMap.cs" />
     <Compile Include="Converters\XML\OpenXMLConverter.cs" />
     <Compile Include="MergedTrigger.cs" />
+    <Compile Include="Utils\File.cs" />
     <Compile Include="Utils\Strings.cs" />
     <Compile Include="ViewModels\ExportViewModel.cs" />
     <Compile Include="ViewModels\ImportViewModel.cs" />

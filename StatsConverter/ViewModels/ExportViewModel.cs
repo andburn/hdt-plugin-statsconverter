@@ -279,7 +279,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			if (StatsConverter.Settings.Get(Strings.ExportWithoutDialog).Bool)
 			{
 				filename = Path.Combine(
-					StatsConverter.Settings.Get(Strings.DefaultExportPath),
+					Utils.File.GetDefaultOutputPath(),
 					ViewModelHelper.GetDefaultFileName() + "." + SelectedExporter.FileExtension);
 			}
 			else
@@ -287,7 +287,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 				filename = ViewModelHelper.SaveFileDialog(
 					SelectedExporter.Name,
 					SelectedExporter.FileExtension,
-					StatsConverter.Settings.Get(Strings.DefaultExportPath));
+					Utils.File.GetDefaultOutputPath());
 			}
 			Status = await Converter.Export(StatsConverter.Data, SelectedExporter, filter, filename);
 		}

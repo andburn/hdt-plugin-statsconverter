@@ -74,7 +74,7 @@ namespace HDT.Plugins.StatsConverter.ViewModels
 			var filename = ViewModelHelper.OpenFileDialog(
 				SelectedImporter.Name,
 				SelectedImporter.FileExtension,
-				StatsConverter.Settings.Get(Strings.DefaultExportPath));
+				File.GetDefaultOutputPath());
 			Status = await Converter.Import(SelectedImporter, filename);
 		}
 
