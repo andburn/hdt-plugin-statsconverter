@@ -1,7 +1,7 @@
-﻿using System;
-using System.IO;
-using HDT.Plugins.Common.Services;
+﻿using HDT.Plugins.Common.Services;
 using HDT.Plugins.Common.Utils;
+using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace HDT.Plugins.StatsConverter.Converters
@@ -43,6 +43,9 @@ namespace HDT.Plugins.StatsConverter.Converters
 			{
 				return await Task.Run(() =>
 				{
+					// create backup before any importing
+					Backup.CreateBackup("BackupStatsConv");
+					// import from file
 					using (var fs = new FileStream(file, FileMode.Open))
 					{
 						var games = converter.ConvertFromStream(fs);
