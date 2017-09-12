@@ -26,7 +26,7 @@
                            VerticalAlignment="Center" Padding="8 6"
                            Foreground="White"
                            FontSize="12">
-                   <Bold>Warning:</Bold> The only way to reverse an import is to restore the most recent backup file
+                   <Bold>Warning:</Bold> Always verify imports have worked correctly and reverse if necessary from the most recent backup
                 </TextBlock>
             </DockPanel>
         </Border>
