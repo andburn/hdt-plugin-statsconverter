@@ -1,14 +1,15 @@
-# Stats Converter
-[![GitHub release](https://img.shields.io/github/release/andburn/hdt-plugin-statsconverter.svg?maxAge=604800)](https://github.com/andburn/hdt-plugin-statsconverter/releases/latest)
-[![Github Releases](https://img.shields.io/github/downloads/andburn/hdt-plugin-statsconverter/latest/total.svg?maxAge=604800)](https://github.com/andburn/hdt-plugin-statsconverter/releases/latest)
-[![codecov](https://codecov.io/gh/andburn/hdt-plugin-statsconverter/branch/master/graph/badge.svg)](https://codecov.io/gh/andburn/hdt-plugin-statsconverter)
+## Stats Converter
+[![AppVeyor branch](https://img.shields.io/appveyor/ci/andburn/hdt-plugin-statsconverter/master.svg?maxAge=21600)](https://ci.appveyor.com/project/andburn/hdt-plugin-statsconverter)
+[![Codecov branch](https://img.shields.io/codecov/c/github/andburn/hdt-plugin-statsconverter/master.svg?maxAge=21600)](https://codecov.io/gh/andburn/hdt-plugin-statsconverter)
+[![GitHub release](https://img.shields.io/github/release/andburn/hdt-plugin-statsconverter.svg?maxAge=21600)](https://github.com/andburn/hdt-plugin-statsconverter/releases/latest)
+[![Github downloads](https://img.shields.io/github/downloads/andburn/hdt-plugin-statsconverter/latest/total.svg?maxAge=21600)](https://github.com/andburn/hdt-plugin-statsconverter/releases/latest)
 
 A plugin to import and export game statistics from [Hearthstone Deck Tracker](https://github.com/HearthSim/Hearthstone-Deck-Tracker).
 
 ---
 
 ## Install
-- Download the [latest release](https://github.com/andburn/hdt-plugin-endgame/releases/latest) (*not the source code*)
+- Download the [latest release](https://github.com/andburn/hdt-plugin-statsconverter/releases/latest) (*not the source code*)
 - Unzip the contents into you Hearthstone Deck Tracker's plugins folder (or drag-and-drop onto the plugin menu)
 - Enable the plugin in HDT's settings
 - Use the plugin [settings](#settings) to customize it's behaviour
