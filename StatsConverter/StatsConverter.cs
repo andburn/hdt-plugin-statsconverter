@@ -148,7 +148,7 @@ namespace HDT.Plugins.StatsConverter
 		{
 			try
 			{
-				var latest = await Updater.CheckForUpdate(user, repo, _version);
+				var latest = await Updater.CheckForUpdate(user, repo, Version);
 				if (latest.HasUpdate)
 				{
 					Logger.Info($"Plugin Update available ({latest.Version})");

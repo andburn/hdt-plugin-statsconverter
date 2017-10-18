@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. This projec
 ## [Unreleased]
 - *nothing*
 
+## [1.0.1] - 2017-10-18
+### Updated
+- HDT compatibility, package dependencies updated
+
 ## [1.0.0] - 2017-09-12
 ### Added
 - Importing
@@ -15,7 +19,8 @@ All notable changes to this project will be documented in this file. This projec
 - New UI in a separate window
 
 
-[Unreleased]: https://github.com/andburn/hdt-plugin-endgame/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/andburn/hdt-plugin-endgame/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/andburn/hdt-plugin-endgameg/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/andburn/hdt-plugin-endgameg/compare/v0.3.1...v1.0.0
 
 
