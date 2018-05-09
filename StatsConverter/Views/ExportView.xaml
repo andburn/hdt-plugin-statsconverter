@@ -8,11 +8,16 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <common:EnumStringConverter x:Key="EnumStringConverter" />
-        <BooleanToVisibilityConverter x:Key="BoolToVisiblityConverter" />
+        <ResourceDictionary Source="pack://application:,,,/StatsConverter.Common;component/Controls/Themes.xaml"/>
     </UserControl.Resources>
 
     <StackPanel HorizontalAlignment="Center">
+        <StackPanel.Resources>
+            <common:EnumStringConverter x:Key="EnumStringConverter" />
+            <BooleanToVisibilityConverter x:Key="BoolToVisiblityConverter" />
+            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource ThemeTextColor}" />
+            <Style TargetType="{x:Type Border}" BasedOn="{StaticResource ThemeBorderColor}" />
+        </StackPanel.Resources>
         <DockPanel Margin="0,2">
             <Label Content="Game Mode" Width="100" DockPanel.Dock="Left" />
             <ComboBox Width="200"
