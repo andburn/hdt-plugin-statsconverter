@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file. This projec
 ## [Unreleased]
 - *nothing*
 
-## [1.0.1] - 2017-10-18
+## [1.0.3] - 2018-05-12
+### Fixed
+- Invisible text when using HDT dark theme
+
+## [1.0.2] - 2017-10-18
 ### Updated
 - HDT compatibility, package dependencies updated
 
@@ -19,9 +23,10 @@ All notable changes to this project will be documented in this file. This projec
 - New UI in a separate window
 
 
-[Unreleased]: https://github.com/andburn/hdt-plugin-endgame/compare/v1.0.1...HEAD
-[1.0.1]: https://github.com/andburn/hdt-plugin-endgameg/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/andburn/hdt-plugin-endgameg/compare/v0.3.1...v1.0.0
+[Unreleased]: https://github.com/andburn/hdt-plugin-statsconverter/compare/1.0.3...HEAD
+[1.0.3]: https://github.com/andburn/hdt-plugin-statsconverter/compare/1.0.2...1.0.3
+[1.0.2]: https://github.com/andburn/hdt-plugin-statsconverter/compare/1.0.0...1.0.2
+[1.0.0]: https://github.com/andburn/hdt-plugin-statsconverter/compare/0.3.1...1.0.0
 
 
 ---
