@@ -137,11 +137,9 @@ namespace HDT.Plugins.StatsConverter
 				view.Close();
 		}
 
-		public static void Notify(string title, string message, int autoClose, string icon = null, Action action = null)
+		public static void Notify(string title, string message, string icon = null, string url = null)
 		{
-			SlidePanelManager
-				.Notification(_kernel.Get<ISlidePanel>(), title, message, icon, action)
-				.AutoClose(autoClose);
+			NotificationManager.ShowToast(title, message, icon, url);
 		}
 
 		private async Task UpdateCheck(string user, string repo)
@@ -153,8 +151,8 @@ namespace HDT.Plugins.StatsConverter
 				{
 					Logger.Info($"Plugin Update available ({latest.Version})");
 					Notify("Plugin Update Available",
-						$"[DOWNLOAD]({latest.DownloadUrl}) {Name} v{latest.Version}",
-						10, IcoMoon.Download3, () => Process.Start(latest.DownloadUrl));
+						$"{Name} v{latest.Version}",
+						IcoMoon.Download3, latest.DownloadUrl);
 				}
 			}
 			catch (Exception e)

@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. This projec
 ## [Unreleased]
 - *nothing*
 
+## [1.0.4] - 2018-06-30
+### Updated
+- Notifications now appear as HDT toasts
+
+### Fixes
+- No longer crashes when notifications are shown
+
 ## [1.0.3] - 2018-05-12
 ### Fixed
 - Invisible text when using HDT dark theme
@@ -23,7 +30,8 @@ All notable changes to this project will be documented in this file. This projec
 - New UI in a separate window
 
 
-[Unreleased]: https://github.com/andburn/hdt-plugin-statsconverter/compare/1.0.3...HEAD
+[Unreleased]: https://github.com/andburn/hdt-plugin-statsconverter/compare/1.0.4...HEAD
+[1.0.4]: https://github.com/andburn/hdt-plugin-statsconverter/compare/1.0.3...1.0.4
 [1.0.3]: https://github.com/andburn/hdt-plugin-statsconverter/compare/1.0.2...1.0.3
 [1.0.2]: https://github.com/andburn/hdt-plugin-statsconverter/compare/1.0.0...1.0.2
 [1.0.0]: https://github.com/andburn/hdt-plugin-statsconverter/compare/0.3.1...1.0.0
