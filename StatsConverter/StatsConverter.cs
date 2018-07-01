@@ -43,6 +43,7 @@ namespace HDT.Plugins.StatsConverter
 			Events = _kernel.Get<IEventsService>();
 			Client = _kernel.Get<IGameClientService>();
 			Config = _kernel.Get<IConfigurationRepository>();
+			NotificationManager.SetService(_kernel.Get<IToastService>());
 			// load settings
 			var assembly = Assembly.GetExecutingAssembly();
 			var resourceName = "HDT.Plugins.StatsConverter.Resources.Default.ini";
@@ -187,6 +188,7 @@ namespace HDT.Plugins.StatsConverter
 			kernel.Bind<IGameClientService>().To<TrackerClientService>().InSingletonScope();
 			kernel.Bind<IConfigurationRepository>().To<TrackerConfigRepository>().InSingletonScope();
 			kernel.Bind<ISlidePanel>().To<MetroSlidePanel>();
+			kernel.Bind<IToastService>().To<TrackerToastService>();
 			return kernel;
 		}
 
