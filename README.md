@@ -1,6 +1,4 @@
 ## Stats Converter
-[![AppVeyor branch](https://img.shields.io/appveyor/ci/andburn/hdt-plugin-statsconverter/master.svg?maxAge=21600)](https://ci.appveyor.com/project/andburn/hdt-plugin-statsconverter)
-[![Codecov branch](https://img.shields.io/codecov/c/github/andburn/hdt-plugin-statsconverter/master.svg?maxAge=21600)](https://codecov.io/gh/andburn/hdt-plugin-statsconverter)
 [![GitHub release](https://img.shields.io/github/release/andburn/hdt-plugin-statsconverter.svg?maxAge=21600)](https://github.com/andburn/hdt-plugin-statsconverter/releases/latest)
 [![Github downloads](https://img.shields.io/github/downloads/andburn/hdt-plugin-statsconverter/latest/total.svg?maxAge=21600)](https://github.com/andburn/hdt-plugin-statsconverter/releases/latest)
 
